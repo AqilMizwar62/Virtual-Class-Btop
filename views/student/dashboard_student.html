@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edu BTOP - Dashboard Pelajar</title>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .subject-badge-math { background-color: #0d6efd; color: white; }
+        .subject-badge-english { background-color: #6f42c1; color: white; }
+        .subject-badge-bm { background-color: #198754; color: white; }
+        .subject-badge-sejarah { background-color: #fd7e14; color: white; }
+        .material-card {
+            transition: transform 0.2s ease, shadow 0.2s ease;
+        }
+        .material-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
+                <i class="bi bi-mortarboard-fill me-2 fs-4"></i> Edu BTOP Pelajar
+            </a>
+            <div class="d-flex align-items-center text-white">
+                <span class="me-3 fw-semibold"><i class="bi bi-person-badge me-1"></i> <span id="studentName">Pelajar</span></span>
+                <button class="btn btn-outline-light btn-sm rounded-pill" id="btnLogout">
+                    <i class="bi bi-box-arrow-right me-1"></i> Log Keluar
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <!-- Hero Header -->
+        <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-4 border-start border-primary border-5">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="fw-bold text-dark mb-2">Pusat Bahan Pembelajaran Maya</h2>
+                    <p class="text-secondary mb-0">Pilih subjek di bawah untuk mengakses nota, video dan latihan. **Setiap kali anda mengakses bahan, kehadiran anda akan direkodkan secara automatik.**</p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <div class="p-3 bg-light rounded-3 d-inline-block text-start">
+                        <small class="text-muted d-block fw-bold text-uppercase">Status Kehadiran Hari Ini</small>
+                        <span class="badge bg-success fs-6 mt-1" id="attendanceStatusBadge"><i class="bi bi-check-circle me-1"></i> Aktif</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Toast Box -->
+        <div id="attendanceToast" class="alert alert-success d-none alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill me-2 fs-5"></i> 
+            <strong id="toastMessage">Kehadiran anda telah berjaya direkodkan!</strong>
+            <button type="button" class="btn-close" onclick="this.parentElement.classList.add('d-none')"></button>
+        </div>
+
+        <!-- Subject Filter Pills -->
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            <button class="btn btn-primary rounded-pill px-4 fw-semibold subject-btn active" onclick="filterSubject('All', this)">
+                <i class="bi bi-grid-fill me-1"></i> Semua Subjek
+            </button>
+            <button class="btn btn-outline-primary rounded-pill px-4 fw-semibold subject-btn" onclick="filterSubject('Math', this)">
+                📐 Matematik
+            </button>
+            <button class="btn btn-outline-purple rounded-pill px-4 fw-semibold subject-btn" style="border-color: #6f42c1; color: #6f42c1;" onclick="filterSubject('Bahasa Inggeris', this)">
+                🔤 Bahasa Inggeris
+            </button>
+            <button class="btn btn-outline-success rounded-pill px-4 fw-semibold subject-btn" onclick="filterSubject('Bahasa Melayu', this)">
+                📖 Bahasa Melayu
+            </button>
+            <button class="btn btn-outline-warning text-dark rounded-pill px-4 fw-semibold subject-btn" onclick="filterSubject('Sejarah', this)">
+                📜 Sejarah
+            </button>
+        </div>
+
+        <!-- Materials Grid -->
+        <div class="row g-4" id="materialsGrid">
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="text-muted mt-2">Memuat turun bahan pembelajaran...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentSubject = 'All';
+
+        // Check Auth
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('/api/me');
+                const data = await res.json();
+                if (!data.success || data.user.role !== 'student') {
+                    window.location.href = '/views/Edu Btop/login.html';
+                    return;
+                }
+                document.getElementById('studentName').textContent = data.user.name;
+                loadStudentMaterials();
+            } catch (err) {
+                window.location.href = '/views/Edu Btop/login.html';
+            }
+        });
+
+        // Logout
+        document.getElementById('btnLogout').addEventListener('click', async () => {
+            await fetch('/api/logout');
+            window.location.href = '/views/Edu Btop/login.html';
+        });
+
+        // Filter Subject
+        function filterSubject(subject, btnElement) {
+            currentSubject = subject;
+            document.querySelectorAll('.subject-btn').forEach(btn => {
+                btn.classList.remove('active', 'btn-primary');
+                if (btn.innerText.includes('Semua')) btn.classList.add('btn-outline-primary');
+            });
+            btnElement.classList.add('active');
+            if (subject === 'All') btnElement.classList.add('btn-primary');
+            loadStudentMaterials();
+        }
+
+        // Load Materials
+        async function loadStudentMaterials() {
+            const grid = document.getElementById('materialsGrid');
+            try {
+                const url = currentSubject === 'All' ? '/api/materials' : `/api/materials?subject=${encodeURIComponent(currentSubject)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (data.success && data.materials.length > 0) {
+                    grid.innerHTML = data.materials.map(m => `
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 border-0 shadow-sm rounded-4 material-card">
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="badge ${getSubjectBadgeClass(m.subject)} px-3 py-2 rounded-pill fs-7">${m.subject}</span>
+                                        <span class="badge bg-light text-dark border"><i class="${getCategoryIcon(m.category)} me-1"></i> ${m.category.toUpperCase()}</span>
+                                    </div>
+                                    <h5 class="fw-bold card-title mb-2 text-dark">${escapeHtml(m.title)}</h5>
+                                    <p class="card-text text-muted small flex-grow-1 mb-3">${escapeHtml(m.description || 'Tiada keterangan khas.')}</p>
+                                    
+                                    <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                                        <small class="text-muted"><i class="bi bi-person me-1"></i> ${escapeHtml(m.uploader_name || 'Admin')}</small>
+                                        <button onclick="accessMaterial(${m.id}, '${m.file_path}')" class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm fw-semibold">
+                                            <i class="bi bi-box-arrow-up-right me-1"></i> Akses Bahan
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    grid.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <i class="bi bi-journal-x display-1 text-muted opacity-50"></i>
+                            <h4 class="fw-bold mt-3 text-secondary">Tiada Bahan Ditemui</h4>
+                            <p class="text-muted">Belum ada bahan pembelajaran dimuat naik untuk subjek ini lagi.</p>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                grid.innerHTML = '<div class="col-12 text-center py-4 text-danger">Ralat memuat turun bahan.</div>';
+            }
+        }
+
+        // Access Material & Log Attendance Automatically
+        async function accessMaterial(materialId, filePath) {
+            try {
+                // Trigger backend attendance API
+                const res = await fetch('/api/student/attendance', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ materialId })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    const toast = document.getElementById('attendanceToast');
+                    toast.classList.remove('d-none');
+                    document.getElementById('toastMessage').textContent = 'Kehadiran anda bagi bahan ini telah berjaya direkodkan!';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            } catch (err) {
+                console.error('Attendance recording failed:', err);
+            } finally {
+                // Open material file
+                window.open(filePath, '_blank');
+            }
+        }
+
+        function getSubjectBadgeClass(subject) {
+            switch(subject) {
+                case 'Math': return 'subject-badge-math';
+                case 'Bahasa Inggeris': return 'subject-badge-english';
+                case 'Bahasa Melayu': return 'subject-badge-bm';
+                case 'Sejarah': return 'subject-badge-sejarah';
+                default: return 'bg-secondary';
+            }
+        }
+
+        function getCategoryIcon(cat) {
+            switch(cat) {
+                case 'video': return 'bi bi-play-circle-fill text-danger';
+                case 'document': return 'bi bi-file-earmark-word-fill text-primary';
+                default: return 'bi bi-file-earmark-pdf-fill text-danger';
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
+        }
+    </script>
+</body>
+
+</html>
