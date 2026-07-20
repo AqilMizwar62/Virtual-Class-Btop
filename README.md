@@ -33,11 +33,11 @@ Salin `.env.example` ke `.env`:
 ```bash
 PORT=3000
 DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=admin123
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
 DB_NAME=btop
 DB_PORT=3306
-SESSION_SECRET=edubtop_secret_key_2026
+SESSION_SECRET=your_secret_key_here
 ```
 
 ### 4. Setup Pangkalan Data MySQL (`schema.sql`)
