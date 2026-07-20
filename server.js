@@ -35,7 +35,7 @@ const upload = multer({ storage: storage });
 const db = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'admin123',
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME || 'btop',
     port: process.env.DB_PORT || 3306,
     waitForConnections: true,
@@ -52,7 +52,7 @@ app.use('/uploads', express.static(uploadsDir));
 app.use('/views', express.static(path.join(__dirname, 'views')));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'edubtop_secret_key_2026',
+    secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 } // 24 hours
