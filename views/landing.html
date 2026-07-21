@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Edu BTOP ialah platform pembelajaran maya untuk Matematik, Bahasa Inggeris, Bahasa Melayu dan Sejarah.">
+    <title>Edu BTOP - Belajar Lebih Bijak</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root { --ink:#10213a; --muted:#64768c; --blue:#126fe9; --cyan:#16b9dc; --yellow:#ffb619; --bg:#f5f8fc; --line:#e1e9f2; --white:#fff; }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin:0; color:var(--ink); background:var(--white); font-family:"Manrope",sans-serif; }
+        button, a { font:inherit; }
+        a { color:inherit; }
+        .container { width:min(1180px, calc(100% - 40px)); margin-inline:auto; }
+        .navbar { position:sticky; z-index:50; top:0; border-bottom:1px solid rgba(225,233,242,.85); background:rgba(255,255,255,.93); backdrop-filter:blur(16px); }
+        .nav-inner { min-height:76px; display:flex; align-items:center; gap:34px; }
+        .brand { display:flex; align-items:center; gap:11px; text-decoration:none; }
+        .brand img { width:45px; height:45px; object-fit:contain; padding:3px; border-radius:12px; background:#fff; box-shadow:0 7px 18px rgba(35,67,105,.12); }
+        .brand strong { display:block; font-size:18px; letter-spacing:-.5px; }
+        .brand small { display:block; margin-top:2px; color:var(--cyan); font-size:8px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; }
+        .nav-links { display:flex; align-items:center; gap:26px; margin-left:auto; }
+        .nav-links a { color:#586b82; text-decoration:none; font-size:13px; font-weight:700; }
+        .nav-links a:hover { color:var(--blue); }
+        .login-link { display:inline-flex; align-items:center; gap:8px; margin-left:8px; padding:11px 17px; border-radius:9px; color:#fff!important; background:var(--blue); box-shadow:0 8px 20px rgba(18,111,233,.2); }
+        .menu-btn { display:none; margin-left:auto; border:1px solid var(--line); border-radius:9px; padding:8px 10px; color:var(--ink); background:#fff; font-size:20px; }
+
+        .hero { position:relative; overflow:hidden; padding:94px 0 86px; background:linear-gradient(120deg,#f8fbff 0%,#eef7ff 55%,#e9f8fb 100%); }
+        .hero::before { content:""; position:absolute; width:520px; height:520px; right:-150px; top:-190px; border:75px solid rgba(18,111,233,.045); border-radius:50%; }
+        .hero-grid { position:relative; z-index:2; display:grid; grid-template-columns:1.05fr .95fr; gap:70px; align-items:center; }
+        .kicker { display:inline-flex; align-items:center; gap:9px; margin-bottom:20px; color:var(--blue); font-size:11px; font-weight:800; letter-spacing:1.35px; text-transform:uppercase; }
+        .kicker::before { content:""; width:27px; height:3px; border-radius:99px; background:var(--yellow); }
+        h1 { max-width:680px; margin:0 0 22px; font-size:clamp(45px,5.5vw,76px); line-height:1.04; letter-spacing:-3.7px; }
+        h1 span { color:var(--blue); }
+        .hero-copy { max-width:620px; margin:0 0 30px; color:#586c84; font-size:16px; line-height:1.8; }
+        .actions { display:flex; flex-wrap:wrap; gap:12px; }
+        .btn { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:49px; padding:0 19px; border:1px solid transparent; border-radius:10px; text-decoration:none; font-size:13px; font-weight:800; }
+        .btn-primary { color:#fff; background:var(--blue); box-shadow:0 10px 25px rgba(18,111,233,.22); }
+        .btn-primary:hover { background:#2580ef; transform:translateY(-1px); }
+        .btn-secondary { color:#26415f; border-color:#d6e2ee; background:#fff; }
+        .trust-row { display:flex; flex-wrap:wrap; gap:18px; margin-top:29px; color:#718298; font-size:11px; font-weight:700; }
+        .trust-row span { display:flex; align-items:center; gap:6px; }
+        .trust-row i { color:#16a779; }
+
+        .platform-preview { position:relative; min-height:460px; }
+        .preview-window { position:absolute; inset:20px 0 0 34px; overflow:hidden; border:1px solid #d9e4ef; border-radius:23px; background:#fff; box-shadow:0 28px 65px rgba(35,67,105,.16); }
+        .preview-bar { height:55px; display:flex; align-items:center; gap:7px; padding:0 19px; border-bottom:1px solid var(--line); }
+        .preview-bar i { width:8px; height:8px; border-radius:50%; background:#d2dde9; }
+        .preview-body { padding:24px; }
+        .preview-hero { position:relative; overflow:hidden; min-height:156px; padding:25px; border-radius:16px; color:#fff; background:linear-gradient(135deg,#126fe9,#16b9dc); }
+        .preview-hero::after { content:""; position:absolute; width:140px; height:140px; right:-25px; top:-34px; border:28px solid rgba(255,255,255,.12); border-radius:50%; }
+        .preview-hero small { font-size:8px; font-weight:800; letter-spacing:1px; text-transform:uppercase; }
+        .preview-hero strong { display:block; max-width:290px; margin-top:9px; font-size:23px; line-height:1.25; }
+        .preview-title { margin:22px 0 12px; font-size:11px; font-weight:800; }
+        .preview-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+        .mini-card { min-height:105px; padding:13px; border:1px solid var(--line); border-radius:12px; background:#f8fafc; }
+        .mini-card i { display:grid; place-items:center; width:30px; height:30px; margin-bottom:13px; border-radius:8px; color:var(--blue); background:#e6f1ff; }
+        .mini-card b { display:block; font-size:9px; }
+        .mini-card span { color:#8797aa; font-size:7px; }
+        .hero-carousel { position:absolute; inset:0; overflow:hidden; border:0; border-radius:23px; background:transparent; box-shadow:0 28px 65px rgba(35,67,105,.16); }
+        .carousel-slides { position:absolute; inset:0; }
+        .carousel-slide { position:absolute; inset:0; margin:0; opacity:0; visibility:hidden; transition:opacity .7s ease, visibility .7s ease; }
+        .carousel-slide.active { opacity:1; visibility:visible; }
+        .carousel-slide img { width:100%; height:100%; display:block; object-fit:cover; }
+        .carousel-slide::after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,rgba(8,29,55,.72) 0%,rgba(8,29,55,.08) 62%); }
+        .slide-caption { position:absolute; z-index:2; right:28px; bottom:30px; left:28px; color:#fff; }
+        .slide-caption span { display:block; margin-bottom:6px; color:#bceeff; font-size:9px; font-weight:800; letter-spacing:1.15px; text-transform:uppercase; }
+        .slide-caption strong { display:block; max-width:390px; font-size:22px; line-height:1.3; text-shadow:0 2px 12px rgba(0,0,0,.22); }
+        .carousel-control { position:absolute; z-index:4; top:50%; display:grid; place-items:center; width:39px; height:39px; transform:translateY(-50%); border:1px solid rgba(255,255,255,.42); border-radius:50%; color:#fff; background:rgba(8,29,55,.34); backdrop-filter:blur(8px); }
+        .carousel-control:hover, .carousel-control:focus-visible { background:var(--blue); outline:none; }
+        .carousel-control.prev { left:14px; }
+        .carousel-control.next { right:14px; }
+        .carousel-dots { position:absolute; z-index:4; right:25px; top:22px; display:flex; gap:7px; }
+        .carousel-dot { width:8px; height:8px; padding:0; border:0; border-radius:50%; background:rgba(255,255,255,.52); transition:.2s ease; }
+        .carousel-dot.active { width:24px; border-radius:99px; background:#fff; }
+
+        .stats { position:relative; z-index:4; margin-top:-31px; }
+        .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); overflow:hidden; border:1px solid var(--line); border-radius:17px; background:#fff; box-shadow:0 18px 45px rgba(35,67,105,.1); }
+        .stat { padding:24px 25px; border-right:1px solid var(--line); }
+        .stat:last-child { border:0; }
+        .stat strong { display:block; color:var(--blue); font-size:26px; }
+        .stat span { color:#728398; font-size:11px; }
+
+        .section { padding:92px 0; }
+        .section.alt { background:var(--bg); }
+        .section-head { max-width:680px; margin:0 auto 42px; text-align:center; }
+        .section-head .label { color:var(--blue); font-size:10px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; }
+        .section-head h2 { margin:10px 0 13px; font-size:clamp(29px,3.5vw,43px); letter-spacing:-1.8px; }
+        .section-head p { margin:0; color:var(--muted); font-size:14px; line-height:1.7; }
+
+        .subject-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:15px; }
+        .subject-card { position:relative; overflow:hidden; min-height:215px; padding:23px; border:1px solid var(--line); border-radius:17px; background:#fff; box-shadow:0 10px 30px rgba(35,67,105,.065); transition:.2s ease; }
+        .subject-card:hover { transform:translateY(-5px); box-shadow:0 17px 38px rgba(35,67,105,.11); }
+        .subject-card::after { content:""; position:absolute; width:105px; height:105px; right:-34px; bottom:-36px; border:23px solid currentColor; border-radius:50%; opacity:.045; }
+        .subject-icon { display:grid; place-items:center; width:47px; height:47px; margin-bottom:25px; border-radius:13px; font-size:21px; }
+        .subject-card h3 { margin:0 0 8px; font-size:16px; }
+        .subject-card p { margin:0; color:#75869b; font-size:11px; line-height:1.65; }
+        .math { color:#126fe9; } .math .subject-icon { background:#e7f1ff; }
+        .english { color:#7b50d6; } .english .subject-icon { background:#f0eaff; }
+        .malay { color:#0b9a72; } .malay .subject-icon { background:#e3f8f1; }
+        .history { color:#df7424; } .history .subject-icon { background:#fff0e4; }
+
+        .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:34px; }
+        .step { min-width:0; text-align:center; }
+        .step-label { display:inline-flex; align-items:center; justify-content:center; min-width:92px; min-height:42px; margin-bottom:20px; padding:0 18px; border-radius:999px; color:#172238; background:var(--yellow); box-shadow:0 8px 20px rgba(255,182,25,.22); font-size:13px; font-weight:800; }
+        .step-copy { min-height:86px; padding:0 12px; }
+        .step h3 { margin:0 0 7px; font-size:17px; }
+        .step p { max-width:320px; margin:0 auto; color:var(--muted); font-size:11px; line-height:1.65; }
+        .laptop { position:relative; width:100%; max-width:345px; margin:22px auto 0; padding:10px 10px 0; border:3px solid #1d2633; border-bottom:0; border-radius:14px 14px 3px 3px; background:#222c39; box-shadow:0 15px 30px rgba(35,67,105,.12); }
+        .laptop::before { content:""; position:absolute; width:4px; height:4px; top:3px; left:50%; border-radius:50%; background:#637083; }
+        .laptop::after { content:""; position:absolute; right:-14px; bottom:-12px; left:-14px; height:13px; border-radius:2px 2px 10px 10px; background:linear-gradient(180deg,#b9c2cc,#89949f); box-shadow:0 4px 7px rgba(36,53,71,.2); }
+        .laptop-screen { position:relative; height:190px; overflow:hidden; border-radius:4px 4px 1px 1px; background:#f5f8fc; text-align:left; }
+        .screen-top { height:23px; display:flex; align-items:center; gap:4px; padding:0 8px; border-bottom:1px solid #e3e9f0; background:#fff; }
+        .screen-top i { width:4px; height:4px; border-radius:50%; background:#c9d4e0; }
+        .screen-brand { margin-left:4px; color:var(--blue); font-size:5px; font-weight:800; }
+        .login-mock { display:grid; place-items:center; height:calc(100% - 23px); background:linear-gradient(135deg,#eef6ff,#e9f9fb); }
+        .login-mini { width:58%; padding:13px; border:1px solid #dfe7f0; border-radius:8px; background:#fff; box-shadow:0 8px 18px rgba(35,67,105,.1); }
+        .login-mini b { display:block; margin-bottom:9px; font-size:8px; text-align:center; }
+        .mock-input { height:17px; margin-bottom:6px; border:1px solid #dce5ef; border-radius:4px; background:#f8fafc; }
+        .mock-button { height:19px; margin-top:8px; border-radius:4px; background:var(--blue); }
+        .subject-mock { padding:12px; }
+        .mock-heading { width:45%; height:8px; margin-bottom:11px; border-radius:99px; background:#c8d6e7; }
+        .mock-subjects { display:grid; grid-template-columns:repeat(2,1fr); gap:7px; }
+        .mock-subject { min-height:57px; padding:8px; border-radius:7px; color:#fff; background:linear-gradient(135deg,#126fe9,#2a91ef); }
+        .mock-subject:nth-child(2) { background:linear-gradient(135deg,#7b50d6,#a177ed); }
+        .mock-subject:nth-child(3) { background:linear-gradient(135deg,#0b9a72,#27bd94); }
+        .mock-subject:nth-child(4) { background:linear-gradient(135deg,#df7424,#f3a45f); }
+        .mock-subject i { display:block; margin-bottom:7px; font-size:11px; }
+        .mock-subject b { font-size:6px; }
+        .learn-mock { padding:11px; }
+        .mock-featured { display:flex; align-items:flex-end; min-height:72px; padding:10px; border-radius:8px; color:#fff; background:linear-gradient(135deg,#126fe9,#16b9dc); }
+        .mock-featured b { max-width:65%; font-size:8px; line-height:1.35; }
+        .mock-materials { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:8px; }
+        .mock-material { min-height:53px; padding:6px; border:1px solid #e1e8f0; border-radius:6px; background:#fff; }
+        .mock-material span { display:block; height:22px; margin-bottom:6px; border-radius:4px; background:#e7f1ff; }
+        .mock-material b { display:block; width:75%; height:4px; border-radius:99px; background:#c7d3e1; }
+
+        .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+        .feature { padding:24px; border:1px solid var(--line); border-radius:16px; background:#fff; }
+        .feature i { display:grid; place-items:center; width:42px; height:42px; margin-bottom:18px; border-radius:11px; color:var(--blue); background:#e9f3ff; font-size:18px; }
+        .feature h3 { margin:0 0 8px; font-size:15px; }
+        .feature p { margin:0; color:var(--muted); font-size:11px; line-height:1.7; }
+
+        .cta { padding:35px 0 90px; background:var(--bg); }
+        .cta-box { position:relative; overflow:hidden; display:flex; align-items:center; justify-content:space-between; gap:32px; padding:48px 54px; border-radius:22px; color:#fff; background:linear-gradient(120deg,#105fc9,#168edb); }
+        .cta-box::after { content:""; position:absolute; width:220px; height:220px; right:-55px; top:-75px; border:40px solid rgba(255,255,255,.08); border-radius:50%; }
+        .cta-box h2 { position:relative; z-index:2; margin:0 0 9px; font-size:clamp(25px,3vw,38px); letter-spacing:-1.3px; }
+        .cta-box p { position:relative; z-index:2; margin:0; color:rgba(255,255,255,.78); font-size:13px; }
+        .cta-box .btn { position:relative; z-index:2; flex:0 0 auto; color:var(--blue); background:#fff; }
+
+        footer { padding:48px 0 24px; border-top:1px solid var(--line); background:#fff; }
+        .footer-grid { display:grid; grid-template-columns:1.2fr .7fr 1.4fr; gap:58px; }
+        .footer-brand p { max-width:390px; margin:16px 0 0; color:var(--muted); font-size:11px; line-height:1.75; }
+        .footer-col h3 { margin:0 0 16px; font-size:12px; }
+        .footer-col a, .footer-col span { display:block; margin:9px 0; color:#6d7f95; text-decoration:none; font-size:11px; }
+        .footer-col a:hover { color:var(--blue); }
+        .location-link { display:flex!important; align-items:flex-start; gap:9px; margin-top:11px!important; line-height:1.75; }
+        .location-link i { flex:0 0 auto; margin-top:2px; color:var(--blue); font-size:14px; }
+        .map-frame { overflow:hidden; height:190px; margin-top:16px; border:1px solid var(--line); border-radius:13px; background:#eef3f8; box-shadow:0 9px 24px rgba(35,67,105,.08); }
+        .map-frame iframe { width:100%; height:100%; display:block; border:0; }
+        .copyright { margin-top:38px; padding-top:20px; border-top:1px solid var(--line); color:#8a99aa; font-size:10px; text-align:center; }
+
+        @media (max-width:900px) {
+            .nav-links { position:absolute; top:76px; right:20px; left:20px; display:none; flex-direction:column; align-items:stretch; gap:0; padding:12px; border:1px solid var(--line); border-radius:13px; background:#fff; box-shadow:0 18px 40px rgba(35,67,105,.13); }
+            .nav-links.open { display:flex; }
+            .nav-links a { padding:12px; }
+            .login-link { margin:5px 0 0; }
+            .menu-btn { display:block; }
+            .hero-grid { grid-template-columns:1fr; }
+            .platform-preview { min-height:400px; max-width:640px; }
+            .subject-grid { grid-template-columns:repeat(2,1fr); }
+            .features-grid { grid-template-columns:repeat(2,1fr); }
+        }
+        @media (max-width:650px) {
+            .container { width:min(100% - 28px,1180px); }
+            .hero { padding:70px 0 75px; }
+            h1 { font-size:43px; letter-spacing:-2.2px; }
+            .platform-preview { min-height:330px; }
+            .preview-window, .hero-carousel { inset:0; }
+            .stats-grid { grid-template-columns:repeat(2,1fr); }
+            .stat:nth-child(2) { border-right:0; }
+            .stat:nth-child(-n+2) { border-bottom:1px solid var(--line); }
+            .section { padding:70px 0; }
+            .subject-grid, .steps, .features-grid { grid-template-columns:1fr; }
+            .step { padding-bottom:18px; }
+            .step-copy { min-height:0; }
+            .laptop { margin-top:18px; }
+            .cta-box { flex-direction:column; align-items:flex-start; padding:36px 27px; }
+            .footer-grid { grid-template-columns:1fr; gap:35px; }
+            .footer-brand { grid-column:auto; }
+            .map-frame { height:220px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" aria-label="Navigasi utama">
+        <div class="container nav-inner">
+            <a class="brand" href="/"><img src="/logo.png?v=2" alt="Logo Edu BTOP"><span><strong>Edu BTOP</strong><small>Virtual Learning</small></span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="#utama">Utama</a><a href="#subjek">Subjek</a><a href="#cara">Cara Belajar</a><a href="#kelebihan">Kelebihan</a>
+                <a class="login-link" href="/views/Edu%20Btop/login.html"><i class="bi bi-box-arrow-in-right"></i> Log Masuk</a>
+            </div>
+            <button class="menu-btn" id="menuBtn" aria-label="Buka menu" aria-expanded="false"><i class="bi bi-list"></i></button>
+        </div>
+    </nav>
+
+    <header class="hero" id="utama">
+        <div class="container hero-grid">
+            <div>
+                <span class="kicker">Platform Pembelajaran Maya</span>
+                <h1>Belajar lebih bijak.<br><span>Capai lebih tinggi.</span></h1>
+                <p class="hero-copy">Akses video, nota dan dokumen latihan untuk Matematik, Bahasa Inggeris, Bahasa Melayu dan Sejarah dalam satu platform yang mudah digunakan.</p>
+                <div class="actions"><a class="btn btn-primary" href="/views/Edu%20Btop/login.html"><i class="bi bi-play-fill"></i> Mula Belajar</a><a class="btn btn-secondary" href="#subjek"><i class="bi bi-grid"></i> Terokai Subjek</a></div>
+                <div class="trust-row"><span><i class="bi bi-check-circle-fill"></i> Mudah digunakan</span><span><i class="bi bi-check-circle-fill"></i> Mesra telefon</span><span><i class="bi bi-check-circle-fill"></i> Akses selamat</span></div>
+            </div>
+            <div class="platform-preview" aria-label="Aktiviti pembelajaran Edu BTOP">
+                <div class="hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="Galeri aktiviti pembelajaran">
+                    <div class="carousel-slides">
+                        <figure class="carousel-slide active" aria-hidden="false"><img src="/images/carousel/kelas-aktif.jpg" alt="Pelajar mengikuti aktiviti pembelajaran di dalam kelas"><figcaption class="slide-caption"><span>Pembelajaran aktif</span><strong>Belajar bersama, berkembang bersama.</strong></figcaption></figure>
+                        <figure class="carousel-slide" aria-hidden="true"><img src="/images/carousel/guru-membimbing.jpg" alt="Guru membimbing pelajar di dalam kelas"><figcaption class="slide-caption"><span>Bimbingan guru</span><strong>Sokongan pembelajaran dalam setiap langkah.</strong></figcaption></figure>
+                        <figure class="carousel-slide" aria-hidden="true"><img src="/images/carousel/pembelajaran-kumpulan.jpeg" alt="Pelajar menyiapkan latihan secara berkumpulan"><figcaption class="slide-caption"><span>Fokus dan kolaborasi</span><strong>Ilmu diperkukuh melalui latihan dan kerjasama.</strong></figcaption></figure>
+                    </div>
+                    <button class="carousel-control prev" type="button" id="carouselPrev" aria-label="Gambar sebelumnya"><i class="bi bi-chevron-left"></i></button>
+                    <button class="carousel-control next" type="button" id="carouselNext" aria-label="Gambar seterusnya"><i class="bi bi-chevron-right"></i></button>
+                    <div class="carousel-dots" aria-label="Pilih gambar"><button class="carousel-dot active" type="button" aria-label="Gambar 1" aria-current="true"></button><button class="carousel-dot" type="button" aria-label="Gambar 2"></button><button class="carousel-dot" type="button" aria-label="Gambar 3"></button></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="stats"><div class="container stats-grid"><div class="stat"><strong>4</strong><span>Subjek utama</span></div><div class="stat"><strong>3</strong><span>Jenis bahan digital</span></div><div class="stat"><strong>24/7</strong><span>Akses pembelajaran</span></div><div class="stat"><strong>Auto</strong><span>Rekod kehadiran</span></div></div></section>
+
+    <section class="section" id="subjek"><div class="container"><div class="section-head"><span class="label">Kandungan pembelajaran</span><h2>Empat subjek, satu ruang pembelajaran</h2><p>Setiap bahan disusun mengikut subjek supaya pelajar dapat mencari dan belajar dengan lebih fokus.</p></div><div class="subject-grid">
+        <article class="subject-card math"><span class="subject-icon"><i class="bi bi-calculator"></i></span><h3>Matematik</h3><p>Pelajari formula, algebra dan teknik penyelesaian melalui nota serta latihan.</p></article>
+        <article class="subject-card english"><span class="subject-icon"><i class="bi bi-translate"></i></span><h3>Bahasa Inggeris</h3><p>Tingkatkan grammar, vocabulary, pemahaman dan kemahiran penulisan.</p></article>
+        <article class="subject-card malay"><span class="subject-icon"><i class="bi bi-journal-text"></i></span><h3>Bahasa Melayu</h3><p>Kuasai karangan, tatabahasa dan pemahaman dengan bahan tersusun.</p></article>
+        <article class="subject-card history"><span class="subject-icon"><i class="bi bi-bank"></i></span><h3>Sejarah</h3><p>Fahami fakta, kronologi dan tamadun melalui bahan yang mudah diterokai.</p></article>
+    </div></div></section>
+
+    <section class="section alt" id="cara"><div class="container"><div class="section-head"><span class="label">Cara menggunakan Edu BTOP</span><h2>Mulakan dalam tiga langkah mudah</h2><p>Tiada proses yang rumit. Log masuk, pilih bahan dan teruskan pembelajaran anda.</p></div><div class="steps">
+        <article class="step"><span class="step-label">Langkah 1</span><div class="step-copy"><h3>Log masuk</h3><p>Gunakan e-mel dan kata laluan yang telah didaftarkan oleh pihak admin.</p></div><div class="laptop" aria-hidden="true"><div class="laptop-screen"><div class="screen-top"><i></i><i></i><i></i><span class="screen-brand">Edu BTOP</span></div><div class="login-mock"><div class="login-mini"><b>Selamat kembali</b><div class="mock-input"></div><div class="mock-input"></div><div class="mock-button"></div></div></div></div></div></article>
+        <article class="step"><span class="step-label">Langkah 2</span><div class="step-copy"><h3>Pilih subjek dan bahan</h3><p>Cari video, nota atau dokumen latihan berdasarkan subjek pilihan anda.</p></div><div class="laptop" aria-hidden="true"><div class="laptop-screen"><div class="screen-top"><i></i><i></i><i></i><span class="screen-brand">Edu BTOP</span></div><div class="subject-mock"><div class="mock-heading"></div><div class="mock-subjects"><div class="mock-subject"><i class="bi bi-calculator"></i><b>Matematik</b></div><div class="mock-subject"><i class="bi bi-translate"></i><b>Bahasa Inggeris</b></div><div class="mock-subject"><i class="bi bi-journal-text"></i><b>Bahasa Melayu</b></div><div class="mock-subject"><i class="bi bi-bank"></i><b>Sejarah</b></div></div></div></div></div></article>
+        <article class="step"><span class="step-label">Langkah 3</span><div class="step-copy"><h3>Mula belajar</h3><p>Buka bahan pembelajaran dan kehadiran akan direkodkan secara automatik.</p></div><div class="laptop" aria-hidden="true"><div class="laptop-screen"><div class="screen-top"><i></i><i></i><i></i><span class="screen-brand">Edu BTOP</span></div><div class="learn-mock"><div class="mock-featured"><b>Teruskan pembelajaran anda hari ini.</b></div><div class="mock-materials"><div class="mock-material"><span></span><b></b></div><div class="mock-material"><span></span><b></b></div><div class="mock-material"><span></span><b></b></div></div></div></div></div></article>
+    </div></div></section>
+
+    <section class="section" id="kelebihan"><div class="container"><div class="section-head"><span class="label">Kelebihan platform</span><h2>Semua yang diperlukan untuk belajar dengan teratur</h2><p>Direka untuk memudahkan pembelajaran pelajar dan pemantauan oleh pihak admin.</p></div><div class="features-grid">
+        <article class="feature"><i class="bi bi-play-circle-fill"></i><h3>Video pembelajaran</h3><p>Akses penerangan dalam format video untuk pembelajaran yang lebih menarik.</p></article>
+        <article class="feature"><i class="bi bi-file-earmark-text-fill"></i><h3>Nota dan dokumen</h3><p>Bahan rujukan digital yang tersusun dan mudah dicapai semula.</p></article>
+        <article class="feature"><i class="bi bi-search"></i><h3>Carian bahan pantas</h3><p>Cari kandungan berdasarkan tajuk, subjek atau jenis bahan.</p></article>
+        <article class="feature"><i class="bi bi-check2-circle"></i><h3>Kehadiran automatik</h3><p>Setiap akses bahan direkodkan tanpa langkah tambahan daripada pelajar.</p></article>
+        <article class="feature"><i class="bi bi-bar-chart-line-fill"></i><h3>Pemantauan admin</h3><p>Admin boleh melihat rekod akses dan menyediakan laporan kehadiran.</p></article>
+        <article class="feature"><i class="bi bi-phone-fill"></i><h3>Mesra semua peranti</h3><p>Belajar menggunakan komputer, tablet atau telefon pada bila-bila masa.</p></article>
+    </div></div></section>
+
+    <section class="cta"><div class="container"><div class="cta-box"><div><h2>Bersedia untuk mula belajar?</h2><p>Log masuk dan terokai semua bahan pembelajaran Edu BTOP hari ini.</p></div><a class="btn" href="/views/Edu%20Btop/login.html"><i class="bi bi-box-arrow-in-right"></i> Log Masuk Sekarang</a></div></div></section>
+
+    <footer><div class="container"><div class="footer-grid"><div class="footer-brand"><a class="brand" href="/"><img src="/logo.png?v=2" alt="Logo Edu BTOP"><span><strong>Edu BTOP</strong><small>Virtual Learning</small></span></a><p>Platform pembelajaran maya yang memudahkan pelajar mengakses bahan dan membantu admin memantau penglibatan pembelajaran.</p></div><div class="footer-col"><h3>Pautan</h3><a href="#subjek">Subjek</a><a href="#cara">Cara Belajar</a><a href="#kelebihan">Kelebihan</a><a href="/views/Edu%20Btop/login.html">Log Masuk</a></div><div class="footer-col"><h3>Lokasi</h3><a class="location-link" href="https://maps.google.com/maps?vet=10CAAQoqAOahcKEwigpMLLrOOVAxUAAAAAHQAAAAAQCA..i&amp;pvq=Cg0vZy8xMXRkZm1jOWxkIhsKFWJ0b3Agd2VsbG5lc3Mgc2RuIGJoZBACGAM&amp;lqi=ChVidG9wIHdlbGxuZXNzIHNkbiBiaGRIzMzW2bG5gIAIWjcQABABEAIQAxgAGAEYAhgDIhVidG9wIHdlbGxuZXNzIHNkbiBiaGQqCggCEAAQARACEAMyAm1zkgEPdHJhaW5pbmdfY2VudGVy&amp;fvr=1&amp;cs=0&amp;um=1&amp;ie=UTF-8&amp;fb=1&amp;gl=my&amp;sa=X&amp;ftid=0x31b6b126bf1129fb:0x5906df1daaadc679" target="_blank" rel="noopener noreferrer"><i class="bi bi-geo-alt-fill"></i><span>PT 1520, Tingkat 2, Jalan KK 6/5, Jalan Bandar Baru Kubang Kerian, Kubang Kerian, 16150 Kota Bharu, Kelantan</span></a><div class="map-frame"><iframe title="Lokasi Edu BTOP di Kubang Kerian" src="https://www.google.com/maps?q=PT%201520%2C%20Tingkat%202%2C%20Jalan%20KK%206%2F5%2C%20Jalan%20Bandar%20Baru%20Kubang%20Kerian%2C%2016150%20Kota%20Bharu%2C%20Kelantan&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div></div></div><div class="copyright">© <span id="year"></span> Edu BTOP. Hak cipta terpelihara.</div></div></footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        menuBtn.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('open');
+            menuBtn.setAttribute('aria-expanded', String(isOpen));
+            menuBtn.innerHTML = `<i class="bi ${isOpen ? 'bi-x-lg' : 'bi-list'}"></i>`;
+        });
+        navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.innerHTML = '<i class="bi bi-list"></i>';
+        }));
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const carousel = document.getElementById('heroCarousel');
+        const slides = [...carousel.querySelectorAll('.carousel-slide')];
+        const dots = [...carousel.querySelectorAll('.carousel-dot')];
+        let currentSlide = 0;
+        let carouselTimer;
+        let touchStartX = 0;
+
+        function showSlide(index) {
+            currentSlide = (index + slides.length) % slides.length;
+            slides.forEach((slide, position) => {
+                const active = position === currentSlide;
+                slide.classList.toggle('active', active);
+                slide.setAttribute('aria-hidden', String(!active));
+                dots[position].classList.toggle('active', active);
+                dots[position].setAttribute('aria-current', active ? 'true' : 'false');
+            });
+        }
+
+        function startCarousel() {
+            window.clearInterval(carouselTimer);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                carouselTimer = window.setInterval(() => showSlide(currentSlide + 1), 5000);
+            }
+        }
+
+        document.getElementById('carouselPrev').addEventListener('click', () => { showSlide(currentSlide - 1); startCarousel(); });
+        document.getElementById('carouselNext').addEventListener('click', () => { showSlide(currentSlide + 1); startCarousel(); });
+        dots.forEach((dot, index) => dot.addEventListener('click', () => { showSlide(index); startCarousel(); }));
+        carousel.addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].clientX; }, { passive: true });
+        carousel.addEventListener('touchend', event => {
+            const distance = event.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(distance) > 45) showSlide(currentSlide + (distance < 0 ? 1 : -1));
+            startCarousel();
+        }, { passive: true });
+        startCarousel();
+    </script>
+</body>
+</html>
