@@ -327,7 +327,7 @@ app.post('/api/admin/students', requireAuth('admin'), async (req, res) => {
 // 4. ATTENDANCE & REPORTING APIs
 // ------------------------------------------------------------
 
-// POST /api/student/attendance (Triggered when student accesses a material)
+// POST /api/student/attendance (Triggered when student accesses a material - records only once)
 app.post('/api/student/attendance', requireAuth('student'), async (req, res) => {
     const { materialId } = req.body;
     const studentId = req.session.user.id;
@@ -337,11 +337,19 @@ app.post('/api/student/attendance', requireAuth('student'), async (req, res) => 
     }
 
     try {
-        // Insert attendance record
-        await db.query(
-            'INSERT INTO attendance (student_id, material_id) VALUES (?, ?)',
+        // Check if student has already accessed this material
+        const [existing] = await db.query(
+            'SELECT id FROM attendance WHERE student_id = ? AND material_id = ?',
             [studentId, materialId]
         );
+
+        if (existing.length === 0) {
+            // Insert attendance record only if it doesn't exist
+            await db.query(
+                'INSERT INTO attendance (student_id, material_id) VALUES (?, ?)',
+                [studentId, materialId]
+            );
+        }
 
         return res.json({
             success: true,
@@ -353,7 +361,7 @@ app.post('/api/student/attendance', requireAuth('student'), async (req, res) => 
     }
 });
 
-// GET /api/admin/attendance-stats (Attendance breakdown per student and subject)
+// GET /api/admin/attendance-stats (Attendance breakdown per student and subject - deduplicated)
 app.get('/api/admin/attendance-stats', requireAuth('admin'), async (req, res) => {
     try {
         const sql = `
@@ -363,11 +371,12 @@ app.get('/api/admin/attendance-stats', requireAuth('admin'), async (req, res) =>
                 u.email as student_email,
                 m.subject,
                 m.title as material_title,
-                a.accessed_at
+                MAX(a.accessed_at) as accessed_at
             FROM attendance a
             JOIN users u ON a.student_id = u.id
             JOIN materials m ON a.material_id = m.id
-            ORDER BY a.accessed_at DESC
+            GROUP BY u.id, u.name, u.email, m.id, m.subject, m.title
+            ORDER BY accessed_at DESC
         `;
         const [rows] = await db.query(sql);
 

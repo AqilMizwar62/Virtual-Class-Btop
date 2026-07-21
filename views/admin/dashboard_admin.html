@@ -130,7 +130,8 @@
                     <div class="col-lg-5">
                         <div class="card border-0 shadow-sm rounded-4">
                             <div class="card-body p-4">
-                                <h4 class="fw-bold text-primary mb-3" id="formTitleHeader"><i class="bi bi-file-earmark-plus me-2"></i> Muat Naik Bahan Baru</h4>
+                                <h4 class="fw-bold text-primary mb-3" id="formTitleHeader"><i
+                                        class="bi bi-file-earmark-plus me-2"></i> Muat Naik Bahan Baru</h4>
                                 <div id="uploadAlert" class="alert d-none" role="alert"></div>
 
                                 <form id="uploadForm" enctype="multipart/form-data">
@@ -161,7 +162,8 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Pilih Fail / Nota Baru (PDF / Video)</label>
+                                        <label class="form-label fw-semibold">Pilih Fail / Nota Baru (PDF /
+                                            Video)</label>
                                         <input type="file" class="form-control" name="file" id="materialFile">
                                         <div class="form-text">Atau masukkan pautan luar di bawah jika tiada fail.</div>
                                     </div>
@@ -176,10 +178,12 @@
                                             placeholder="Penerangan ringkas..."></textarea>
                                     </div>
                                     <div class="d-flex gap-2">
-                                        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold" id="btnUpload">
+                                        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold"
+                                            id="btnUpload">
                                             <i class="bi bi-upload me-2"></i> Muat Naik Sekarang
                                         </button>
-                                        <button type="button" class="btn btn-secondary py-2 fw-semibold d-none" id="btnCancelEdit" onclick="cancelEditMode()">
+                                        <button type="button" class="btn btn-secondary py-2 fw-semibold d-none"
+                                            id="btnCancelEdit" onclick="cancelEditMode()">
                                             Batal
                                         </button>
                                     </div>
@@ -356,8 +360,23 @@
                 <!-- Detailed Student Attendance Log Table -->
                 <div class="card border-0 shadow-sm rounded-4">
                     <div class="card-body p-4">
-                        <h4 class="fw-bold mb-3"><i class="bi bi-clock-history me-2 text-primary"></i> Log Rekod
-                            Kehadiran Pelajar</h4>
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+                            <h4 class="fw-bold mb-0"><i class="bi bi-clock-history me-2 text-primary"></i> Log Rekod
+                                Kehadiran Pelajar</h4>
+                            <div class="d-flex align-items-center gap-2">
+                                <label for="attendanceSubjectFilter"
+                                    class="fw-semibold text-secondary mb-0 small">Subjek:</label>
+                                <select id="attendanceSubjectFilter"
+                                    class="form-select form-select-sm w-auto fw-semibold border-primary"
+                                    onchange="filterAttendanceLogs()">
+                                    <option value="ALL">-- Semua Subjek --</option>
+                                    <option value="Math">Matematik</option>
+                                    <option value="Bahasa Inggeris">Bahasa Inggeris</option>
+                                    <option value="Bahasa Melayu">Bahasa Melayu</option>
+                                    <option value="Sejarah">Sejarah</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
                                 <thead class="table-light">
@@ -598,6 +617,32 @@
             }
         });
 
+        let allAttendanceRecords = [];
+
+        function filterAttendanceLogs() {
+            const selected = document.getElementById('attendanceSubjectFilter').value;
+            const logsBody = document.getElementById('attendanceLogsBody');
+
+            let filtered = allAttendanceRecords;
+            if (selected !== 'ALL') {
+                filtered = allAttendanceRecords.filter(r => r.subject === selected);
+            }
+
+            if (filtered.length > 0) {
+                logsBody.innerHTML = filtered.map(r => `
+                    <tr>
+                        <td class="fw-semibold">${escapeHtml(r.student_name)}</td>
+                        <td>${escapeHtml(r.student_email)}</td>
+                        <td><span class="badge ${getSubjectBadgeClass(r.subject)}">${r.subject}</span></td>
+                        <td>${escapeHtml(r.material_title)}</td>
+                        <td><i class="bi bi-clock me-1 text-muted"></i> ${new Date(r.accessed_at).toLocaleString('ms-MY')}</td>
+                    </tr>
+                `).join('');
+            } else {
+                logsBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod kehadiran untuk subjek ini.</td></tr>';
+            }
+        }
+
         // Load Reports & Attendance Stats
         async function loadReports() {
             try {
@@ -609,20 +654,8 @@
                     document.getElementById('statTotalMaterials').textContent = dataStats.stats.totalMaterials;
                     document.getElementById('statTotalAttendance').textContent = dataStats.stats.totalAttendance;
 
-                    const logsBody = document.getElementById('attendanceLogsBody');
-                    if (dataStats.stats.records.length > 0) {
-                        logsBody.innerHTML = dataStats.stats.records.map(r => `
-                            <tr>
-                                <td class="fw-semibold">${escapeHtml(r.student_name)}</td>
-                                <td>${escapeHtml(r.student_email)}</td>
-                                <td><span class="badge ${getSubjectBadgeClass(r.subject)}">${r.subject}</span></td>
-                                <td>${escapeHtml(r.material_title)}</td>
-                                <td><i class="bi bi-clock me-1 text-muted"></i> ${new Date(r.accessed_at).toLocaleString('ms-MY')}</td>
-                            </tr>
-                        `).join('');
-                    } else {
-                        logsBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">Belum ada rekod kehadiran pelajar.</td></tr>';
-                    }
+                    allAttendanceRecords = dataStats.stats.records || [];
+                    filterAttendanceLogs();
                 }
 
                 const resReports = await fetch('/api/admin/reports');
