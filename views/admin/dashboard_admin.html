@@ -38,22 +38,33 @@
         }
 
         @media print {
-            .no-print {
+
+            /* 1. Hide all forms, navbar, buttons, and tab headers */
+            form,
+            .no-print,
+            .navbar,
+            .nav-pills,
+            .col-lg-5 {
                 display: none !important;
             }
 
-            .print-only {
-                display: block !important;
+            /* 2. Expand the right side ("Senarai" tables) to fill 100% of the printed page */
+            .col-lg-7 {
+                width: 100% !important;
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
             }
 
+            /* 3. Make table background clean white for printing */
             body {
-                background-color: white;
+                background-color: white !important;
             }
+        }
 
-            .card {
-                border: 1px solid #ddd !important;
-                box-shadow: none !important;
-            }
+
+        .card {
+            border: 1px solid #ddd !important;
+            box-shadow: none !important;
         }
     </style>
 </head>
@@ -119,11 +130,13 @@
                     <div class="col-lg-5">
                         <div class="card border-0 shadow-sm rounded-4">
                             <div class="card-body p-4">
-                                <h4 class="fw-bold text-primary mb-3"><i class="bi bi-file-earmark-plus me-2"></i> Muat
-                                    Naik Bahan Baru</h4>
+                                <h4 class="fw-bold text-primary mb-3" id="formTitleHeader"><i class="bi bi-file-earmark-plus me-2"></i> Muat Naik Bahan Baru</h4>
                                 <div id="uploadAlert" class="alert d-none" role="alert"></div>
 
                                 <form id="uploadForm" enctype="multipart/form-data">
+                                    <input type="hidden" id="editingMaterialId" value="">
+                                    <input type="hidden" name="existing_file_path" id="existingFilePath" value="">
+
                                     <div class="mb-3">
                                         <label class="form-label fw-semibold">Subjek</label>
                                         <select class="form-select" name="subject" id="subject" required>
@@ -148,7 +161,7 @@
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Pilih Fail (PDF / Video)</label>
+                                        <label class="form-label fw-semibold">Pilih Fail / Nota Baru (PDF / Video)</label>
                                         <input type="file" class="form-control" name="file" id="materialFile">
                                         <div class="form-text">Atau masukkan pautan luar di bawah jika tiada fail.</div>
                                     </div>
@@ -162,9 +175,14 @@
                                         <textarea class="form-control" name="description" id="materialDesc" rows="3"
                                             placeholder="Penerangan ringkas..."></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold" id="btnUpload">
-                                        <i class="bi bi-upload me-2"></i> Muat Naik Sekarang
-                                    </button>
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold" id="btnUpload">
+                                            <i class="bi bi-upload me-2"></i> Muat Naik Sekarang
+                                        </button>
+                                        <button type="button" class="btn btn-secondary py-2 fw-semibold d-none" id="btnCancelEdit" onclick="cancelEditMode()">
+                                            Batal
+                                        </button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -221,7 +239,7 @@
                                             placeholder="pelajar@edu.my" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label fw-semibold">Kata Laluan Sementara</label>
+                                        <label class="form-label fw-semibold">Kata Laluan</label>
                                         <input type="password" class="form-control" id="studentPassword"
                                             placeholder="Kata laluan" required>
                                     </div>
@@ -238,7 +256,8 @@
                         <div class="card border-0 shadow-sm rounded-4">
                             <div class="card-body p-4">
                                 <h4 class="fw-bold mb-3"><i class="bi bi-people-fill me-2"></i> Senarai Pelajar
-                                    Berdaftar</h4>
+                                    Berdaftar <span class="badge bg-primary fs-6 ms-2"
+                                        id="totalRegisteredStudentsBadge">0 Pelajar</span></h4>
                                 <div class="table-responsive">
                                     <table class="table table-striped align-middle">
                                         <thead class="table-light">
@@ -267,17 +286,6 @@
                 <!-- Overview Statistics Cards -->
                 <div class="row g-3 mb-4 no-print">
                     <div class="col-md-4">
-                        <div class="card border-0 shadow-sm rounded-4 bg-primary text-white p-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="text-white-50 text-uppercase fw-bold">Jumlah Pelajar</h6>
-                                    <h2 class="fw-bold mb-0" id="statTotalStudents">0</h2>
-                                </div>
-                                <i class="bi bi-people display-4 opacity-50"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
                         <div class="card border-0 shadow-sm rounded-4 bg-success text-white p-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
@@ -289,10 +297,21 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                        <div class="card border-0 shadow-sm rounded-4 bg-primary text-white p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-white-50 text-uppercase fw-bold">Jumlah Pelajar</h6>
+                                    <h2 class="fw-bold mb-0" id="statTotalStudents">0</h2>
+                                </div>
+                                <i class="bi bi-people display-4 opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="card border-0 shadow-sm rounded-4 bg-warning text-dark p-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="text-dark-50 text-uppercase fw-bold">Sesi Kehadiran Rekod</h6>
+                                    <h6 class="text-dark-50 text-uppercase fw-bold">Pelajar Hadir</h6>
                                     <h2 class="fw-bold mb-0" id="statTotalAttendance">0</h2>
                                 </div>
                                 <i class="bi bi-check2-circle display-4 opacity-50"></i>
@@ -320,8 +339,8 @@
                                     <tr>
                                         <th>Subjek</th>
                                         <th>Jumlah Bahan</th>
+                                        <th>Jumlah Pelajar</th>
                                         <th>Pelajar Hadir (Akses)</th>
-                                        <th>Jumlah Rekod Akses</th>
                                     </tr>
                                 </thead>
                                 <tbody id="subjectReportBody">
@@ -411,6 +430,7 @@
                             <td><span class="badge bg-secondary">${m.category.toUpperCase()}</span></td>
                             <td>
                                 <a href="${m.file_path}" target="_blank" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i> View</a>
+                                <button onclick="editMaterial(${m.id}, '${escapeHtml(m.title)}', '${m.subject}', '${m.category}', '${escapeHtml(m.description || '')}', '${escapeHtml(m.file_path || '')}')" class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil-square"></i> Update</button>
                                 <button onclick="deleteMaterial(${m.id})" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
@@ -423,21 +443,24 @@
             }
         }
 
-        // Upload Form Event
+        // Upload / Update Form Event
         document.getElementById('uploadForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const alertBox = document.getElementById('uploadAlert');
             const btn = document.getElementById('btnUpload');
+            const editingId = document.getElementById('editingMaterialId').value;
 
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Memuat naik...';
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Memproses...';
             alertBox.className = 'alert d-none';
 
             const formData = new FormData(this);
+            const endpoint = editingId ? `/api/admin/materials/${editingId}` : '/api/admin/materials';
+            const method = editingId ? 'PUT' : 'POST';
 
             try {
-                const res = await fetch('/api/admin/materials', {
-                    method: 'POST',
+                const res = await fetch(endpoint, {
+                    method: method,
                     body: formData
                 });
                 const data = await res.json();
@@ -445,7 +468,7 @@
                 if (data.success) {
                     alertBox.className = 'alert alert-success';
                     alertBox.textContent = data.message;
-                    this.reset();
+                    cancelEditMode();
                     loadMaterials();
                     loadReports();
                 } else {
@@ -454,10 +477,14 @@
                 }
             } catch (err) {
                 alertBox.className = 'alert alert-danger';
-                alertBox.textContent = 'Ralat muat naik.';
+                alertBox.textContent = 'Ralat memuat naik / mengemaskini bahan.';
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="bi bi-upload me-2"></i> Muat Naik Sekarang';
+                if (!document.getElementById('editingMaterialId').value) {
+                    btn.innerHTML = '<i class="bi bi-upload me-2"></i> Muat Naik Sekarang';
+                } else {
+                    btn.innerHTML = '<i class="bi bi-check-circle me-2"></i> Simpan Perubahan';
+                }
             }
         });
 
@@ -476,14 +503,49 @@
             }
         }
 
+        // Edit / Update Material Mode
+        function editMaterial(id, title, subject, category, description, filePath) {
+            document.getElementById('editingMaterialId').value = id;
+            document.getElementById('existingFilePath').value = filePath || '';
+            document.getElementById('subject').value = subject;
+            document.getElementById('materialTitle').value = title;
+            document.getElementById('category').value = category;
+            document.getElementById('materialDesc').value = description;
+
+            if (filePath && (filePath.startsWith('http://') || filePath.startsWith('https://'))) {
+                document.getElementById('externalLink').value = filePath;
+            } else {
+                document.getElementById('externalLink').value = '';
+            }
+
+            document.getElementById('formTitleHeader').innerHTML = '<i class="bi bi-pencil-square me-2"></i> Kemaskini Bahan Pembelajaran';
+            document.getElementById('btnUpload').innerHTML = '<i class="bi bi-check-circle me-2"></i> Simpan Perubahan';
+            document.getElementById('btnUpload').className = 'btn btn-warning w-100 py-2 fw-semibold text-dark';
+            document.getElementById('btnCancelEdit').classList.remove('d-none');
+
+            document.getElementById('uploadForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function cancelEditMode() {
+            document.getElementById('uploadForm').reset();
+            document.getElementById('editingMaterialId').value = '';
+            document.getElementById('existingFilePath').value = '';
+            document.getElementById('formTitleHeader').innerHTML = '<i class="bi bi-file-earmark-plus me-2"></i> Muat Naik Bahan Baru';
+            document.getElementById('btnUpload').innerHTML = '<i class="bi bi-upload me-2"></i> Muat Naik Sekarang';
+            document.getElementById('btnUpload').className = 'btn btn-primary w-100 py-2 fw-semibold';
+            document.getElementById('btnCancelEdit').classList.add('d-none');
+        }
+
         // Load Students List
         async function loadStudents() {
             try {
                 const res = await fetch('/api/admin/students');
                 const data = await res.json();
                 const tbody = document.getElementById('studentsTableBody');
+                const badge = document.getElementById('totalRegisteredStudentsBadge');
 
                 if (data.success && data.students.length > 0) {
+                    if (badge) badge.textContent = `${data.students.length} Pelajar`;
                     tbody.innerHTML = data.students.map(s => `
                         <tr>
                             <td class="fw-semibold">${escapeHtml(s.name)}</td>
@@ -492,6 +554,7 @@
                         </tr>
                     `).join('');
                 } else {
+                    if (badge) badge.textContent = '0 Pelajar';
                     tbody.innerHTML = '<tr><td colspan="3" class="text-center py-4 text-muted">Tiada pelajar didaftarkan.</td></tr>';
                 }
             } catch (err) {
@@ -567,13 +630,15 @@
 
                 if (dataReports.success) {
                     const subjectBody = document.getElementById('subjectReportBody');
+                    const totalStudents = dataReports.totalStudents || 0;
+
                     if (dataReports.subjectReports.length > 0) {
                         subjectBody.innerHTML = dataReports.subjectReports.map(sr => `
                             <tr>
                                 <td class="fw-bold"><span class="badge ${getSubjectBadgeClass(sr.subject)} me-2">${sr.subject}</span></td>
                                 <td>${sr.total_materials_available}</td>
-                                <td><span class="badge bg-success">${sr.unique_students_attended} Pelajar</span></td>
-                                <td>${sr.total_views} Akses</td>
+                                <td>${totalStudents} Pelajar</td>
+                                <td>${sr.unique_students_attended} Pelajar</td>
                             </tr>
                         `).join('');
                     } else {

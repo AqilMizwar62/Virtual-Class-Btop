@@ -10,6 +10,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
+<style>
+    .login-bg {
+        background: linear-gradient(rgba(13, 110, 253, 0.85), rgba(13, 110, 253, 0.85)),
+            url('/images/btop_llp_logo.jpg') no-repeat center center / cover;
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+</style>
+
 <body>
     <section class="bg-primary min-vh-100 d-flex align-items-center py-3 py-md-5 py-xl-8">
         <div class="container">
@@ -20,7 +31,8 @@
                             <h1 class="fw-bold text-white mb-4 display-4">Edu BTOP</h1>
                             <hr class="border-primary-subtle mb-4">
                             <h2 class="h1 mb-4">Selamat Datang ke Edu BTOP</h2>
-                            <p class="lead mb-5">Sistem Pembelajaran Maya bagi Subjek Matematik, Bahasa Inggeris, Bahasa Melayu & Sejarah.</p>
+                            <p class="lead mb-5">Sistem Pembelajaran bagi Subjek Matematik, Bahasa Inggeris,
+                                Bahasa Melayu & Sejarah.</p>
                             <div class="text-start opacity-75">
                                 <i class="bi bi-book-half display-4 me-3"></i>
                                 <i class="bi bi-journal-code display-4 me-3"></i>
@@ -33,7 +45,7 @@
                     <div class="card border-0 rounded-4 shadow-lg">
                         <div class="card-body p-4 p-md-5">
                             <h3 class="fw-bold mb-4 text-center text-primary">Log Masuk</h3>
-                            
+
                             <div id="alertBox" class="alert alert-danger d-none" role="alert"></div>
 
                             <form id="loginForm">
@@ -54,7 +66,8 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" value="admin" name="role" id="roleAdmin">
+                                            <input class="form-check-input" type="radio" value="admin" name="role"
+                                                id="roleAdmin">
                                             <label class="form-check-label text-secondary fw-semibold" for="roleAdmin">
                                                 Admin BTOP
                                             </label>
@@ -62,15 +75,18 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" value="student" name="role" id="roleStudent" checked>
-                                            <label class="form-check-label text-secondary fw-semibold" for="roleStudent">
+                                            <input class="form-check-input" type="radio" value="student" name="role"
+                                                id="roleStudent" checked>
+                                            <label class="form-check-label text-secondary fw-semibold"
+                                                for="roleStudent">
                                                 Pelajar
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-12 mt-4">
                                         <div class="d-grid">
-                                            <button class="btn btn-primary btn-lg shadow-sm" type="submit" id="btnSubmit">
+                                            <button class="btn btn-primary btn-lg shadow-sm" type="submit"
+                                                id="btnSubmit">
                                                 <i class="bi bi-box-arrow-in-right me-2"></i> Log Masuk
                                             </button>
                                         </div>
@@ -85,11 +101,11 @@
     </section>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
             e.preventDefault();
             const alertBox = document.getElementById('alertBox');
             const btnSubmit = document.getElementById('btnSubmit');
-            
+
             alertBox.classList.add('d-none');
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Memproses...';

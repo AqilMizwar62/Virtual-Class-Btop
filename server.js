@@ -50,6 +50,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(uploadsDir));
 app.use('/views', express.static(path.join(__dirname, 'views')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secret',
@@ -250,6 +251,30 @@ app.delete('/api/admin/materials/:id', requireAuth('admin'), async (req, res) =>
     }
 });
 
+// PUT /api/admin/materials/:id (Update material including new file upload or link)
+app.put('/api/admin/materials/:id', requireAuth('admin'), upload.single('file'), async (req, res) => {
+    const materialId = req.params.id;
+    const { title, description, subject, category, external_link, existing_file_path } = req.body;
+
+    try {
+        let filePath = existing_file_path || '';
+        if (req.file) {
+            filePath = '/uploads/' + req.file.filename;
+        } else if (external_link) {
+            filePath = external_link;
+        }
+
+        await db.query(
+            'UPDATE materials SET title = ?, description = ?, subject = ?, category = ?, file_path = ? WHERE id = ?',
+            [title, description || '', subject, category || 'note', filePath, materialId]
+        );
+        return res.json({ success: true, message: 'Bahan pembelajaran berjaya dikemaskini!' });
+    } catch (err) {
+        console.error('Update material error:', err);
+        return res.status(500).json({ success: false, message: 'Gagal mengemaskini bahan.' });
+    }
+});
+
 // ------------------------------------------------------------
 // 3. STUDENT MANAGEMENT APIs (ADMIN)
 // ------------------------------------------------------------
@@ -349,7 +374,7 @@ app.get('/api/admin/attendance-stats', requireAuth('admin'), async (req, res) =>
         // Summary counts
         const [totalStudents] = await db.query('SELECT COUNT(*) as count FROM users WHERE role = "student"');
         const [totalMaterials] = await db.query('SELECT COUNT(*) as count FROM materials');
-        const [totalAttendance] = await db.query('SELECT COUNT(*) as count FROM attendance');
+        const [totalAttendance] = await db.query('SELECT COUNT(DISTINCT student_id) as count FROM attendance');
 
         return res.json({
             success: true,
@@ -374,7 +399,8 @@ app.get('/api/admin/reports', requireAuth('admin'), async (req, res) => {
                 m.subject,
                 COUNT(DISTINCT a.id) as total_views,
                 COUNT(DISTINCT a.student_id) as unique_students_attended,
-                COUNT(DISTINCT m.id) as total_materials_available
+                COUNT(DISTINCT m.id) as total_materials_available,
+                (SELECT COUNT(*) FROM users WHERE role = 'student') as total_students
             FROM materials m
             LEFT JOIN attendance a ON m.id = a.material_id
             GROUP BY m.subject
@@ -393,8 +419,11 @@ app.get('/api/admin/reports', requireAuth('admin'), async (req, res) => {
             GROUP BY u.id, u.name, u.email
         `);
 
+        const [totalStudentsCount] = await db.query('SELECT COUNT(*) as count FROM users WHERE role = "student"');
+
         return res.json({
             success: true,
+            totalStudents: totalStudentsCount[0].count,
             subjectReports,
             studentAttendanceSummary
         });
