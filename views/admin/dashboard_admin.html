@@ -382,7 +382,6 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>Nama Pelajar</th>
-                                        <th>E-mel</th>
                                         <th>Subjek</th>
                                         <th>Bahan Diperoleh</th>
                                         <th>Waktu Akses (Kehadiran)</th>
@@ -390,7 +389,7 @@
                                 </thead>
                                 <tbody id="attendanceLogsBody">
                                     <tr>
-                                        <td colspan="5" class="text-center py-4 text-muted">Memuat log kehadiran...</td>
+                                        <td colspan="4" class="text-center py-4 text-muted">Memuat log kehadiran...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -632,14 +631,13 @@
                 logsBody.innerHTML = filtered.map(r => `
                     <tr>
                         <td class="fw-semibold">${escapeHtml(r.student_name)}</td>
-                        <td>${escapeHtml(r.student_email)}</td>
                         <td><span class="badge ${getSubjectBadgeClass(r.subject)}">${r.subject}</span></td>
                         <td>${escapeHtml(r.material_title)}</td>
                         <td><i class="bi bi-clock me-1 text-muted"></i> ${new Date(r.accessed_at).toLocaleString('ms-MY')}</td>
                     </tr>
                 `).join('');
             } else {
-                logsBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">Tiada rekod kehadiran untuk subjek ini.</td></tr>';
+                logsBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod kehadiran untuk subjek ini.</td></tr>';
             }
         }
 
