@@ -429,10 +429,20 @@
                 window.location.href = '/views/Edu Btop/login.html';
             });
 
-            document.getElementById('searchInput').addEventListener('input', event => {
-                searchQuery = event.target.value.trim().toLowerCase();
-                renderMaterials();
-            });
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                const handleSearch = event => {
+                    searchQuery = event.target.value.trim().toLowerCase();
+                    renderMaterials();
+                    if (searchQuery) {
+                        const matEl = document.getElementById('materials');
+                        if (matEl) matEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                };
+                searchInput.addEventListener('input', handleSearch);
+                searchInput.addEventListener('search', handleSearch);
+                searchInput.addEventListener('keyup', handleSearch);
+            }
 
             document.querySelectorAll('.subject-card').forEach(button => {
                 button.addEventListener('click', () => {
@@ -481,14 +491,22 @@
 
         function renderMaterials() {
             const grid = document.getElementById('materialsGrid');
-            const filtered = allMaterials.filter(material => {
+            let filtered = allMaterials.filter(material => {
                 const matchesSubject = selectedSubject === 'All' || material.subject === selectedSubject;
                 const matchesCategory = selectedCategory === 'All' || material.category === selectedCategory;
-                const haystack = `${material.title || ''} ${material.description || ''} ${material.subject || ''}`.toLowerCase();
+                const haystack = `${material.title || ''} ${material.description || ''} ${material.subject || ''} ${material.category || ''}`.toLowerCase();
                 return matchesSubject && matchesCategory && (!searchQuery || haystack.includes(searchQuery));
             });
 
-            document.getElementById('filteredCount').textContent = `${filtered.length} bahan`;
+            if (searchQuery && filtered.length === 0 && (selectedSubject !== 'All' || selectedCategory !== 'All')) {
+                filtered = allMaterials.filter(material => {
+                    const haystack = `${material.title || ''} ${material.description || ''} ${material.subject || ''} ${material.category || ''}`.toLowerCase();
+                    return haystack.includes(searchQuery);
+                });
+            }
+
+            const filteredCountEl = document.getElementById('filteredCount');
+            if (filteredCountEl) filteredCountEl.textContent = `${filtered.length} bahan`;
             if (!filtered.length) {
                 grid.innerHTML = '<div class="empty-state"><i class="bi bi-search"></i><strong>Tiada bahan ditemui.</strong><br>Cuba subjek, kategori atau kata carian lain.</div>';
                 return;
