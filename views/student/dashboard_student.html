@@ -11,16 +11,34 @@
         body {
             background-color: #f4f6f9;
         }
-        .subject-badge-math { background-color: #0d6efd; color: white; }
-        .subject-badge-english { background-color: #6f42c1; color: white; }
-        .subject-badge-bm { background-color: #198754; color: white; }
-        .subject-badge-sejarah { background-color: #fd7e14; color: white; }
+
+        .subject-badge-math {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .subject-badge-english {
+            background-color: #6f42c1;
+            color: white;
+        }
+
+        .subject-badge-bm {
+            background-color: #198754;
+            color: white;
+        }
+
+        .subject-badge-sejarah {
+            background-color: #fd7e14;
+            color: white;
+        }
+
         .material-card {
             transition: transform 0.2s ease, shadow 0.2s ease;
         }
+
         .material-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
         }
     </style>
 </head>
@@ -33,7 +51,8 @@
                 <i class="bi bi-mortarboard-fill me-2 fs-4"></i> Edu BTOP Pelajar
             </a>
             <div class="d-flex align-items-center text-white">
-                <span class="me-3 fw-semibold"><i class="bi bi-person-badge me-1"></i> <span id="studentName">Pelajar</span></span>
+                <span class="me-3 fw-semibold"><i class="bi bi-person-badge me-1"></i> <span
+                        id="studentName">Pelajar</span></span>
                 <button class="btn btn-outline-light btn-sm rounded-pill" id="btnLogout">
                     <i class="bi bi-box-arrow-right me-1"></i> Log Keluar
                 </button>
@@ -46,13 +65,15 @@
         <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-4 border-start border-primary border-5">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h2 class="fw-bold text-dark mb-2">Pusat Bahan Pembelajaran Maya</h2>
-                    <p class="text-secondary mb-0">Pilih subjek di bawah untuk mengakses nota, video dan latihan. **Setiap kali anda mengakses bahan, kehadiran anda akan direkodkan secara automatik.**</p>
+                    <h2 class="fw-bold text-dark mb-2">Selamat Datang </h2>
+                    <p class="text-secondary mb-0">Pilih subjek di bawah untuk mengakses nota, video dan latihan.</p>
+                    <p class="text-secondary mb-0">Kehadiran akan direkod selepas anda mengakses bahan pembelajaran.</p>
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
                     <div class="p-3 bg-light rounded-3 d-inline-block text-start">
                         <small class="text-muted d-block fw-bold text-uppercase">Status Kehadiran Hari Ini</small>
-                        <span class="badge bg-success fs-6 mt-1" id="attendanceStatusBadge"><i class="bi bi-check-circle me-1"></i> Aktif</span>
+                        <span class="badge bg-success fs-6 mt-1" id="attendanceStatusBadge"><i
+                                class="bi bi-check-circle me-1"></i> Aktif</span>
                     </div>
                 </div>
             </div>
@@ -60,27 +81,32 @@
 
         <!-- Notification Toast Box -->
         <div id="attendanceToast" class="alert alert-success d-none alert-dismissible fade show shadow-sm" role="alert">
-            <i class="bi bi-check-circle-fill me-2 fs-5"></i> 
+            <i class="bi bi-check-circle-fill me-2 fs-5"></i>
             <strong id="toastMessage">Kehadiran anda telah berjaya direkodkan!</strong>
             <button type="button" class="btn-close" onclick="this.parentElement.classList.add('d-none')"></button>
         </div>
 
         <!-- Subject Filter Pills -->
         <div class="d-flex flex-wrap gap-2 mb-4">
-            <button class="btn btn-primary rounded-pill px-4 fw-semibold subject-btn active" onclick="filterSubject('All', this)">
+            <button class="btn btn-primary rounded-pill px-4 fw-semibold subject-btn active"
+                onclick="filterSubject('All', this)">
                 <i class="bi bi-grid-fill me-1"></i> Semua Subjek
             </button>
-            <button class="btn btn-outline-primary rounded-pill px-4 fw-semibold subject-btn" onclick="filterSubject('Math', this)">
-                📐 Matematik
+            <button class="btn btn-outline-primary rounded-pill px-4 fw-semibold subject-btn"
+                onclick="filterSubject('Math', this)">
+                Matematik
             </button>
-            <button class="btn btn-outline-purple rounded-pill px-4 fw-semibold subject-btn" style="border-color: #6f42c1; color: #6f42c1;" onclick="filterSubject('Bahasa Inggeris', this)">
-                🔤 Bahasa Inggeris
+            <button class="btn btn-outline-purple rounded-pill px-4 fw-semibold subject-btn"
+                style="border-color: #6f42c1; color: #6f42c1;" onclick="filterSubject('Bahasa Inggeris', this)">
+                Bahasa Inggeris
             </button>
-            <button class="btn btn-outline-success rounded-pill px-4 fw-semibold subject-btn" onclick="filterSubject('Bahasa Melayu', this)">
-                📖 Bahasa Melayu
+            <button class="btn btn-outline-success rounded-pill px-4 fw-semibold subject-btn"
+                onclick="filterSubject('Bahasa Melayu', this)">
+                Bahasa Melayu
             </button>
-            <button class="btn btn-outline-warning text-dark rounded-pill px-4 fw-semibold subject-btn" onclick="filterSubject('Sejarah', this)">
-                📜 Sejarah
+            <button class="btn btn-outline-warning text-dark rounded-pill px-4 fw-semibold subject-btn"
+                onclick="filterSubject('Sejarah', this)">
+                Sejarah
             </button>
         </div>
 
@@ -201,7 +227,7 @@
         }
 
         function getSubjectBadgeClass(subject) {
-            switch(subject) {
+            switch (subject) {
                 case 'Math': return 'subject-badge-math';
                 case 'Bahasa Inggeris': return 'subject-badge-english';
                 case 'Bahasa Melayu': return 'subject-badge-bm';
@@ -211,7 +237,7 @@
         }
 
         function getCategoryIcon(cat) {
-            switch(cat) {
+            switch (cat) {
                 case 'video': return 'bi bi-play-circle-fill text-danger';
                 case 'document': return 'bi bi-file-earmark-word-fill text-primary';
                 default: return 'bi bi-file-earmark-pdf-fill text-danger';
@@ -220,7 +246,7 @@
 
         function escapeHtml(text) {
             if (!text) return '';
-            return text.replace(/[&<>"']/g, function(m) {
+            return text.replace(/[&<>"']/g, function (m) {
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
             });
         }

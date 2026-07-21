@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Database Connection Pool
+// Database Connection
 const db = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -129,8 +129,8 @@ app.post('/api/login', async (req, res) => {
             role: user.role
         };
 
-        const redirectUrl = user.role === 'admin' 
-            ? '/views/admin/dashboard_admin.html' 
+        const redirectUrl = user.role === 'admin'
+            ? '/views/admin/dashboard_admin.html'
             : '/views/student/dashboard_student.html';
 
         return res.json({
@@ -219,18 +219,18 @@ app.post('/api/admin/materials', requireAuth('admin'), upload.single('file'), as
             VALUES (?, ?, ?, ?, ?, ?)
         `;
         const [result] = await db.query(sql, [
-            title, 
-            description || '', 
-            subject, 
-            category || 'note', 
-            filePath, 
+            title,
+            description || '',
+            subject,
+            category || 'note',
+            filePath,
             req.session.user.id
         ]);
 
-        return res.json({ 
-            success: true, 
+        return res.json({
+            success: true,
             message: 'Bahan pembelajaran berjaya dimuat naik!',
-            materialId: result.insertId 
+            materialId: result.insertId
         });
     } catch (err) {
         console.error('Upload material error:', err);
@@ -407,7 +407,7 @@ app.get('/api/admin/reports', requireAuth('admin'), async (req, res) => {
 // Start Express Server
 app.listen(PORT, () => {
     console.log(`===================================================`);
-    console.log(`🚀 EDU BTOP Server is running on port ${PORT}`);
-    console.log(`🔗 Local URL: http://localhost:${PORT}`);
+    console.log(`EDU BTOP Server is running on port ${PORT}`);
+    console.log(`Local URL: http://localhost:${PORT}`);
     console.log(`===================================================`);
 });
