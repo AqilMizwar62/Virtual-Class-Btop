@@ -76,8 +76,13 @@ const requireAuth = (role = null) => {
 // ROUTES & API ENDPOINTS
 // ============================================================
 
-// Serve Root -> Login Page
+// Serve Root -> Public Landing Page
 app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'landing.html'));
+});
+
+// Friendly Login Page Route
+app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'Edu Btop', 'login.html'));
 });
 

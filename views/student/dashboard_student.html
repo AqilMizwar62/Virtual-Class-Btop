@@ -1,130 +1,411 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ms">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edu BTOP - Dashboard Pelajar</title>
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>Edu BTOP - Ruang Pembelajaran</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        :root {
+            --navy: #061225;
+            --navy-soft: #0b1d38;
+            --surface: #102746;
+            --surface-hover: #17345b;
+            --primary: #1275f5;
+            --cyan: #16c2eb;
+            --yellow: #ffbc17;
+            --text: #f7fbff;
+            --muted: #9fb0c7;
+            --line: rgba(255,255,255,.1);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            background-color: #f4f6f9;
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+            background: var(--navy);
+            font-family: "Manrope", sans-serif;
         }
+        button, input { font: inherit; }
+        button { cursor: pointer; }
 
-        .subject-badge-math {
-            background-color: #0d6efd;
-            color: white;
+        .topbar {
+            position: fixed;
+            z-index: 50;
+            inset: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            height: 76px;
+            padding: 0 clamp(20px, 5vw, 76px);
+            background: linear-gradient(180deg, rgba(4,14,30,.98), rgba(4,14,30,.88));
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(16px);
         }
+        .brand { display: flex; align-items: center; gap: 11px; color: white; text-decoration: none; }
+        .brand img { width: 43px; height: 43px; object-fit: contain; border-radius: 11px; background: white; padding: 3px; }
+        .brand strong { font-size: 18px; letter-spacing: -.4px; }
+        .brand small { display: block; margin-top: 1px; color: var(--cyan); font-size: 10px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; }
+        .nav-links { display: flex; align-items: center; gap: 26px; }
+        .nav-links a { color: #b5c3d6; text-decoration: none; font-size: 14px; font-weight: 700; }
+        .nav-links a:hover, .nav-links a.active { color: white; }
+        .top-actions { display: flex; align-items: center; gap: 14px; margin-left: auto; }
+        .search-wrap { position: relative; }
+        .search-wrap i { position: absolute; top: 50%; left: 14px; transform: translateY(-50%); color: var(--muted); }
+        .search-wrap input {
+            width: 230px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            outline: 0;
+            padding: 10px 16px 10px 39px;
+            color: white;
+            background: rgba(255,255,255,.07);
+        }
+        .search-wrap input:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(22,194,235,.12); }
+        .profile-chip { display: flex; align-items: center; gap: 10px; }
+        .avatar { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: white; background: linear-gradient(135deg, var(--primary), var(--cyan)); font-weight: 800; }
+        .profile-name { max-width: 125px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 700; }
+        .logout-btn { border: 0; padding: 9px; color: var(--muted); background: transparent; font-size: 20px; }
+        .logout-btn:hover { color: white; }
 
-        .subject-badge-english {
-            background-color: #6f42c1;
-            color: white;
+        .hero {
+            position: relative;
+            min-height: 620px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            padding: 138px clamp(20px, 6vw, 92px) 78px;
+            background:
+                linear-gradient(90deg, #061225 4%, rgba(6,18,37,.93) 38%, rgba(6,18,37,.24) 75%),
+                linear-gradient(0deg, #061225 0%, transparent 42%),
+                radial-gradient(circle at 78% 35%, #135dc5 0%, #0b2c64 34%, #061225 72%);
         }
+        .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; filter: blur(2px); opacity: .55; }
+        .hero::before { width: 360px; height: 360px; right: 8%; top: 22%; background: radial-gradient(circle, rgba(22,194,235,.45), transparent 67%); }
+        .hero::after { width: 180px; height: 180px; right: 24%; top: 24%; border: 34px solid rgba(255,255,255,.05); }
+        .hero-content { position: relative; z-index: 2; max-width: 680px; }
+        .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; color: var(--cyan); font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; }
+        .eyebrow::before { content: ""; width: 27px; height: 3px; border-radius: 99px; background: var(--yellow); }
+        .hero h1 { max-width: 650px; margin: 0 0 15px; font-size: clamp(36px, 5.2vw, 70px); line-height: 1.04; letter-spacing: -2.6px; }
+        .hero-description { max-width: 610px; margin: 0 0 24px; color: #c5d1e0; font-size: 16px; line-height: 1.75; }
+        .meta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 27px; }
+        .meta-pill { padding: 7px 11px; border: 1px solid var(--line); border-radius: 999px; color: #d8e2ee; background: rgba(255,255,255,.06); font-size: 12px; font-weight: 700; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+        .primary-btn, .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            border: 0;
+            border-radius: 10px;
+            padding: 13px 19px;
+            font-weight: 800;
+        }
+        .primary-btn { color: white; background: var(--primary); box-shadow: 0 9px 25px rgba(18,117,245,.3); }
+        .primary-btn:hover { background: #2584fb; transform: translateY(-1px); }
+        .secondary-btn { color: white; background: rgba(255,255,255,.12); backdrop-filter: blur(10px); }
 
-        .subject-badge-bm {
-            background-color: #198754;
-            color: white;
+        main { position: relative; z-index: 3; margin-top: -20px; padding: 0 clamp(20px, 5vw, 76px) 70px; }
+        .welcome-strip {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, minmax(130px, .55fr));
+            gap: 12px;
+            align-items: stretch;
+            margin-bottom: 44px;
         }
+        .welcome-card, .stat-card { border: 1px solid var(--line); border-radius: 16px; background: rgba(13,35,65,.92); box-shadow: 0 20px 45px rgba(0,0,0,.18); }
+        .welcome-card { display: flex; align-items: center; gap: 15px; padding: 18px 20px; }
+        .welcome-card i { display: grid; place-items: center; flex: 0 0 42px; height: 42px; border-radius: 12px; color: var(--yellow); background: rgba(255,188,23,.11); font-size: 20px; }
+        .welcome-card strong { display: block; margin-bottom: 3px; }
+        .welcome-card span, .stat-card span { color: var(--muted); font-size: 12px; }
+        .stat-card { display: flex; flex-direction: column; justify-content: center; padding: 16px 18px; }
+        .stat-card b { font-size: 24px; }
 
-        .subject-badge-sejarah {
-            background-color: #fd7e14;
+        .section { margin-bottom: 46px; }
+        .section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+        .section-heading h2 { margin: 0 0 4px; font-size: clamp(21px, 2.2vw, 29px); letter-spacing: -.8px; }
+        .section-heading p { margin: 0; color: var(--muted); font-size: 13px; }
+        .count-label { color: var(--cyan); font-size: 12px; font-weight: 800; }
+
+        .subject-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+        .subject-card {
+            position: relative;
+            min-height: 150px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            padding: 21px;
             color: white;
+            text-align: left;
+            background: var(--surface);
+            transition: transform .2s ease, border-color .2s ease;
         }
+        .subject-card::after { content: ""; position: absolute; width: 110px; height: 110px; right: -27px; bottom: -32px; border: 24px solid rgba(255,255,255,.08); border-radius: 50%; }
+        .subject-card:hover, .subject-card.active { transform: translateY(-4px); border-color: rgba(255,255,255,.38); }
+        .subject-card.math { background: linear-gradient(135deg, #0b65d8, #10356a); }
+        .subject-card.english { background: linear-gradient(135deg, #7746d8, #34235e); }
+        .subject-card.malay { background: linear-gradient(135deg, #079a75, #0e4f48); }
+        .subject-card.history { background: linear-gradient(135deg, #e77521, #713813); }
+        .subject-icon { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 18px; border-radius: 12px; background: rgba(255,255,255,.16); font-size: 21px; }
+        .subject-card strong { display: block; font-size: 16px; }
+        .subject-card small { color: rgba(255,255,255,.74); }
+
+        .filter-bar { display: flex; gap: 9px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+        .filter-bar::-webkit-scrollbar { display: none; }
+        .filter-btn { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 999px; padding: 9px 15px; color: var(--muted); background: transparent; font-size: 12px; font-weight: 800; }
+        .filter-btn:hover, .filter-btn.active { color: white; border-color: var(--primary); background: var(--primary); }
+
+        .materials-track {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: minmax(260px, 31%);
+            gap: 16px;
+            overflow-x: auto;
+            padding: 5px 2px 18px;
+            scroll-snap-type: x mandatory;
+        .subject-badge-math { background-color: #0d6efd; color: white; }
+        .subject-badge-english { background-color: #6f42c1; color: white; }
+        .subject-badge-bm { background-color: #198754; color: white; }
+        .subject-badge-sejarah { background-color: #fd7e14; color: white; }
 
         .material-card {
-            transition: transform 0.2s ease, shadow 0.2s ease;
+            min-height: 320px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            background: var(--navy-soft);
+            scroll-snap-align: start;
+            transition: transform .2s ease, background .2s ease;
         }
 
-        .material-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+        .material-card:hover { transform: translateY(-5px); background: var(--surface-hover); }
+        .thumbnail { position: relative; display: flex; align-items: flex-end; min-height: 165px; padding: 16px; overflow: hidden; }
+        .thumbnail::before { content: ""; position: absolute; width: 145px; height: 145px; right: -22px; top: -34px; border-radius: 50%; border: 30px solid rgba(255,255,255,.08); }
+        .thumbnail.math { background: linear-gradient(135deg, #126de6, #082b60); }
+        .thumbnail.english { background: linear-gradient(135deg, #8754e7, #34205d); }
+        .thumbnail.malay { background: linear-gradient(135deg, #10a781, #0c4e46); }
+        .thumbnail.history { background: linear-gradient(135deg, #ed812f, #6d3410); }
+        .thumbnail.other { background: linear-gradient(135deg, #3a5b84, #18283e); }
+        .category-icon { position: relative; z-index: 2; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; color: white; background: rgba(3,12,25,.55); backdrop-filter: blur(8px); font-size: 25px; }
+        .card-body { padding: 17px; }
+        .card-topline { display: flex; align-items: center; justify-content: space-between; gap: 9px; margin-bottom: 10px; }
+        .subject-label { color: var(--cyan); font-size: 10px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
+        .category-label { color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .material-card h3 { min-height: 45px; margin: 0 0 8px; font-size: 16px; line-height: 1.4; }
+        .material-card p { min-height: 39px; display: -webkit-box; overflow: hidden; margin: 0 0 16px; color: var(--muted); font-size: 12px; line-height: 1.6; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .card-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 13px; border-top: 1px solid var(--line); }
+        .uploader { max-width: 52%; overflow: hidden; color: #aebcd0; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+        .watch-btn { display: inline-flex; align-items: center; gap: 6px; border: 0; border-radius: 8px; padding: 8px 11px; color: white; background: var(--primary); font-size: 11px; font-weight: 800; }
+
+        .empty-state, .loading-state { grid-column: 1 / -1; width: min(100%, 620px); padding: 55px 25px; border: 1px dashed rgba(255,255,255,.16); border-radius: 18px; color: var(--muted); text-align: center; background: rgba(255,255,255,.025); }
+        .empty-state i, .loading-state i { display: block; margin-bottom: 12px; color: var(--cyan); font-size: 35px; }
+        .loading-state i { animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .toast {
+            position: fixed;
+            z-index: 80;
+            right: 24px;
+            bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 360px;
+            padding: 15px 17px;
+            border: 1px solid rgba(36,212,148,.32);
+            border-radius: 13px;
+            color: white;
+            background: #0a372f;
+            box-shadow: 0 20px 45px rgba(0,0,0,.35);
+        }
+        .toast i { color: #38d99c; font-size: 20px; }
+        .toast.hidden { display: none; }
+
+        @media (max-width: 1050px) {
+            .nav-links { display: none; }
+            .welcome-strip { grid-template-columns: 1fr repeat(3, .55fr); }
+            .subject-grid { grid-template-columns: repeat(2, 1fr); }
+            .materials-track { grid-auto-columns: minmax(270px, 45%); }
+        }
+        @media (max-width: 760px) {
+            .topbar { height: 68px; padding: 0 16px; }
+            .brand strong, .brand small, .profile-name, .search-wrap { display: none; }
+            .brand img { width: 40px; height: 40px; }
+            .hero { min-height: 590px; padding: 120px 20px 65px; background: linear-gradient(0deg, #061225 3%, rgba(6,18,37,.28) 75%), radial-gradient(circle at 65% 27%, #135dc5 0%, #0b2c64 32%, #061225 72%); }
+            .hero h1 { letter-spacing: -1.6px; }
+            .hero-description { font-size: 14px; }
+            main { margin-top: 0; padding: 0 16px 50px; }
+            .welcome-strip { grid-template-columns: repeat(3, 1fr); }
+            .welcome-card { grid-column: 1 / -1; }
+            .stat-card { padding: 13px; }
+            .stat-card b { font-size: 20px; }
+            .subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .subject-card { min-height: 133px; padding: 16px; }
+            .materials-track { grid-auto-columns: 84%; }
+            .toast { right: 16px; bottom: 16px; left: 16px; }
+        }
+        @media (max-width: 420px) {
+            .subject-grid { grid-template-columns: 1fr; }
+            .subject-card { min-height: 118px; }
+            .subject-icon { margin-bottom: 12px; }
+        }
+
+        /* Edu BTOP professional light theme */
+        body { color: #10213a; background: #f5f8fc; }
+        .topbar {
+            background: rgba(255,255,255,.94);
+            border-bottom-color: #e3eaf3;
+            box-shadow: 0 8px 28px rgba(33,68,113,.07);
+        }
+        .brand { color: #10213a; }
+        .nav-links a { color: #64748b; }
+        .nav-links a:hover, .nav-links a.active { color: #126fe9; }
+        .search-wrap input { color: #10213a; border-color: #dce5ef; background: #f4f7fb; }
+        .search-wrap input::placeholder { color: #91a0b4; }
+        .profile-name { color: #263a55; }
+        .logout-btn { color: #6c7d93; }
+        .logout-btn:hover { color: #126fe9; }
+        .hero {
+            color: #10213a;
+            background:
+                linear-gradient(90deg, #f8fbff 5%, rgba(248,251,255,.94) 43%, rgba(239,247,255,.55) 78%),
+                radial-gradient(circle at 80% 35%, #a7def9 0%, #d8ecff 34%, #f5f8fc 72%);
+        }
+        .hero::before { background: radial-gradient(circle, rgba(22,185,220,.3), transparent 67%); }
+        .hero::after { border-color: rgba(18,111,233,.07); }
+        .hero-description { color: #52657d; }
+        .meta-pill { color: #425872; border-color: #d9e4ef; background: rgba(255,255,255,.74); }
+        .secondary-btn { color: #23415f; border: 1px solid #d9e4ef; background: rgba(255,255,255,.82); }
+        main { background: #f5f8fc; }
+        .welcome-card, .stat-card {
+            border-color: #e2eaf3;
+            background: #fff;
+            box-shadow: 0 12px 35px rgba(35,67,105,.08);
+        }
+        .welcome-card strong, .stat-card b, .section-heading h2 { color: #10213a; }
+        .welcome-card span, .stat-card span, .section-heading p { color: #73849a; }
+        .subject-card { border-color: rgba(255,255,255,.6); box-shadow: 0 10px 25px rgba(36,70,110,.1); }
+        .filter-btn { color: #65778e; border-color: #dce5ef; background: #fff; }
+        .material-card { color: #10213a; border-color: #e2e9f2; background: #fff; box-shadow: 0 10px 28px rgba(35,67,105,.075); }
+        .material-card:hover { background: #fff; box-shadow: 0 16px 35px rgba(35,67,105,.13); }
+        .material-card p { color: #718197; }
+        .card-footer { border-top-color: #e8edf4; }
+        .uploader { color: #718197; }
+        .empty-state, .loading-state { color: #718197; border-color: #d6e1ed; background: #fff; }
+        .materials-track { scrollbar-color: #b8c7d9 transparent; }
+
+        @media (max-width: 760px) {
+            .hero { background: linear-gradient(0deg, #f5f8fc 3%, rgba(245,248,252,.3) 76%), radial-gradient(circle at 65% 27%, #9cdcf5 0%, #d4eaff 35%, #f5f8fc 74%); }
+>>>>>>> origin/aleya
         }
     </style>
 </head>
-
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
-                <i class="bi bi-mortarboard-fill me-2 fs-4"></i> Edu BTOP Pelajar
-            </a>
-            <div class="d-flex align-items-center text-white">
-                <span class="me-3 fw-semibold"><i class="bi bi-person-badge me-1"></i> <span
-                        id="studentName">Pelajar</span></span>
-                <button class="btn btn-outline-light btn-sm rounded-pill" id="btnLogout">
-                    <i class="bi bi-box-arrow-right me-1"></i> Log Keluar
-                </button>
+    <nav class="topbar" aria-label="Navigasi utama">
+        <a class="brand" href="/" aria-label="Kembali ke landing page Edu BTOP">
+            <span><strong>Edu BTOP</strong><small>Virtual Learning</small></span>
+        </a>
+        <div class="nav-links">
+            <a class="active" href="#top">Utama</a>
+            <a href="#subjects">Subjek</a>
+            <a href="#materials">Bahan</a>
+        </div>
+        <div class="top-actions">
+            <label class="search-wrap" aria-label="Cari bahan">
+                <i class="bi bi-search"></i>
+                <input id="searchInput" type="search" placeholder="Cari bahan...">
+            </label>
+            <div class="profile-chip">
+                <span class="avatar" id="studentInitial">P</span>
+                <span class="profile-name" id="studentName">Pelajar</span>
             </div>
+            <button class="logout-btn" id="btnLogout" title="Log keluar" aria-label="Log keluar"><i class="bi bi-box-arrow-right"></i></button>
         </div>
     </nav>
 
-    <div class="container my-4">
-        <!-- Hero Header -->
-        <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-4 border-start border-primary border-5">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h2 class="fw-bold text-dark mb-2">Selamat Datang </h2>
-                    <p class="text-secondary mb-0">Pilih subjek di bawah untuk mengakses nota, video dan latihan.</p>
-                    <p class="text-secondary mb-0">Kehadiran akan direkod selepas anda mengakses bahan pembelajaran.</p>
-                </div>
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <div class="p-3 bg-light rounded-3 d-inline-block text-start">
-                        <small class="text-muted d-block fw-bold text-uppercase">Status Kehadiran Hari Ini</small>
-                        <span class="badge bg-success fs-6 mt-1" id="attendanceStatusBadge"><i
-                                class="bi bi-check-circle me-1"></i> Aktif</span>
-                    </div>
-                </div>
+    <header class="hero" id="top">
+        <div class="hero-content">
+            <span class="eyebrow">Pilihan Edu BTOP</span>
+            <h1 id="featuredTitle">Belajar Lebih Bijak, Capai Lebih Tinggi.</h1>
+            <p class="hero-description" id="featuredDescription">Terokai video, nota dan latihan untuk empat subjek utama. Kemajuan bermula dengan satu langkah kecil hari ini.</p>
+            <div class="meta-row">
+                <span class="meta-pill"><i class="bi bi-collection-play me-1"></i> Bahan digital</span>
+                <span class="meta-pill"><i class="bi bi-check-circle me-1"></i> Kehadiran automatik</span>
+                <span class="meta-pill"><i class="bi bi-lightning-charge me-1"></i> Akses pantas</span>
+            </div>
+            <div class="hero-actions">
+                <button class="primary-btn" id="featuredAction" type="button"><i class="bi bi-play-fill"></i> Mula Belajar</button>
+                <a class="secondary-btn" href="#materials" style="text-decoration:none"><i class="bi bi-grid"></i> Lihat Semua</a>
             </div>
         </div>
+    </header>
 
+    <main>
         <!-- Notification Toast Box -->
-        <div id="attendanceToast" class="alert alert-success d-none alert-dismissible fade show shadow-sm" role="alert">
+        <div id="attendanceToast" class="alert alert-success d-none alert-dismissible fade show shadow-sm" role="alert" style="margin: 15px auto; max-width: 1200px;">
             <i class="bi bi-check-circle-fill me-2 fs-5"></i>
             <strong id="toastMessage">Kehadiran anda telah berjaya direkodkan!</strong>
             <button type="button" class="btn-close" onclick="this.parentElement.classList.add('d-none')"></button>
         </div>
 
-        <!-- Subject Filter Pills -->
-        <div class="d-flex flex-wrap gap-2 mb-4">
-            <button class="btn btn-primary rounded-pill px-4 fw-semibold subject-btn active"
-                onclick="filterSubject('All', this)">
-                <i class="bi bi-grid-fill me-1"></i> Semua Subjek
-            </button>
-            <button class="btn btn-outline-primary rounded-pill px-4 fw-semibold subject-btn"
-                onclick="filterSubject('Math', this)">
-                Matematik
-            </button>
-            <button class="btn btn-outline-purple rounded-pill px-4 fw-semibold subject-btn"
-                style="border-color: #6f42c1; color: #6f42c1;" onclick="filterSubject('Bahasa Inggeris', this)">
-                Bahasa Inggeris
-            </button>
-            <button class="btn btn-outline-success rounded-pill px-4 fw-semibold subject-btn"
-                onclick="filterSubject('Bahasa Melayu', this)">
-                Bahasa Melayu
-            </button>
-            <button class="btn btn-outline-warning text-dark rounded-pill px-4 fw-semibold subject-btn"
-                onclick="filterSubject('Sejarah', this)">
-                Sejarah
-            </button>
-        </div>
-
-        <!-- Materials Grid -->
-        <div class="row g-4" id="materialsGrid">
-            <div class="col-12 text-center py-5">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="text-muted mt-2">Memuat turun bahan pembelajaran...</p>
+        <section class="welcome-strip" aria-label="Ringkasan pembelajaran">
+            <div class="welcome-card">
+                <i class="bi bi-stars"></i>
+                <div><strong>Selamat kembali, <span id="welcomeName" style="color:#126fe9">Pelajar</span>!</strong><span>Jom teruskan momentum pembelajaran anda.</span></div>
             </div>
-        </div>
+            </div>
+            <div class="stat-card"><b>4</b><span>Subjek utama</span></div>
+            <div class="stat-card"><b id="materialCount">0</b><span>Bahan tersedia</span></div>
+            <div class="stat-card"><b><i class="bi bi-check2-circle" style="color:#38d99c"></i></b><span>Status aktif</span></div>
+        </section>
+
+        <section class="section" id="subjects">
+            <div class="section-heading">
+                <div><h2>Terokai Subjek</h2><p>Pilih subjek dan fokus pada pembelajaran anda.</p></div>
+            </div>
+            <div class="subject-grid">
+                <button class="subject-card math" data-subject="Math"><span class="subject-icon"><i class="bi bi-calculator"></i></span><strong>Matematik</strong><small>Formula, algebra & latihan</small></button>
+                <button class="subject-card english" data-subject="Bahasa Inggeris"><span class="subject-icon"><i class="bi bi-translate"></i></span><strong>Bahasa Inggeris</strong><small>Grammar, writing & vocabulary</small></button>
+                <button class="subject-card malay" data-subject="Bahasa Melayu"><span class="subject-icon"><i class="bi bi-journal-text"></i></span><strong>Bahasa Melayu</strong><small>Karangan, tatabahasa & nota</small></button>
+                <button class="subject-card history" data-subject="Sejarah"><span class="subject-icon"><i class="bi bi-bank"></i></span><strong>Sejarah</strong><small>Fakta, kronologi & tamadun</small></button>
+            </div>
+        </section>
+
+        <section class="section" id="materials">
+            <div class="section-heading">
+                <div><h2>Sambung Belajar</h2><p>Semua kandungan pembelajaran anda di satu tempat.</p></div>
+                <span class="count-label" id="filteredCount">Memuatkan...</span>
+            </div>
+            <div class="filter-bar" aria-label="Tapis bahan">
+                <button class="filter-btn active" data-filter="All">Semua</button>
+                <button class="filter-btn" data-filter="video"><i class="bi bi-play-circle"></i> Video</button>
+                <button class="filter-btn" data-filter="note"><i class="bi bi-journal"></i> Nota</button>
+                <button class="filter-btn" data-filter="document"><i class="bi bi-file-earmark-text"></i> Dokumen</button>
+            </div>
+            <div class="materials-track" id="materialsGrid" aria-live="polite">
+                <div class="loading-state"><i class="bi bi-arrow-repeat"></i>Memuatkan bahan pembelajaran...</div>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast hidden" id="attendanceToast" role="status">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="toastMessage">Kehadiran anda telah direkodkan.</span>
     </div>
 
-    <script src="https://unpkg.com/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        let currentSubject = 'All';
+        let allMaterials = [];
+        let selectedSubject = 'All';
+        let selectedCategory = 'All';
+        let searchQuery = '';
+        let featuredMaterial = null;
 
-        // Check Auth
         document.addEventListener('DOMContentLoaded', async () => {
+            bindInteractions();
             try {
                 const res = await fetch('/api/me');
                 const data = await res.json();
@@ -132,125 +413,149 @@
                     window.location.href = '/views/Edu Btop/login.html';
                     return;
                 }
-                document.getElementById('studentName').textContent = data.user.name;
-                loadStudentMaterials();
+                const name = data.user.name || 'Pelajar';
+                document.getElementById('studentName').textContent = name;
+                document.getElementById('welcomeName').textContent = name.split(' ')[0];
+                document.getElementById('studentInitial').textContent = name.charAt(0).toUpperCase();
+                await loadStudentMaterials();
             } catch (err) {
                 window.location.href = '/views/Edu Btop/login.html';
             }
         });
 
-        // Logout
-        document.getElementById('btnLogout').addEventListener('click', async () => {
-            await fetch('/api/logout');
-            window.location.href = '/views/Edu Btop/login.html';
-        });
-
-        // Filter Subject
-        function filterSubject(subject, btnElement) {
-            currentSubject = subject;
-            document.querySelectorAll('.subject-btn').forEach(btn => {
-                btn.classList.remove('active', 'btn-primary');
-                if (btn.innerText.includes('Semua')) btn.classList.add('btn-outline-primary');
+        function bindInteractions() {
+            document.getElementById('btnLogout').addEventListener('click', async () => {
+                await fetch('/api/logout');
+                window.location.href = '/views/Edu Btop/login.html';
             });
-            btnElement.classList.add('active');
-            if (subject === 'All') btnElement.classList.add('btn-primary');
-            loadStudentMaterials();
+
+            document.getElementById('searchInput').addEventListener('input', event => {
+                searchQuery = event.target.value.trim().toLowerCase();
+                renderMaterials();
+            });
+
+            document.querySelectorAll('.subject-card').forEach(button => {
+                button.addEventListener('click', () => {
+                    const subject = button.dataset.subject;
+                    selectedSubject = selectedSubject === subject ? 'All' : subject;
+                    document.querySelectorAll('.subject-card').forEach(item => item.classList.toggle('active', item.dataset.subject === selectedSubject));
+                    renderMaterials();
+                    document.getElementById('materials').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    selectedCategory = button.dataset.filter;
+                    document.querySelectorAll('.filter-btn').forEach(item => item.classList.toggle('active', item === button));
+                    renderMaterials();
+                });
+            });
+
+            document.getElementById('featuredAction').addEventListener('click', () => {
+                if (featuredMaterial) accessMaterial(featuredMaterial.id, featuredMaterial.file_path);
+                else document.getElementById('materials').scrollIntoView({ behavior: 'smooth' });
+            });
         }
 
-        // Load Materials
         async function loadStudentMaterials() {
             const grid = document.getElementById('materialsGrid');
             try {
-                const url = currentSubject === 'All' ? '/api/materials' : `/api/materials?subject=${encodeURIComponent(currentSubject)}`;
-                const res = await fetch(url);
+                const res = await fetch('/api/materials');
                 const data = await res.json();
-
-                if (data.success && data.materials.length > 0) {
-                    grid.innerHTML = data.materials.map(m => `
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card h-100 border-0 shadow-sm rounded-4 material-card">
-                                <div class="card-body p-4 d-flex flex-column">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="badge ${getSubjectBadgeClass(m.subject)} px-3 py-2 rounded-pill fs-7">${m.subject}</span>
-                                        <span class="badge bg-light text-dark border"><i class="${getCategoryIcon(m.category)} me-1"></i> ${m.category.toUpperCase()}</span>
-                                    </div>
-                                    <h5 class="fw-bold card-title mb-2 text-dark">${escapeHtml(m.title)}</h5>
-                                    <p class="card-text text-muted small flex-grow-1 mb-3">${escapeHtml(m.description || 'Tiada keterangan khas.')}</p>
-                                    
-                                    <div class="pt-3 border-top d-flex justify-content-between align-items-center">
-                                        <small class="text-muted"><i class="bi bi-person me-1"></i> ${escapeHtml(m.uploader_name || 'Admin')}</small>
-                                        <button onclick="accessMaterial(${m.id}, '${m.file_path}')" class="btn btn-primary btn-sm rounded-pill px-3 shadow-sm fw-semibold">
-                                            <i class="bi bi-box-arrow-up-right me-1"></i> Akses Bahan
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-                } else {
-                    grid.innerHTML = `
-                        <div class="col-12 text-center py-5">
-                            <i class="bi bi-journal-x display-1 text-muted opacity-50"></i>
-                            <h4 class="fw-bold mt-3 text-secondary">Tiada Bahan Ditemui</h4>
-                            <p class="text-muted">Belum ada bahan pembelajaran dimuat naik untuk subjek ini lagi.</p>
-                        </div>
-                    `;
-                }
+                allMaterials = data.success && Array.isArray(data.materials) ? data.materials : [];
+                document.getElementById('materialCount').textContent = allMaterials.length;
+                setFeaturedMaterial(allMaterials[0]);
+                renderMaterials();
             } catch (err) {
-                grid.innerHTML = '<div class="col-12 text-center py-4 text-danger">Ralat memuat turun bahan.</div>';
+                grid.innerHTML = '<div class="empty-state"><i class="bi bi-wifi-off"></i><strong>Ralat memuatkan bahan.</strong><br>Sila cuba sebentar lagi.</div>';
             }
         }
 
-        // Access Material & Log Attendance Automatically
+        function setFeaturedMaterial(material) {
+            if (!material) return;
+            featuredMaterial = material;
+            document.getElementById('featuredTitle').textContent = material.title;
+            document.getElementById('featuredDescription').textContent = material.description || 'Bahan pilihan untuk membantu pembelajaran anda hari ini.';
+        }
+
+        function renderMaterials() {
+            const grid = document.getElementById('materialsGrid');
+            const filtered = allMaterials.filter(material => {
+                const matchesSubject = selectedSubject === 'All' || material.subject === selectedSubject;
+                const matchesCategory = selectedCategory === 'All' || material.category === selectedCategory;
+                const haystack = `${material.title || ''} ${material.description || ''} ${material.subject || ''}`.toLowerCase();
+                return matchesSubject && matchesCategory && (!searchQuery || haystack.includes(searchQuery));
+            });
+
+            document.getElementById('filteredCount').textContent = `${filtered.length} bahan`;
+            if (!filtered.length) {
+                grid.innerHTML = '<div class="empty-state"><i class="bi bi-search"></i><strong>Tiada bahan ditemui.</strong><br>Cuba subjek, kategori atau kata carian lain.</div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(material => `
+                <article class="material-card">
+                    <div class="thumbnail ${getSubjectTheme(material.subject)}">
+                        <span class="category-icon"><i class="${getCategoryIcon(material.category)}"></i></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-topline">
+                            <span class="subject-label">${escapeHtml(displaySubject(material.subject))}</span>
+                            <span class="category-label">${escapeHtml(displayCategory(material.category))}</span>
+                        </div>
+                        <h3>${escapeHtml(material.title)}</h3>
+                        <p>${escapeHtml(material.description || 'Bahan pembelajaran untuk ulang kaji dan latihan anda.')}</p>
+                        <div class="card-footer">
+                            <span class="uploader"><i class="bi bi-person-circle"></i> ${escapeHtml(material.uploader_name || 'Admin BTOP')}</span>
+                            <button class="watch-btn" data-material-id="${Number(material.id)}" data-file-path="${escapeHtml(material.file_path)}"><i class="bi bi-play-fill"></i> Buka</button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+
+            grid.querySelectorAll('.watch-btn').forEach(button => {
+                button.addEventListener('click', () => accessMaterial(Number(button.dataset.materialId), button.dataset.filePath));
+            });
+        }
+
         async function accessMaterial(materialId, filePath) {
             try {
-                // Trigger backend attendance API
                 const res = await fetch('/api/student/attendance', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ materialId })
                 });
                 const data = await res.json();
-
-                if (data.success) {
-                    const toast = document.getElementById('attendanceToast');
-                    toast.classList.remove('d-none');
-                    document.getElementById('toastMessage').textContent = 'Kehadiran anda bagi bahan ini telah berjaya direkodkan!';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                if (data.success) showToast('Kehadiran direkodkan. Selamat belajar!');
             } catch (err) {
                 console.error('Attendance recording failed:', err);
             } finally {
-                // Open material file
-                window.open(filePath, '_blank');
+                window.open(filePath, '_blank', 'noopener');
             }
         }
 
-        function getSubjectBadgeClass(subject) {
-            switch (subject) {
-                case 'Math': return 'subject-badge-math';
-                case 'Bahasa Inggeris': return 'subject-badge-english';
-                case 'Bahasa Melayu': return 'subject-badge-bm';
-                case 'Sejarah': return 'subject-badge-sejarah';
-                default: return 'bg-secondary';
-            }
+        function showToast(message) {
+            const toast = document.getElementById('attendanceToast');
+            if (!toast) return;
+            const msgEl = document.getElementById('toastMessage');
+            if (msgEl) msgEl.textContent = message;
+            toast.classList.remove('hidden', 'd-none');
+            window.clearTimeout(showToast.timer);
+            showToast.timer = window.setTimeout(() => toast.classList.add('d-none'), 3500);
         }
 
-        function getCategoryIcon(cat) {
-            switch (cat) {
-                case 'video': return 'bi bi-play-circle-fill text-danger';
-                case 'document': return 'bi bi-file-earmark-word-fill text-primary';
-                default: return 'bi bi-file-earmark-pdf-fill text-danger';
-            }
+        function getSubjectTheme(subject) {
+            return ({ 'Math': 'math', 'Bahasa Inggeris': 'english', 'Bahasa Melayu': 'malay', 'Sejarah': 'history' })[subject] || 'other';
         }
 
-        function escapeHtml(text) {
-            if (!text) return '';
-            return text.replace(/[&<>"']/g, function (m) {
-                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
-            });
+        function displaySubject(subject) { return subject === 'Math' ? 'Matematik' : subject; }
+        function displayCategory(category) { return ({ video: 'Video', note: 'Nota', document: 'Dokumen' })[category] || category; }
+        function getCategoryIcon(category) { return ({ video: 'bi bi-play-fill', note: 'bi bi-journal-bookmark-fill', document: 'bi bi-file-earmark-text-fill' })[category] || 'bi bi-folder-fill'; }
+
+        function escapeHtml(value) {
+            return String(value || '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[char]);
         }
     </script>
 </body>
-
 </html>

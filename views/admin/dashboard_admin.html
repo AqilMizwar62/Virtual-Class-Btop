@@ -1,41 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edu BTOP - Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
+        :root {
+            --navy: #061225;
+            --navy-soft: #0b1d38;
+            --surface: #102746;
+            --surface-2: #132d4f;
+            --primary: #1275f5;
+            --cyan: #16c2eb;
+            --yellow: #ffbc17;
+            --text: #f7fbff;
+            --muted: #9fb0c7;
+            --line: rgba(255,255,255,.1);
+        }
+
+        * { box-sizing: border-box; }
         body {
-            background-color: #f8f9fa;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 82% 4%, rgba(18,117,245,.17), transparent 30%),
+                var(--navy);
+            color: var(--text);
+            font-family: "Manrope", sans-serif;
         }
 
-        .navbar-brand {
-            font-weight: 700;
-            letter-spacing: 0.5px;
+        .admin-navbar {
+            position: sticky;
+            z-index: 50;
+            top: 0;
+            min-height: 76px;
+            padding: 0;
+            border-bottom: 1px solid var(--line);
+            background: rgba(4,14,30,.92) !important;
+            backdrop-filter: blur(16px);
         }
+        .admin-navbar .container { min-height: 76px; }
+        .navbar-brand { gap: 11px; font-weight: 800; letter-spacing: -.3px; }
+        .navbar-brand img { width: 44px; height: 44px; object-fit: contain; border-radius: 11px; padding: 3px; background: white; }
+        .brand-copy { line-height: 1.1; }
+        .brand-copy small { display: block; margin-top: 4px; color: var(--cyan); font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase; }
+        .admin-profile { display: flex; align-items: center; gap: 10px; }
+        .admin-avatar { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--cyan)); font-weight: 800; }
+        #btnLogout { border-color: var(--line); color: #dce6f2; }
+        #btnLogout:hover { border-color: var(--primary); background: var(--primary); }
 
-        .subject-badge-math {
-            background-color: #0d6efd;
+        .admin-shell { max-width: 1420px; padding-top: 38px; padding-bottom: 70px; }
+        .admin-hero {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+            padding: 30px 32px;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: linear-gradient(120deg, #102b52 0%, #0d2343 50%, #102d5b 100%);
+            box-shadow: 0 24px 55px rgba(0,0,0,.23);
+        }
+        .admin-hero::after { content: ""; position: absolute; width: 210px; height: 210px; right: -42px; top: -75px; border: 36px solid rgba(22,194,235,.08); border-radius: 50%; }
+        .admin-hero h2 { position: relative; z-index: 1; color: white !important; font-size: clamp(26px, 3vw, 40px); letter-spacing: -1.3px; }
+        .admin-hero p { position: relative; z-index: 1; max-width: 720px; margin-bottom: 0; color: #b7c5d8 !important; }
+        .hero-kicker { display: block; margin-bottom: 9px; color: var(--cyan); font-size: 11px; font-weight: 800; letter-spacing: 1.35px; text-transform: uppercase; }
+        .print-button { position: relative; z-index: 2; flex: 0 0 auto; border: 1px solid rgba(255,255,255,.17); border-radius: 10px; padding: 11px 16px; color: white; background: rgba(255,255,255,.1); font-weight: 700; }
+        .print-button:hover { color: white; background: var(--primary); }
+
+        #adminTabs {
+            position: sticky;
+            z-index: 35;
+            top: 88px;
+            gap: 7px;
+            padding: 7px !important;
+            border: 1px solid var(--line);
+            border-radius: 15px !important;
+            background: rgba(11,29,56,.93) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 17px 35px rgba(0,0,0,.2) !important;
+        }
+        #adminTabs .nav-link { min-height: 48px; border-radius: 10px; color: var(--muted); font-size: 13px; }
+        #adminTabs .nav-link:hover { color: white; background: rgba(255,255,255,.06); }
+        #adminTabs .nav-link.active { color: white; background: var(--primary); box-shadow: 0 8px 18px rgba(18,117,245,.24); }
+
+        .tab-content { margin-top: 24px; }
+        .card {
+            overflow: hidden;
+            border: 1px solid var(--line) !important;
+            background: linear-gradient(145deg, var(--navy-soft), #0d2341) !important;
+            color: var(--text);
+            box-shadow: 0 18px 42px rgba(0,0,0,.2) !important;
+        }
+        .card-body { padding: 26px !important; }
+        .card h4 { color: white !important; font-size: 19px; letter-spacing: -.45px; }
+        .card h4 i { color: var(--cyan) !important; }
+        .form-label { margin-bottom: 7px; color: #c7d3e3; font-size: 12px; }
+        .form-control, .form-select {
+            min-height: 45px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
             color: white;
+            background-color: rgba(255,255,255,.055);
+        }
+        textarea.form-control { min-height: 98px; }
+        .form-control:focus, .form-select:focus { color: white; border-color: var(--cyan); background-color: rgba(255,255,255,.075); box-shadow: 0 0 0 3px rgba(22,194,235,.12); }
+        .form-control::placeholder { color: #70849f; }
+        .form-select option { color: #18283e; background: white; }
+        .form-text { color: #7f93ad; font-size: 11px; }
+        input[type="file"]::file-selector-button { height: 43px; border: 0; border-right: 1px solid var(--line); color: white; background: rgba(18,117,245,.25); }
+
+        .btn-primary, .btn-success { border: 0; border-radius: 10px; background: var(--primary); font-weight: 800 !important; }
+        .btn-success { background: #0ca77b; }
+        .btn-primary:hover { background: #2584fb; }
+        .btn-success:hover { background: #11bc8b; }
+        .btn-outline-primary { border-color: rgba(22,194,235,.45); color: var(--cyan); }
+        .btn-outline-primary:hover { border-color: var(--primary); background: var(--primary); }
+
+        .table-responsive { border: 1px solid var(--line); border-radius: 13px; }
+        .table { --bs-table-bg: transparent; --bs-table-color: #dce5f1; --bs-table-border-color: var(--line); margin-bottom: 0; font-size: 12px; }
+        .table > :not(caption) > * > * { padding: 14px 13px; }
+        .table thead th, .table-light th, .table-primary th { color: #96aac3 !important; background: rgba(255,255,255,.045) !important; font-size: 10px; letter-spacing: .65px; text-transform: uppercase; }
+        .table-hover > tbody > tr:hover > * { --bs-table-bg-state: rgba(255,255,255,.045); color: white; }
+        .table-striped > tbody > tr:nth-of-type(odd) > * { --bs-table-bg-type: rgba(255,255,255,.025); color: #dce5f1; }
+        .text-muted { color: var(--muted) !important; }
+        .alert { border: 0; border-radius: 10px; font-size: 12px; }
+        .subject-badge-math { background-color: #1275f5; color: white; }
+        .subject-badge-english { background-color: #7c4ed8; color: white; }
+        .subject-badge-bm { background-color: #0ca77b; color: white; }
+        .subject-badge-sejarah { background-color: #e97b26; color: white; }
+
+        #reports-content > .row .card { position: relative; min-height: 135px; justify-content: center; }
+        #reports-content > .row .col-md-4:nth-child(1) .card { background: linear-gradient(135deg, #126fe9, #0d397b) !important; }
+        #reports-content > .row .col-md-4:nth-child(2) .card { background: linear-gradient(135deg, #0cad7f, #075244) !important; }
+        #reports-content > .row .col-md-4:nth-child(3) .card { background: linear-gradient(135deg, #e69a16, #7d4d08) !important; color: white !important; }
+        #reports-content > .row .card h6 { color: rgba(255,255,255,.7) !important; font-size: 10px; letter-spacing: .7px; }
+        #reports-content > .row .card h2 { color: white; font-size: 36px; }
+
+        @media (max-width: 768px) {
+            .admin-navbar .container { padding-inline: 15px; }
+            .brand-copy small, .admin-profile .fw-semibold { display: none; }
+            .admin-shell { padding-top: 22px; }
+            .admin-hero { align-items: flex-start !important; padding: 24px 21px; }
+            .admin-hero .print-button { margin-top: 18px; }
+            #adminTabs { top: 78px; overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start; }
+            #adminTabs .nav-item { flex: 0 0 auto; }
+            #adminTabs .nav-link { padding-inline: 15px; white-space: nowrap; }
+            .card-body { padding: 19px !important; }
         }
 
-        .subject-badge-english {
-            background-color: #6f42c1;
-            color: white;
+        /* Edu BTOP professional light theme */
+        body {
+            color: #10213a;
+            background: radial-gradient(circle at 82% 4%, rgba(18,111,233,.1), transparent 28%), #f5f8fc;
         }
-
-        .subject-badge-bm {
-            background-color: #198754;
-            color: white;
+        .admin-navbar {
+            background: rgba(255,255,255,.95) !important;
+            border-bottom-color: #e2eaf3;
+            box-shadow: 0 8px 28px rgba(33,68,113,.07);
         }
-
-        .subject-badge-sejarah {
-            background-color: #fd7e14;
-            color: white;
+        .navbar-brand { color: #10213a !important; }
+        .admin-profile { color: #263a55 !important; }
+        #btnLogout { color: #53677f; border-color: #d6e0eb; }
+        .admin-hero {
+            border-color: #dbe6f1;
+            background: linear-gradient(120deg, #eef6ff 0%, #f8fbff 48%, #e2f3ff 100%);
+            box-shadow: 0 16px 42px rgba(35,67,105,.09);
         }
+        .admin-hero::after { border-color: rgba(18,111,233,.07); }
+        .admin-hero h2 { color: #10213a !important; }
+        .admin-hero p { color: #63768e !important; }
+        .print-button { color: #164d87; border-color: #cddceb; background: rgba(255,255,255,.78); }
+        .print-button:hover { color: white; }
+        #adminTabs {
+            border-color: #e0e8f1;
+            background: rgba(255,255,255,.95) !important;
+            box-shadow: 0 12px 32px rgba(35,67,105,.09) !important;
+        }
+        #adminTabs .nav-link { color: #65778e; }
+        #adminTabs .nav-link:hover { color: #126fe9; background: #eef5ff; }
+        #adminTabs .nav-link.active { color: white; }
+        .card {
+            color: #10213a;
+            border-color: #e1e9f2 !important;
+            background: #fff !important;
+            box-shadow: 0 12px 34px rgba(35,67,105,.08) !important;
+        }
+        .card h4 { color: #10213a !important; }
+        .form-label { color: #41566f; }
+        .form-control, .form-select { color: #10213a; border-color: #dce5ef; background-color: #f7f9fc; }
+        .form-control:focus, .form-select:focus { color: #10213a; background-color: #fff; }
+        .form-control::placeholder { color: #94a2b5; }
+        .form-text { color: #7c8da2; }
+        input[type="file"]::file-selector-button { color: #125ba9; border-right-color: #dce5ef; background: #eaf3ff; }
+        .table-responsive { border-color: #e1e8f0; }
+        .table { --bs-table-color: #30455f; --bs-table-border-color: #e8edf3; }
+        .table thead th, .table-light th, .table-primary th { color: #61758d !important; background: #f5f8fc !important; }
+        .table-hover > tbody > tr:hover > * { --bs-table-bg-state: #f4f8fd; color: #10213a; }
+        .table-striped > tbody > tr:nth-of-type(odd) > * { --bs-table-bg-type: #f9fbfd; color: #30455f; }
+        .text-muted { color: #74859a !important; }
+        #reports-content > .row .card { color: white; border: 0 !important; }
 
         @media print {
 
@@ -71,14 +239,15 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm no-print">
+    <nav class="navbar navbar-expand-lg navbar-dark admin-navbar no-print">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="#">
-                <i class="bi bi-shield-lock-fill me-2 fs-4"></i> Edu BTOP Admin
+            <a class="navbar-brand d-flex align-items-center" href="/" aria-label="Kembali ke landing page Edu BTOP">
+                <img src="/logo.png?v=2" alt="Logo Edu BTOP">
+                <span class="brand-copy">Edu BTOP<small>Admin Console</small></span>
             </a>
-            <div class="d-flex align-items-center text-white">
-                <span class="me-3 fw-semibold"><i class="bi bi-person-circle me-1"></i> <span
-                        id="adminName">Admin</span></span>
+            <div class="admin-profile text-white">
+                <span class="admin-avatar"><i class="bi bi-shield-check"></i></span>
+                <span class="fw-semibold" id="adminName">Admin</span>
                 <button class="btn btn-outline-light btn-sm rounded-pill" id="btnLogout">
                     <i class="bi bi-box-arrow-right me-1"></i> Log Keluar
                 </button>
@@ -86,15 +255,16 @@
         </div>
     </nav>
 
-    <div class="container my-4">
+    <div class="container admin-shell">
         <!-- System Heading -->
-        <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+        <div class="admin-hero d-flex flex-column flex-md-row justify-content-between align-items-center no-print">
             <div>
+                <span class="hero-kicker">Pusat Kawalan Edu BTOP</span>
                 <h2 class="fw-bold text-dark mb-1">Panel Pengurusan Admin</h2>
                 <p class="text-muted">Muat naik bahan pembelajaran, urus e-mel pelajar & pantau kehadiran mengikut
                     subjek.</p>
             </div>
-            <button onclick="window.print()" class="btn btn-secondary shadow-sm">
+            <button onclick="window.print()" class="print-button">
                 <i class="bi bi-printer me-2"></i> Cetak Laporan Guru
             </button>
         </div>
