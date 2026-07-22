@@ -7,13 +7,13 @@
     <title>Edu BTOP - Belajar Lebih Bijak</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         :root { --ink:#10213a; --muted:#64768c; --blue:#126fe9; --cyan:#16b9dc; --yellow:#ffb619; --bg:#f5f8fc; --line:#e1e9f2; --white:#fff; }
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { margin:0; color:var(--ink); background:var(--white); font-family:"Manrope",sans-serif; }
+        body { margin:0; color:var(--ink); background:var(--white); font-family:"Plus Jakarta Sans","Segoe UI",sans-serif; }
         button, a { font:inherit; }
         a { color:inherit; }
         .container { width:min(1180px, calc(100% - 40px)); margin-inline:auto; }
@@ -40,11 +40,8 @@
         .actions { display:flex; flex-wrap:wrap; gap:12px; }
         .btn { display:inline-flex; align-items:center; justify-content:center; gap:9px; min-height:49px; padding:0 19px; border:1px solid transparent; border-radius:10px; text-decoration:none; font-size:13px; font-weight:800; }
         .btn-primary { color:#fff; background:var(--blue); box-shadow:0 10px 25px rgba(18,111,233,.22); }
-        .btn-primary:hover { background:#2580ef; transform:translateY(-1px); }
+        .btn-primary:hover { background:#78c134; transform:translateY(-1px); }
         .btn-secondary { color:#26415f; border-color:#d6e2ee; background:#fff; }
-        .trust-row { display:flex; flex-wrap:wrap; gap:18px; margin-top:29px; color:#718298; font-size:11px; font-weight:700; }
-        .trust-row span { display:flex; align-items:center; gap:6px; }
-        .trust-row i { color:#16a779; }
 
         .platform-preview { position:relative; min-height:460px; }
         .preview-window { position:absolute; inset:20px 0 0 34px; overflow:hidden; border:1px solid #d9e4ef; border-radius:23px; background:#fff; box-shadow:0 28px 65px rgba(35,67,105,.16); }
@@ -194,6 +191,131 @@
             .footer-brand { grid-column:auto; }
             .map-frame { height:220px; }
         }
+        /* Energetic Academic theme */
+        body { color:#1c1740; background:#f1eeff; }
+        .navbar { border-bottom-color:rgba(255,255,255,.2); background:linear-gradient(90deg,#5426b8,#1478e8); box-shadow:0 8px 28px rgba(66,35,155,.2); }
+        .navbar .brand, .navbar .nav-links a { color:#fff; }
+        .navbar .brand small { color:#8ff1ff; }
+        .navbar .login-link { color:#fff!important; background:#f46a16; box-shadow:0 9px 22px rgba(244,106,22,.28); }
+        .menu-btn { color:#fff; border-color:rgba(255,255,255,.3); background:rgba(255,255,255,.12); }
+        .hero { background:linear-gradient(120deg,#f2edff 0%,#e4efff 55%,#dcf8ff 100%); }
+        .hero::before { border-color:rgba(84,38,184,.07); }
+        .kicker, .section-head .label { color:#5426b8; }
+        h1 span { color:#f46a16; }
+        .btn-primary { background:linear-gradient(90deg,#5426b8,#1478e8); box-shadow:0 10px 25px rgba(84,38,184,.25); }
+        .btn-primary:hover { background:linear-gradient(90deg,#6534c9,#2588f2); }
+        .btn-secondary { color:#5426b8; border-color:#cfc3ee; background:#f8f6ff; }
+        .stats-grid { border-color:#d9d1f0; background:#f8f6ff; box-shadow:0 18px 45px rgba(76,48,144,.12); }
+        .stat { border-right-color:#d9d1f0; }
+        .stat strong { color:#5426b8; }
+        .section { background:#f1eeff; }
+        .section.alt { background:linear-gradient(120deg,#e7f5ff,#eee8ff); }
+        .subject-card, .feature { border-color:#d9d1f0; background:#f8f6ff; box-shadow:0 10px 30px rgba(76,48,144,.08); }
+        .subject-card:hover { box-shadow:0 17px 38px rgba(76,48,144,.15); }
+        .step-label { color:#fff; background:linear-gradient(90deg,#f46a16,#ff8b24); box-shadow:0 9px 22px rgba(244,106,22,.27); }
+        .laptop { box-shadow:0 15px 30px rgba(61,39,122,.18); }
+        .feature i { color:#5426b8; background:#e8ddff; }
+        .cta { background:#f1eeff; }
+        .cta-box { background:linear-gradient(120deg,#5426b8,#1478e8 70%,#11b8d7); }
+        .cta-box .btn { color:#fff; background:#f46a16; box-shadow:0 8px 20px rgba(38,15,92,.2); }
+        footer { border-top-color:#d9d1f0; background:#e9e4fa; }
+        .footer-col h3 { color:#3e277b; }
+        .location-link i { color:#f46a16; }
+        .map-frame { border-color:#cfc5ea; }
+        @media (max-width:900px) {
+            .nav-links { border-color:#d9d1f0; background:#5426b8; }
+        }
+
+        /* Expressive academic typography */
+        body { font-weight:500; letter-spacing:-.01em; }
+        .brand strong { font-weight:800; letter-spacing:-.65px; }
+        .nav-links a { font-weight:700; letter-spacing:-.18px; }
+        h1 {
+            max-width:740px;
+            font-size:clamp(45px,5.2vw,72px);
+            line-height:1.08;
+            letter-spacing:-3px;
+            font-weight:800;
+        }
+        h1 .hero-gradient {
+            background:linear-gradient(90deg,#5426b8 0%,#1478e8 62%,#079bad 100%);
+            -webkit-background-clip:text;
+            background-clip:text;
+            -webkit-text-fill-color:transparent;
+        }
+        h1 .hero-pop { color:#e95d0b; -webkit-text-fill-color:currentColor; }
+        .hero-copy { font-size:16px; line-height:1.85; letter-spacing:-.12px; }
+        .kicker, .section-head .label, .brand small { letter-spacing:1.15px; }
+        .section-head h2 { font-weight:800; line-height:1.16; letter-spacing:-1.8px; }
+        .section-head h2::after {
+            content:"";
+            display:block;
+            width:48px;
+            height:4px;
+            margin:13px auto 0;
+            border-radius:99px;
+            background:linear-gradient(90deg,#f46a16,#ffc928);
+        }
+        .stat strong { font-size:29px; font-weight:800; letter-spacing:-1px; }
+        .subject-card h3, .step h3, .feature h3 { font-size:17px; font-weight:800; letter-spacing:-.35px; }
+        .slide-caption strong, .preview-hero strong { font-weight:800; letter-spacing:-.45px; }
+        .step-label, .btn { font-weight:800; }
+        .cta-box h2 { font-weight:800; line-height:1.18; letter-spacing:-1.5px; }
+        @media (max-width:650px) {
+            h1 { font-size:clamp(40px,12vw,51px); line-height:1.09; letter-spacing:-2px; }
+        }
+
+        /* Stronger readability */
+        body { font-weight:600; }
+        .nav-links a { font-size:14px; font-weight:800; }
+        .brand small, .kicker, .section-head .label { font-weight:800; }
+        .kicker { font-size:12px; }
+        .hero-copy { color:#494569; font-size:17px; font-weight:600; }
+        .section-head .label { font-size:11px; }
+        .section-head p { color:#56516f; font-size:15px; font-weight:600; }
+        .stat span { color:#5e5875; font-size:12px; font-weight:700; }
+        .subject-card h3, .step h3, .feature h3 { font-weight:800; }
+        .subject-card p, .step p, .feature p {
+            color:#595470;
+            font-size:13px;
+            line-height:1.7;
+            font-weight:600;
+        }
+        .step-label { font-size:14px; }
+        .slide-caption span { font-size:10px; }
+        .slide-caption strong { font-size:24px; line-height:1.35; }
+        .cta-box p { color:rgba(255,255,255,.9); font-size:14px; font-weight:600; }
+        .footer-brand p, .footer-col a, .footer-col span { color:#57536f; font-size:12px; font-weight:600; }
+        .footer-col h3 { font-size:14px; font-weight:800; }
+        .copyright { color:#726c86; font-size:11px; font-weight:600; }
+        @media (max-width:650px) {
+            .hero-copy { font-size:15px; }
+            .section-head p { font-size:14px; }
+            .slide-caption strong { font-size:20px; }
+        }
+
+        /* Subject-inspired card patterns */
+        .subject-card > * { position:relative; z-index:2; }
+        .subject-card::before {
+            position:absolute;
+            z-index:1;
+            right:16px;
+            bottom:12px;
+            white-space:pre;
+            text-align:right;
+            font-size:24px;
+            line-height:1.5;
+            font-weight:800;
+            letter-spacing:4px;
+            opacity:.09;
+            transform:rotate(-7deg);
+            pointer-events:none;
+        }
+        .subject-card.malay::before { content:"A  B  C\A kata • ayat"; color:#078a66; }
+        .subject-card.english::before { content:"A  B  C\A words • write"; color:#7040c9; }
+        .subject-card.math::before { content:"1  2  3\A +  −  ×  ÷"; color:#126fe9; }
+        .subject-card.history::before { content:"1957\A 1963  •  2026"; color:#d76817; }
+        .subject-card:hover::before { opacity:.14; transform:rotate(-4deg) scale(1.03); transition:.2s ease; }
     </style>
 </head>
 <body>
@@ -212,17 +334,16 @@
         <div class="container hero-grid">
             <div>
                 <span class="kicker">Platform Pembelajaran Maya</span>
-                <h1>Belajar lebih bijak.<br><span>Capai lebih tinggi.</span></h1>
+                <h1>Belajar <span class="hero-gradient">lebih bijak.</span><br>Capai <span class="hero-pop">lebih tinggi.</span></h1>
                 <p class="hero-copy">Akses video, nota dan dokumen latihan untuk Matematik, Bahasa Inggeris, Bahasa Melayu dan Sejarah dalam satu platform yang mudah digunakan.</p>
                 <div class="actions"><a class="btn btn-primary" href="/views/Edu%20Btop/login.html"><i class="bi bi-play-fill"></i> Mula Belajar</a><a class="btn btn-secondary" href="#subjek"><i class="bi bi-grid"></i> Terokai Subjek</a></div>
-                <div class="trust-row"><span><i class="bi bi-check-circle-fill"></i> Mudah digunakan</span><span><i class="bi bi-check-circle-fill"></i> Mesra telefon</span><span><i class="bi bi-check-circle-fill"></i> Akses selamat</span></div>
             </div>
             <div class="platform-preview" aria-label="Aktiviti pembelajaran Edu BTOP">
                 <div class="hero-carousel" id="heroCarousel" aria-roledescription="carousel" aria-label="Galeri aktiviti pembelajaran">
                     <div class="carousel-slides">
-                        <figure class="carousel-slide active" aria-hidden="false"><img src="/images/carousel/kelas-aktif.jpg" alt="Pelajar mengikuti aktiviti pembelajaran di dalam kelas"><figcaption class="slide-caption"><span>Pembelajaran aktif</span><strong>Belajar bersama, berkembang bersama.</strong></figcaption></figure>
-                        <figure class="carousel-slide" aria-hidden="true"><img src="/images/carousel/guru-membimbing.jpg" alt="Guru membimbing pelajar di dalam kelas"><figcaption class="slide-caption"><span>Bimbingan guru</span><strong>Sokongan pembelajaran dalam setiap langkah.</strong></figcaption></figure>
-                        <figure class="carousel-slide" aria-hidden="true"><img src="/images/carousel/pembelajaran-kumpulan.jpeg" alt="Pelajar menyiapkan latihan secara berkumpulan"><figcaption class="slide-caption"><span>Fokus dan kolaborasi</span><strong>Ilmu diperkukuh melalui latihan dan kerjasama.</strong></figcaption></figure>
+                        <figure class="carousel-slide active" aria-hidden="false"><img src="/images/carousel/kelas-aktif.jpg" alt="Pelajar mengikuti aktiviti pembelajaran di dalam kelas"><figcaption class="slide-caption"><span>SOKONGAN & PEMULIHAN</span><strong>Setiap langkah kecil membawa perubahan yang bermakna.</strong></figcaption></figure>
+                        <figure class="carousel-slide" aria-hidden="true"><img src="/images/carousel/guru-membimbing.jpg" alt="Guru membimbing pelajar di dalam kelas"><figcaption class="slide-caption"><span>TERAPI MELALUI PEMBELAJARAN</span><strong>Membina keyakinan, menguatkan potensi diri.</strong></figcaption></figure>
+                        <figure class="carousel-slide" aria-hidden="true"><img src="/images/carousel/pembelajaran-kumpulan.jpeg" alt="Pelajar menyiapkan latihan secara berkumpulan"><figcaption class="slide-caption"><span>LANGKAH DEMI LANGKAH</span><strong>Raikan setiap kemajuan, walaupun sekecil mana.</strong></figcaption></figure>
                     </div>
                     <button class="carousel-control prev" type="button" id="carouselPrev" aria-label="Gambar sebelumnya"><i class="bi bi-chevron-left"></i></button>
                     <button class="carousel-control next" type="button" id="carouselNext" aria-label="Gambar seterusnya"><i class="bi bi-chevron-right"></i></button>
@@ -235,9 +356,9 @@
     <section class="stats"><div class="container stats-grid"><div class="stat"><strong>4</strong><span>Subjek utama</span></div><div class="stat"><strong>3</strong><span>Jenis bahan digital</span></div><div class="stat"><strong>24/7</strong><span>Akses pembelajaran</span></div><div class="stat"><strong>Auto</strong><span>Rekod kehadiran</span></div></div></section>
 
     <section class="section" id="subjek"><div class="container"><div class="section-head"><span class="label">Kandungan pembelajaran</span><h2>Empat subjek, satu ruang pembelajaran</h2><p>Setiap bahan disusun mengikut subjek supaya pelajar dapat mencari dan belajar dengan lebih fokus.</p></div><div class="subject-grid">
-        <article class="subject-card math"><span class="subject-icon"><i class="bi bi-calculator"></i></span><h3>Matematik</h3><p>Pelajari formula, algebra dan teknik penyelesaian melalui nota serta latihan.</p></article>
-        <article class="subject-card english"><span class="subject-icon"><i class="bi bi-translate"></i></span><h3>Bahasa Inggeris</h3><p>Tingkatkan grammar, vocabulary, pemahaman dan kemahiran penulisan.</p></article>
         <article class="subject-card malay"><span class="subject-icon"><i class="bi bi-journal-text"></i></span><h3>Bahasa Melayu</h3><p>Kuasai karangan, tatabahasa dan pemahaman dengan bahan tersusun.</p></article>
+        <article class="subject-card english"><span class="subject-icon"><i class="bi bi-translate"></i></span><h3>Bahasa Inggeris</h3><p>Tingkatkan grammar, vocabulary, pemahaman dan kemahiran penulisan.</p></article>
+        <article class="subject-card math"><span class="subject-icon"><i class="bi bi-calculator"></i></span><h3>Matematik</h3><p>Pelajari formula, algebra dan teknik penyelesaian melalui nota serta latihan.</p></article>
         <article class="subject-card history"><span class="subject-icon"><i class="bi bi-bank"></i></span><h3>Sejarah</h3><p>Fahami fakta, kronologi dan tamadun melalui bahan yang mudah diterokai.</p></article>
     </div></div></section>
 

@@ -47,6 +47,16 @@ const db = mysql.createPool({
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Development pages change frequently; prevent browsers from keeping stale UI.
+app.use((req, res, next) => {
+    if (req.path.endsWith('.html') || req.path === '/') {
+        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        res.set('Pragma', 'no-cache');
+        res.set('Expires', '0');
+    }
+    next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(uploadsDir));
 app.use('/views', express.static(path.join(__dirname, 'views')));
@@ -84,6 +94,11 @@ app.get('/', (req, res) => {
 // Friendly Login Page Route
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'Edu Btop', 'login.html'));
+});
+
+app.get('/student-dashboard', (req, res) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.sendFile(path.join(__dirname, 'views', 'student', 'dashboard_student.html'));
 });
 
 // ------------------------------------------------------------
@@ -137,7 +152,7 @@ app.post('/api/login', async (req, res) => {
 
         const redirectUrl = user.role === 'admin'
             ? '/views/admin/dashboard_admin.html'
-            : '/views/student/dashboard_student.html';
+            : '/student-dashboard';
 
         return res.json({
             success: true,

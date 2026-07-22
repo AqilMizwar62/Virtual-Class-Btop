@@ -7,7 +7,7 @@
     <title>Edu BTOP - Admin Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -31,7 +31,7 @@
                 radial-gradient(circle at 82% 4%, rgba(18,117,245,.17), transparent 30%),
                 var(--navy);
             color: var(--text);
-            font-family: "Manrope", sans-serif;
+            font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
         }
 
         .admin-navbar {
@@ -68,7 +68,6 @@
         .admin-hero::after { content: ""; position: absolute; width: 210px; height: 210px; right: -42px; top: -75px; border: 36px solid rgba(22,194,235,.08); border-radius: 50%; }
         .admin-hero h2 { position: relative; z-index: 1; color: white !important; font-size: clamp(26px, 3vw, 40px); letter-spacing: -1.3px; }
         .admin-hero p { position: relative; z-index: 1; max-width: 720px; margin-bottom: 0; color: #b7c5d8 !important; }
-        .hero-kicker { display: block; margin-bottom: 9px; color: var(--cyan); font-size: 11px; font-weight: 800; letter-spacing: 1.35px; text-transform: uppercase; }
         .print-button { position: relative; z-index: 2; flex: 0 0 auto; border: 1px solid rgba(255,255,255,.17); border-radius: 10px; padding: 11px 16px; color: white; background: rgba(255,255,255,.1); font-weight: 700; }
         .print-button:hover { color: white; background: var(--primary); }
 
@@ -234,6 +233,103 @@
             border: 1px solid #ddd !important;
             box-shadow: none !important;
         }
+        /* Energetic Academic theme */
+        body { color:#1c1740; background:radial-gradient(circle at 82% 4%,rgba(20,120,232,.13),transparent 28%),#f1eeff; }
+        .admin-navbar { border-bottom-color:rgba(255,255,255,.2); background:linear-gradient(90deg,#5426b8,#1478e8)!important; box-shadow:0 8px 28px rgba(66,35,155,.2); }
+        .admin-navbar .navbar-brand, .admin-navbar .admin-profile { color:#fff!important; }
+        .admin-navbar .brand-copy small { color:#8ff1ff; }
+        .admin-navbar #btnLogout { color:#fff; border-color:rgba(255,255,255,.3); }
+        .admin-avatar { background:linear-gradient(135deg,#f46a16,#ffc928); }
+        .admin-hero { border-color:#cabce9; background:linear-gradient(120deg,#5426b8,#1478e8 70%,#11b8d7); box-shadow:0 16px 42px rgba(76,48,144,.18); }
+        .admin-hero h2 { color:#fff!important; }
+        .admin-hero p { color:#e8eeff!important; }
+        .print-button { color:#fff; border-color:rgba(255,255,255,.3); background:rgba(255,255,255,.14); }
+        #adminTabs { border-color:#d9d1f0; background:rgba(248,246,255,.96)!important; box-shadow:0 12px 32px rgba(76,48,144,.11)!important; }
+        #adminTabs .nav-link { color:#665f80; }
+        #adminTabs .nav-link:hover { color:#5426b8; background:#ebe4ff; }
+        #adminTabs .nav-link.active { color:#fff; background:linear-gradient(90deg,#5426b8,#1478e8); }
+        .card { color:#1c1740; border-color:#d9d1f0!important; background:#f8f6ff!important; box-shadow:0 12px 34px rgba(76,48,144,.09)!important; }
+        .card h4 { color:#2a1c56!important; }
+        .card h4 i { color:#5426b8!important; }
+        .form-control, .form-select { border-color:#d5caeb; background-color:#f1edfa; }
+        .form-control:focus, .form-select:focus { border-color:#1478e8; background-color:#f8f6ff; box-shadow:0 0 0 3px rgba(20,120,232,.12); }
+        .btn-primary { background:linear-gradient(90deg,#5426b8,#1478e8); }
+        .btn-success { background:#05a883; }
+        .table-responsive { border-color:#d9d1f0; }
+        .table { --bs-table-border-color:#e2dcf1; }
+        .table thead th, .table-light th, .table-primary th { color:#5d4e83!important; background:#ebe5f8!important; }
+        .table-hover > tbody > tr:hover > * { --bs-table-bg-state:#eee9fa; }
+        .table-striped > tbody > tr:nth-of-type(odd) > * { --bs-table-bg-type:#f2eefb; }
+        #reports-content > .row .col-md-4:nth-child(1) .card { background:linear-gradient(135deg,#5426b8,#8b58df)!important; }
+        #reports-content > .row .col-md-4:nth-child(2) .card { background:linear-gradient(135deg,#1478e8,#11b8d7)!important; }
+        #reports-content > .row .col-md-4:nth-child(3) .card { background:linear-gradient(135deg,#f46a16,#ffc928)!important; }
+        @media print {
+            body { color:#111; background:#fff; }
+            .card { color:#111; border:1px solid #ddd!important; background:#fff!important; box-shadow:none!important; }
+            .table { --bs-table-color:#111; --bs-table-border-color:#ccc; }
+        }
+
+        /* Admin Command Centre */
+        body { font-weight:600; }
+        .admin-hero {
+            display:grid!important;
+            grid-template-columns:minmax(0,1.08fr) minmax(480px,.92fr);
+            gap:42px;
+            align-items:center!important;
+            padding:36px 40px;
+            border-color:#cfc5ef;
+            background:
+                radial-gradient(circle at 94% 8%,rgba(255,201,40,.24),transparent 20%),
+                radial-gradient(circle at 53% 110%,rgba(17,184,215,.18),transparent 27%),
+                linear-gradient(120deg,#e4dbff 0%,#d6e7ff 56%,#c8f2f4 100%);
+            box-shadow:0 20px 52px rgba(66,43,139,.15);
+        }
+        .admin-hero::before { content:""; position:absolute; width:145px; height:145px; left:44%; top:-82px; border:28px solid rgba(84,38,184,.07); border-radius:38px; transform:rotate(28deg); }
+        .admin-hero::after { border-color:rgba(84,38,184,.07); }
+        .admin-hero-copy, .admin-overview { position:relative; z-index:2; }
+        .admin-hero h2 { margin:0 0 10px!important; color:#241750!important; font-size:clamp(31px,3.2vw,47px); line-height:1.1; font-weight:800; letter-spacing:-2px; }
+        .admin-hero p { max-width:670px; color:#514b6e!important; font-size:14px; line-height:1.7; font-weight:600; }
+        .hero-greeting { display:inline-flex; align-items:center; gap:7px; margin-bottom:12px; color:#087b60; font-size:12px; font-weight:800; }
+        .admin-quick-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:23px; }
+        .admin-action {
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            min-height:43px;
+            padding:0 15px;
+            border:1px solid #bdb1e3;
+            border-radius:11px;
+            color:#43258f;
+            background:rgba(248,246,255,.7);
+            font-size:12px;
+            font-weight:800;
+        }
+        .admin-action.primary { color:#fff; border-color:#f46a16; background:#f46a16; box-shadow:0 10px 22px rgba(244,106,22,.22); }
+        .admin-action:hover { color:#fff; border-color:#5426b8; background:#5426b8; transform:translateY(-1px); }
+        .admin-overview { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+        .overview-card { min-height:118px; padding:18px; border:1px solid rgba(84,38,184,.13); border-radius:17px; background:rgba(250,249,255,.7); box-shadow:0 12px 28px rgba(68,48,137,.09); }
+        .overview-card i { display:grid; place-items:center; width:37px; height:37px; margin-bottom:12px; border-radius:11px; font-size:17px; }
+        .overview-card b { display:block; color:#2b1d57; font-size:27px; line-height:1; font-weight:800; letter-spacing:-1px; }
+        .overview-card span { display:block; margin-top:6px; color:#615a78; font-size:11px; font-weight:700; }
+        .overview-card.students i { color:#6536ba; background:#e8ddff; }
+        .overview-card.materials i { color:#126fe9; background:#dcecff; }
+        .overview-card.attendance i { color:#078f6b; background:#daf5eb; }
+        .overview-card.status i { color:#d85f0d; background:#ffe6d3; }
+        .print-button { grid-column:1/-1; justify-self:end; margin-top:3px; color:#5426b8; border-color:#c7bbe8; background:rgba(255,255,255,.68); font-size:12px; font-weight:800; }
+        .print-button:hover { color:#fff; border-color:#f46a16; background:#f46a16; }
+        #adminTabs .nav-link { font-weight:800; }
+        #adminTabs .nav-link.active { color:#fff; background:linear-gradient(90deg,#f46a16,#f59d24); box-shadow:0 8px 18px rgba(244,106,22,.23); }
+        @media (max-width:1100px) {
+            .admin-hero { grid-template-columns:1fr; }
+            .admin-overview { grid-template-columns:repeat(4,1fr); }
+            .print-button { justify-self:start; }
+        }
+        @media (max-width:768px) {
+            .admin-hero { display:block!important; padding:27px 22px; }
+            .admin-overview { grid-template-columns:repeat(2,1fr); margin-top:27px; }
+            .overview-card { min-height:105px; padding:15px; }
+            .print-button { margin-top:18px!important; }
+        }
     </style>
 </head>
 
@@ -257,16 +353,24 @@
 
     <div class="container admin-shell">
         <!-- System Heading -->
-        <div class="admin-hero d-flex flex-column flex-md-row justify-content-between align-items-center no-print">
-            <div>
-                <span class="hero-kicker">Pusat Kawalan Edu BTOP</span>
-                <h2 class="fw-bold text-dark mb-1">Panel Pengurusan Admin</h2>
-                <p class="text-muted">Muat naik bahan pembelajaran, urus e-mel pelajar & pantau kehadiran mengikut
-                    subjek.</p>
+        <div class="admin-hero no-print">
+            <div class="admin-hero-copy">
+                <span class="hero-greeting"><i class="bi bi-stars"></i> Selamat kembali, <span id="heroAdminName">Admin</span></span>
+                <h2>Urus pembelajaran dengan lebih pantas.</h2>
+                <p>Muat naik bahan, urus akaun pelajar dan pantau rekod kehadiran melalui satu pusat kawalan yang tersusun.</p>
+                <div class="admin-quick-actions">
+                    <button type="button" class="admin-action primary" onclick="openAdminTab('upload-tab')"><i class="bi bi-cloud-arrow-up"></i> Muat Naik Bahan</button>
+                    <button type="button" class="admin-action" onclick="openAdminTab('students-tab')"><i class="bi bi-person-plus"></i> Tambah Pelajar</button>
+                    <button type="button" class="admin-action" onclick="openAdminTab('reports-tab')"><i class="bi bi-bar-chart"></i> Lihat Kehadiran</button>
+                </div>
             </div>
-            <button onclick="window.print()" class="print-button">
-                <i class="bi bi-printer me-2"></i> Cetak Laporan Guru
-            </button>
+            <div class="admin-overview" aria-label="Ringkasan sistem">
+                <div class="overview-card students"><i class="bi bi-people-fill"></i><b id="heroTotalStudents">0</b><span>Pelajar berdaftar</span></div>
+                <div class="overview-card materials"><i class="bi bi-collection-play-fill"></i><b id="heroTotalMaterials">0</b><span>Bahan pembelajaran</span></div>
+                <div class="overview-card attendance"><i class="bi bi-check-circle-fill"></i><b id="heroTotalAttendance">0</b><span>Rekod kehadiran</span></div>
+                <div class="overview-card status"><i class="bi bi-shield-check"></i><b>Aktif</b><span>Status sistem</span></div>
+            </div>
+            <button onclick="window.print()" class="print-button"><i class="bi bi-printer me-2"></i> Cetak Laporan Guru</button>
         </div>
 
         <!-- Navigation Tabs -->
@@ -312,9 +416,9 @@
                                         <label class="form-label fw-semibold">Subjek</label>
                                         <select class="form-select" name="subject" id="subject" required>
                                             <option value="" disabled selected>-- Pilih Subjek --</option>
-                                            <option value="Math">Matematik</option>
-                                            <option value="Bahasa Inggeris">Bahasa Inggeris</option>
                                             <option value="Bahasa Melayu">Bahasa Melayu</option>
+                                            <option value="Bahasa Inggeris">Bahasa Inggeris</option>
+                                            <option value="Math">Matematik</option>
                                             <option value="Sejarah">Sejarah</option>
                                         </select>
                                     </div>
@@ -540,9 +644,9 @@
                                     class="form-select form-select-sm w-auto fw-semibold border-primary"
                                     onchange="filterAttendanceLogs()">
                                     <option value="ALL">-- Semua Subjek --</option>
-                                    <option value="Math">Matematik</option>
-                                    <option value="Bahasa Inggeris">Bahasa Inggeris</option>
                                     <option value="Bahasa Melayu">Bahasa Melayu</option>
+                                    <option value="Bahasa Inggeris">Bahasa Inggeris</option>
+                                    <option value="Math">Matematik</option>
                                     <option value="Sejarah">Sejarah</option>
                                 </select>
                             </div>
@@ -583,6 +687,7 @@
                     return;
                 }
                 document.getElementById('adminName').textContent = data.user.name;
+                document.getElementById('heroAdminName').textContent = data.user.name;
 
                 // Set Report Date
                 document.getElementById('reportDate').textContent = new Date().toLocaleDateString('ms-MY', {
@@ -609,6 +714,7 @@
                 const res = await fetch('/api/materials');
                 const data = await res.json();
                 const tbody = document.getElementById('materialsTableBody');
+                document.getElementById('heroTotalMaterials').textContent = data.success && Array.isArray(data.materials) ? data.materials.length : 0;
 
                 if (data.success && data.materials.length > 0) {
                     tbody.innerHTML = data.materials.map(m => `
@@ -731,6 +837,7 @@
                 const data = await res.json();
                 const tbody = document.getElementById('studentsTableBody');
                 const badge = document.getElementById('totalRegisteredStudentsBadge');
+                document.getElementById('heroTotalStudents').textContent = data.success && Array.isArray(data.students) ? data.students.length : 0;
 
                 if (data.success && data.students.length > 0) {
                     if (badge) badge.textContent = `${data.students.length} Pelajar`;
@@ -821,6 +928,9 @@
                     document.getElementById('statTotalStudents').textContent = dataStats.stats.totalStudents;
                     document.getElementById('statTotalMaterials').textContent = dataStats.stats.totalMaterials;
                     document.getElementById('statTotalAttendance').textContent = dataStats.stats.totalAttendance;
+                    document.getElementById('heroTotalStudents').textContent = dataStats.stats.totalStudents;
+                    document.getElementById('heroTotalMaterials').textContent = dataStats.stats.totalMaterials;
+                    document.getElementById('heroTotalAttendance').textContent = dataStats.stats.totalAttendance;
 
                     allAttendanceRecords = dataStats.stats.records || [];
                     filterAttendanceLogs();
@@ -850,6 +960,13 @@
             } catch (err) {
                 console.error(err);
             }
+        }
+
+        function openAdminTab(tabId) {
+            const tabButton = document.getElementById(tabId);
+            if (!tabButton) return;
+            bootstrap.Tab.getOrCreateInstance(tabButton).show();
+            document.getElementById('adminTabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function getSubjectBadgeClass(subject) {
