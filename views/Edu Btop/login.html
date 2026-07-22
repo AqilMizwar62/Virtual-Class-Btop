@@ -684,159 +684,254 @@
             }
         }
     </style>
-</head>
+    <style>
+        .login-bg {
+            background: linear-gradient(rgba(13, 110, 253, 0.85), rgba(13, 110, 253, 0.85)),
+                url('/images/btop_llp_logo.jpg') no-repeat center center / cover;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
 
 <body>
-    <main class="page-shell">
-        <span class="ambient one"></span>
-        <span class="ambient two"></span>
-        <span class="ambient three"></span>
-
-        <section class="story-panel" aria-label="Pengenalan Edu BTOP">
-            <a class="brand" href="/" aria-label="Edu BTOP">
-                <img src="/logo.png?v=2" alt="Logo Edu BTOP">
-                <span><strong>Edu BTOP</strong><small>Virtual Learning</small></span>
-            </a>
-            <span class="kicker">Platform Pembelajaran Maya</span>
-            <h1>Belajar lebih bijak.<br><span>Capai lebih tinggi.</span></h1>
-            <p class="intro">Satu ruang pembelajaran untuk video, nota dan latihan. Teruskan perjalanan akademik anda
-                pada bila-bila masa, di mana sahaja.</p>
-            <div class="subjects" aria-label="Subjek tersedia">
-                <div class="subject-chip math"><i class="bi bi-calculator"></i><strong>Matematik</strong><small>Formula
-                        & latihan</small></div>
-                <div class="subject-chip english"><i class="bi bi-translate"></i><strong>Bahasa
-                        Inggeris</strong><small>Grammar & writing</small></div>
-                <div class="subject-chip malay"><i class="bi bi-journal-text"></i><strong>Bahasa
-                        Melayu</strong><small>Karangan & bahasa</small></div>
-                <div class="subject-chip history"><i class="bi bi-bank"></i><strong>Sejarah</strong><small>Fakta &
-                        tamadun</small></div>
-            </div>
-        </section>
-
-        <section class="login-panel" aria-label="Log masuk">
-            <div class="login-card">
-                <a class="mobile-logo" href="/" style="text-decoration:none"
-                    aria-label="Kembali ke landing page Edu BTOP">
-                    <img src="/logo.png?v=2" alt="Logo Edu BTOP">
-                    <span><strong>Edu BTOP</strong><small>Virtual Learning</small></span>
-                </a>
-
-                <header class="login-card-header">
-                    <span class="secure"><i class="bi bi-shield-check"></i> Akses selamat</span>
-                    <h2>Selamat kembali</h2>
-                    <p>Pilih jenis akaun dan masukkan maklumat anda untuk meneruskan pembelajaran.</p>
-                </header>
-
-                <form id="loginForm" novalidate>
-                    <div class="role-selector" aria-label="Jenis akaun">
-                        <div class="role-option">
-                            <input type="radio" value="student" name="role" id="roleStudent" checked>
-                            <label for="roleStudent"><i class="bi bi-mortarboard-fill"></i> Pelajar</label>
-                        </div>
-                        <div class="role-option">
-                            <input type="radio" value="admin" name="role" id="roleAdmin">
-                            <label for="roleAdmin"><i class="bi bi-shield-lock-fill"></i> Admin BTOP</label>
+    <section class="bg-primary min-vh-100 d-flex align-items-center py-3 py-md-5 py-xl-8">
+        <div class="container">
+            <div class="row gy-4 align-items-center">
+                <div class="col-12 col-md-6 col-xl-7">
+                    <div class="d-flex justify-content-center text-bg-primary">
+                        <div class="col-12 col-xl-9">
+                            <h1 class="fw-bold text-white mb-4 display-4">Edu BTOP</h1>
+                            <hr class="border-primary-subtle mb-4">
+                            <h2 class="h1 mb-4">Selamat Datang ke Edu BTOP</h2>
+                            <p class="lead mb-5">Sistem Pembelajaran bagi Subjek Matematik, Bahasa Inggeris,
+                                Bahasa Melayu & Sejarah.</p>
+                            <div class="text-start opacity-75">
+                                <i class="bi bi-book-half display-4 me-3"></i>
+                                <i class="bi bi-journal-code display-4 me-3"></i>
+                                <i class="bi bi-mortarboard display-4"></i>
+                            </div>
                         </div>
                     </div>
-
-                    <div id="alertBox" class="alert hidden" role="alert" aria-live="polite">
-                        <i class="bi bi-exclamation-circle-fill"></i>
-                        <span id="alertText">Maklumat log masuk tidak sah.</span>
-                    </div>
-
-                    <div class="field">
-                        <label for="email">Alamat e-mel</label>
-                        <div class="input-wrap">
-                            <i class="bi bi-envelope"></i>
-                            <input type="email" name="email" id="email" placeholder="nama@edu.my"
-                                autocomplete="username" required>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label for="password">Kata laluan</label>
-                        <div class="input-wrap">
-                            <i class="bi bi-lock"></i>
-                            <input type="password" name="password" id="password" placeholder="Masukkan kata laluan"
-                                autocomplete="current-password" required>
-                            <button class="password-toggle" id="passwordToggle" type="button"
-                                aria-label="Tunjukkan kata laluan" aria-pressed="false">
-                                <i class="bi bi-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <button class="submit-btn" type="submit" id="btnSubmit">
-                        <i class="bi bi-box-arrow-in-right"></i> Log Masuk
-                    </button>
-                </form>
-
-                <div class="form-footer"><i class="bi bi-lock-fill"></i> Maklumat akaun anda dilindungi dengan selamat.
                 </div>
-            </div>
-        </section>
-    </main>
+                <div class="col-12 col-md-6 col-xl-5">
+                    <div class="card border-0 rounded-4 shadow-lg">
+                        <div class="card-body p-4 p-md-5">
+                            <h3 class="fw-bold mb-4 text-center text-primary">Log Masuk</h3>
 
-    <script>
-        const loginForm = document.getElementById('loginForm');
-        const alertBox = document.getElementById('alertBox');
-        const alertText = document.getElementById('alertText');
-        const btnSubmit = document.getElementById('btnSubmit');
-        const passwordInput = document.getElementById('password');
-        const passwordToggle = document.getElementById('passwordToggle');
+                            <div id="alertBox" class="alert alert-danger d-none" role="alert"></div>
 
-        passwordToggle.addEventListener('click', () => {
-            const isVisible = passwordInput.type === 'text';
-            passwordInput.type = isVisible ? 'password' : 'text';
-            passwordToggle.setAttribute('aria-pressed', String(!isVisible));
-            passwordToggle.setAttribute('aria-label', isVisible ? 'Tunjukkan kata laluan' : 'Sembunyikan kata laluan');
-            passwordToggle.innerHTML = `<i class="bi ${isVisible ? 'bi-eye' : 'bi-eye-slash'}"></i>`;
-            passwordInput.focus();
-        });
+                            <form id="loginForm">
+                                <div class="row gy-3">
+                                    <div class="col-12">
+                                        <div class="form-floating mb-1">
+                                            <input type="email" class="form-control" name="email" id="email"
+                                                placeholder="name@example.com" required>
+                                            <label for="email" class="form-label">Alamat E-mel</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating mb-1">
+                                            <input type="password" class="form-control" name="password" id="password"
+                                                placeholder="Kata Laluan" required>
+                                            <label for="password" class="form-label">Kata Laluan</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="admin" name="role"
+                                                id="roleAdmin">
+                                            <label class="form-check-label text-secondary fw-semibold" for="roleAdmin">
+                                                Admin BTOP
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="student" name="role"
+                                                id="roleStudent" checked>
+                                            <label class="form-check-label text-secondary fw-semibold"
+                                                for="roleStudent">
+                                                Pelajar
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <div class="d-grid">
+                                            <button class="btn btn-primary btn-lg shadow-sm" type="submit"
+                                                id="btnSubmit">
+                                                <i class="bi bi-box-arrow-in-right me-2"></i> Log Masuk
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            =======
 
-        loginForm.addEventListener('submit', async event => {
-            event.preventDefault();
-            alertBox.classList.add('hidden');
+                            <body>
+                                <main class="page-shell">
+                                    <span class="ambient one"></span>
+                                    <span class="ambient two"></span>
+                                    <span class="ambient three"></span>
 
-            if (!loginForm.checkValidity()) {
-                loginForm.reportValidity();
-                return;
-            }
+                                    <section class="story-panel" aria-label="Pengenalan Edu BTOP">
+                                        <a class="brand" href="/" aria-label="Edu BTOP">
+                                            <img src="/logo.png?v=2" alt="Logo Edu BTOP">
+                                            <span><strong>Edu BTOP</strong><small>Virtual Learning</small></span>
+                                        </a>
+                                        <span class="kicker">Platform Pembelajaran Maya</span>
+                                        <h1>Belajar lebih bijak.<br><span>Capai lebih tinggi.</span></h1>
+                                        <p class="intro">Satu ruang pembelajaran untuk video, nota dan latihan. Teruskan
+                                            perjalanan akademik anda
+                                            pada bila-bila masa, di mana sahaja.</p>
+                                        <div class="subjects" aria-label="Subjek tersedia">
+                                            <div class="subject-chip math"><i
+                                                    class="bi bi-calculator"></i><strong>Matematik</strong><small>Formula
+                                                    & latihan</small></div>
+                                            <div class="subject-chip english"><i
+                                                    class="bi bi-translate"></i><strong>Bahasa
+                                                    Inggeris</strong><small>Grammar & writing</small></div>
+                                            <div class="subject-chip malay"><i
+                                                    class="bi bi-journal-text"></i><strong>Bahasa
+                                                    Melayu</strong><small>Karangan & bahasa</small></div>
+                                            <div class="subject-chip history"><i
+                                                    class="bi bi-bank"></i><strong>Sejarah</strong><small>Fakta &
+                                                    tamadun</small></div>
+                                        </div>
+                                    </section>
 
-            const email = document.getElementById('email').value.trim();
-            const password = passwordInput.value;
-            const role = document.querySelector('input[name="role"]:checked').value;
+                                    <section class="login-panel" aria-label="Log masuk">
+                                        <div class="login-card">
+                                            <a class="mobile-logo" href="/" style="text-decoration:none"
+                                                aria-label="Kembali ke landing page Edu BTOP">
+                                                <img src="/logo.png?v=2" alt="Logo Edu BTOP">
+                                                <span><strong>Edu BTOP</strong><small>Virtual Learning</small></span>
+                                            </a>
 
-            btnSubmit.disabled = true;
-            btnSubmit.innerHTML = '<span class="spinner"></span> Memproses...';
+                                            <header class="login-card-header">
+                                                <span class="secure"><i class="bi bi-shield-check"></i> Akses
+                                                    selamat</span>
+                                                <h2>Selamat kembali</h2>
+                                                <p>Pilih jenis akaun dan masukkan maklumat anda untuk meneruskan
+                                                    pembelajaran.</p>
+                                            </header>
 
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password, role })
-                });
-                const data = await response.json();
+                                            <form id="loginForm" novalidate>
+                                                <div class="role-selector" aria-label="Jenis akaun">
+                                                    <div class="role-option">
+                                                        <input type="radio" value="student" name="role" id="roleStudent"
+                                                            checked>
+                                                        <label for="roleStudent"><i class="bi bi-mortarboard-fill"></i>
+                                                            Pelajar</label>
+                                                    </div>
+                                                    <div class="role-option">
+                                                        <input type="radio" value="admin" name="role" id="roleAdmin">
+                                                        <label for="roleAdmin"><i class="bi bi-shield-lock-fill"></i>
+                                                            Admin BTOP</label>
+                                                    </div>
+                                                </div>
 
-                if (data.success) {
-                    btnSubmit.innerHTML = '<i class="bi bi-check-circle-fill"></i> Berjaya!';
-                    window.location.href = data.redirectUrl;
-                    return;
-                }
+                                                <div id="alertBox" class="alert hidden" role="alert" aria-live="polite">
+                                                    <i class="bi bi-exclamation-circle-fill"></i>
+                                                    <span id="alertText">Maklumat log masuk tidak sah.</span>
+                                                </div>
 
-                alertText.textContent = data.message || 'E-mel, kata laluan atau jenis akaun tidak tepat.';
-                alertBox.classList.remove('hidden');
-            } catch (err) {
-                alertText.textContent = 'Sambungan ke pelayan gagal. Sila cuba lagi.';
-                alertBox.classList.remove('hidden');
-            } finally {
-                if (!btnSubmit.innerText.includes('Berjaya')) {
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> Log Masuk';
-                }
-            }
-        });
-    </script>
-</body>
+                                                <div class="field">
+                                                    <label for="email">Alamat e-mel</label>
+                                                    <div class="input-wrap">
+                                                        <i class="bi bi-envelope"></i>
+                                                        <input type="email" name="email" id="email"
+                                                            placeholder="nama@edu.my" autocomplete="username" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="field">
+                                                    <label for="password">Kata laluan</label>
+                                                    <div class="input-wrap">
+                                                        <i class="bi bi-lock"></i>
+                                                        <input type="password" name="password" id="password"
+                                                            placeholder="Masukkan kata laluan"
+                                                            autocomplete="current-password" required>
+                                                        <button class="password-toggle" id="passwordToggle"
+                                                            type="button" aria-label="Tunjukkan kata laluan"
+                                                            aria-pressed="false">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <button class="submit-btn" type="submit" id="btnSubmit">
+                                                    <i class="bi bi-box-arrow-in-right"></i> Log Masuk
+                                                </button>
+                                            </form>
+
+                                            <div class="form-footer"><i class="bi bi-lock-fill"></i> Maklumat akaun anda
+                                                dilindungi dengan selamat.
+                                            </div>
+                                        </div>
+                                    </section>
+                                </main>
+
+                                <script>
+                                    const loginForm = document.getElementById('loginForm');
+                                    const alertBox = document.getElementById('alertBox');
+                                    const alertText = document.getElementById('alertText');
+                                    const btnSubmit = document.getElementById('btnSubmit');
+                                    const passwordInput = document.getElementById('password');
+                                    const passwordToggle = document.getElementById('passwordToggle');
+
+                                    passwordToggle.addEventListener('click', () => {
+                                        const isVisible = passwordInput.type === 'text';
+                                        passwordInput.type = isVisible ? 'password' : 'text';
+                                        passwordToggle.setAttribute('aria-pressed', String(!isVisible));
+                                        passwordToggle.setAttribute('aria-label', isVisible ? 'Tunjukkan kata laluan' : 'Sembunyikan kata laluan');
+                                        passwordToggle.innerHTML = `<i class="bi ${isVisible ? 'bi-eye' : 'bi-eye-slash'}"></i>`;
+                                        passwordInput.focus();
+                                    });
+
+                                    loginForm.addEventListener('submit', async event => {
+                                        event.preventDefault();
+                                        alertBox.classList.add('hidden');
+
+                                        if (!loginForm.checkValidity()) {
+                                            loginForm.reportValidity();
+                                            return;
+                                        }
+
+                                        const email = document.getElementById('email').value.trim();
+                                        const password = passwordInput.value;
+                                        const role = document.querySelector('input[name="role"]:checked').value;
+
+                                        btnSubmit.disabled = true;
+                                        btnSubmit.innerHTML = '<span class="spinner"></span> Memproses...';
+
+                                        try {
+                                            const response = await fetch('/api/login', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ email, password, role })
+                                            });
+                                            const data = await response.json();
+
+                                            if (data.success) {
+                                                btnSubmit.innerHTML = '<i class="bi bi-check-circle-fill"></i> Berjaya!';
+                                                window.location.href = data.redirectUrl;
+                                                return;
+                                            }
+
+                                            alertText.textContent = data.message || 'E-mel, kata laluan atau jenis akaun tidak tepat.';
+                                            alertBox.classList.remove('hidden');
+                                        } catch (err) {
+                                            alertText.textContent = 'Sambungan ke pelayan gagal. Sila cuba lagi.';
+                                            alertBox.classList.remove('hidden');
+                                        } finally {
+                                            if (!btnSubmit.innerText.includes('Berjaya')) {
+                                                btnSubmit.disabled = false;
+                                                btnSubmit.innerHTML = '<i class="bi bi-box-arrow-in-right"></i> Log Masuk';
+                                            }
+                                        }
+                                    });
+                                </script>
+                            </body>
 
 </html>
