@@ -7,636 +7,1067 @@
     <title>Edu BTOP - Admin Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        :root {
-            --navy: #061225;
-            --navy-soft: #0b1d38;
-            --surface: #102746;
-            --surface-2: #132d4f;
-            --primary: #1275f5;
-            --cyan: #16c2eb;
-            --yellow: #ffbc17;
-            --text: #f7fbff;
-            --muted: #9fb0c7;
-            --line: rgba(255, 255, 255, .1);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            background:
-                radial-gradient(circle at 82% 4%, rgba(18, 117, 245, .17), transparent 30%),
-                var(--navy);
-            color: var(--text);
-            font-family: "Manrope", sans-serif;
-        }
-
-        .admin-navbar {
-            position: sticky;
-            z-index: 50;
-            top: 0;
-            min-height: 76px;
-            padding: 0;
-            border-bottom: 1px solid var(--line);
-            background: rgba(4, 14, 30, .92) !important;
-            backdrop-filter: blur(16px);
-        }
-
-        .admin-navbar .container {
-            min-height: 76px;
-        }
-
-        .navbar-brand {
-            gap: 11px;
-            font-weight: 800;
-            letter-spacing: -.3px;
-        }
-
-        .navbar-brand img {
-            width: 44px;
-            height: 44px;
-            object-fit: contain;
-            border-radius: 11px;
-            padding: 3px;
-            background: white;
-        }
-
-        .brand-copy {
-            line-height: 1.1;
-        }
-
-        .brand-copy small {
-            display: block;
-            margin-top: 4px;
-            color: var(--cyan);
-            font-size: 12px;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-        }
-
-        .admin-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-avatar {
-            display: grid;
-            place-items: center;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--cyan));
-            font-weight: 800;
-        }
-
-        #btnLogout {
-            border-color: var(--line);
-            color: #dce6f2;
-        }
-
-        #btnLogout:hover {
-            border-color: var(--primary);
-            background: var(--primary);
-        }
-
-        .admin-shell {
-            max-width: 1420px;
-            padding-top: 38px;
-            padding-bottom: 70px;
-        }
-
-        .admin-hero {
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 24px;
-            padding: 30px 32px;
-            border: 1px solid var(--line);
-            border-radius: 22px;
-            background: linear-gradient(120deg, #102b52 0%, #0d2343 50%, #102d5b 100%);
-            box-shadow: 0 24px 55px rgba(0, 0, 0, .23);
-        }
-
-        .admin-hero::after {
-            content: "";
-            position: absolute;
-            width: 210px;
-            height: 210px;
-            right: -42px;
-            top: -75px;
-            border: 36px solid rgba(22, 194, 235, .08);
-            border-radius: 50%;
-        }
-
-        .admin-hero h2 {
-            position: relative;
-            z-index: 1;
-            color: white !important;
-            font-size: clamp(26px, 3vw, 40px);
-            letter-spacing: -1.3px;
-        }
-
-        .admin-hero p {
-            position: relative;
-            z-index: 1;
-            max-width: 720px;
-            margin-bottom: 0;
-            color: #b7c5d8 !important;
-        }
-
-        .hero-kicker {
-            display: block;
-            margin-bottom: 9px;
-            color: var(--cyan);
-            font-size: 14px;
-            font-weight: 800;
-            letter-spacing: 1.35px;
-            text-transform: uppercase;
-        }
-
-        .print-button {
-            position: relative;
-            z-index: 2;
-            flex: 0 0 auto;
-            border: 1px solid rgba(255, 255, 255, .17);
-            border-radius: 10px;
-            padding: 11px 16px;
-            color: white;
-            background: rgba(255, 255, 255, .1);
-            font-weight: 700;
-        }
-
-        .print-button:hover {
-            color: white;
-            background: var(--primary);
-        }
-
-        #adminTabs {
-            position: sticky;
-            z-index: 35;
-            top: 88px;
-            gap: 7px;
-            padding: 7px !important;
-            border: 1px solid var(--line);
-            border-radius: 15px !important;
-            background: rgba(11, 29, 56, .93) !important;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 17px 35px rgba(0, 0, 0, .2) !important;
-        }
-
-        #adminTabs .nav-link {
-            min-height: 48px;
-            border-radius: 10px;
-            color: var(--muted);
-            font-size: 14px;
-        }
-
-        #adminTabs .nav-link:hover {
-            color: white;
-            background: rgba(255, 255, 255, .06);
-        }
-
-        #adminTabs .nav-link.active {
-            color: white;
-            background: var(--primary);
-            box-shadow: 0 8px 18px rgba(18, 117, 245, .24);
-        }
-
-        .tab-content {
-            margin-top: 24px;
-        }
-
-        .card {
-            overflow: hidden;
-            border: 1px solid var(--line) !important;
-            background: linear-gradient(145deg, var(--navy-soft), #0d2341) !important;
-            color: var(--text);
-            box-shadow: 0 18px 42px rgba(0, 0, 0, .2) !important;
-        }
-
-        .card-body {
-            padding: 26px !important;
-        }
-
-        .card h4 {
-            color: white !important;
-            font-size: 20px;
-            letter-spacing: -.45px;
-        }
-
-        .card h4 i {
-            color: var(--cyan) !important;
-        }
-
-        .form-label {
-            margin-bottom: 7px;
-            color: #c7d3e3;
-            font-size: 14px;
-        }
-
-        .form-control,
-        .form-select {
-            min-height: 45px;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            color: white;
-            background-color: rgba(255, 255, 255, .055);
-        }
-
-        textarea.form-control {
-            min-height: 98px;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            color: white;
-            border-color: var(--cyan);
-            background-color: rgba(255, 255, 255, .075);
-            box-shadow: 0 0 0 3px rgba(22, 194, 235, .12);
-        }
-
-        .form-control::placeholder {
-            color: #70849f;
-        }
-
-        .form-select option {
-            color: #18283e;
-            background: white;
-        }
-
-        .form-text {
-            color: #7f93ad;
-            font-size: 12px;
-        }
-
-        input[type="file"]::file-selector-button {
-            height: 43px;
-            border: 0;
-            border-right: 1px solid var(--line);
-            color: white;
-            background: rgba(18, 117, 245, .25);
-        }
-
-        .btn-primary,
-        .btn-success {
-            border: 0;
-            border-radius: 10px;
-            background: var(--primary);
-            font-weight: 800 !important;
-        }
-
-        .btn-success {
-            background: #0ca77b;
-        }
-
-        .btn-primary:hover {
-            background: #2584fb;
-        }
-
-        .btn-success:hover {
-            background: #11bc8b;
-        }
-
-        .btn-outline-primary {
-            border-color: rgba(22, 194, 235, .45);
-            color: var(--cyan);
-        }
-
-        .btn-outline-primary:hover {
-            border-color: var(--primary);
-            background: var(--primary);
-        }
-
-        .table-responsive {
-            border: 1px solid var(--line);
-            border-radius: 13px;
-        }
-
-        .table {
-            --bs-table-bg: transparent;
-            --bs-table-color: #dce5f1;
-            --bs-table-border-color: var(--line);
-            margin-bottom: 0;
-            font-size: 14px;
-        }
-
-        .table> :not(caption)>*>* {
-            padding: 14px 13px;
-        }
-
-        .table thead th,
-        .table-light th,
-        .table-primary th {
-            color: #96aac3 !important;
-            background: rgba(255, 255, 255, .045) !important;
-            font-size: 12px;
-            letter-spacing: .65px;
-            text-transform: uppercase;
-        }
-
-        .table-hover>tbody>tr:hover>* {
-            --bs-table-bg-state: rgba(255, 255, 255, .045);
-            color: white;
-        }
-
-        .table-striped>tbody>tr:nth-of-type(odd)>* {
-            --bs-table-bg-type: rgba(255, 255, 255, .025);
-            color: #dce5f1;
-        }
-
-        .text-muted {
-            color: var(--muted) !important;
-        }
-
-        .alert {
-            border: 0;
-            border-radius: 10px;
-            font-size: 14px;
-        }
-
-        .subject-badge-math {
-            background-color: #1275f5;
-            color: white;
-        }
-
-        .subject-badge-english {
-            background-color: #7c4ed8;
-            color: white;
-        }
-
-        .subject-badge-bm {
-            background-color: #0ca77b;
-            color: white;
-        }
-
-        .subject-badge-sejarah {
-            background-color: #e97b26;
-            color: white;
-        }
-
-        #reports-content>.row .card {
-            position: relative;
-            min-height: 135px;
-            justify-content: center;
-        }
-
-        #reports-content>.row .col-md-4:nth-child(1) .card {
-            background: linear-gradient(135deg, #126fe9, #0d397b) !important;
-        }
-
-        #reports-content>.row .col-md-4:nth-child(2) .card {
-            background: linear-gradient(135deg, #0cad7f, #075244) !important;
-        }
-
-        #reports-content>.row .col-md-4:nth-child(3) .card {
-            background: linear-gradient(135deg, #e69a16, #7d4d08) !important;
-            color: white !important;
-        }
-
-        #reports-content>.row .card h6 {
-            color: rgba(255, 255, 255, .7) !important;
-            font-size: 10px;
-            letter-spacing: .7px;
-        }
-
-        #reports-content>.row .card h2 {
-            color: white;
-            font-size: 36px;
-        }
-
-        @media (max-width: 768px) {
-            .admin-navbar .container {
-                padding-inline: 15px;
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <style>
+            :root {
+                --navy: #061225;
+                --navy-soft: #0b1d38;
+                --surface: #102746;
+                --surface-2: #132d4f;
+                --primary: #1275f5;
+                --cyan: #16c2eb;
+                --yellow: #ffbc17;
+                --text: #f7fbff;
+                --muted: #9fb0c7;
+                --line: rgba(255, 255, 255, .1);
             }
 
-            .brand-copy small,
-            .admin-profile .fw-semibold {
-                display: none;
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                min-height: 100vh;
+                background:
+                    radial-gradient(circle at 82% 4%, rgba(18, 117, 245, .17), transparent 30%),
+                    var(--navy);
+                color: var(--text);
+                font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+            }
+
+            .admin-navbar {
+                position: sticky;
+                z-index: 50;
+                top: 0;
+                min-height: 76px;
+                padding: 0;
+                border-bottom: 1px solid var(--line);
+                background: rgba(4, 14, 30, .92) !important;
+                backdrop-filter: blur(16px);
+            }
+
+            .admin-navbar .container {
+                min-height: 76px;
+            }
+
+            .navbar-brand {
+                gap: 11px;
+                font-weight: 800;
+                letter-spacing: -.3px;
+            }
+
+            .navbar-brand img {
+                width: 44px;
+                height: 44px;
+                object-fit: contain;
+                border-radius: 11px;
+                padding: 3px;
+                background: white;
+            }
+
+            .brand-copy {
+                line-height: 1.1;
+            }
+
+            .brand-copy small {
+                display: block;
+                margin-top: 4px;
+                color: var(--cyan);
+                font-size: 12px;
+                letter-spacing: 1.2px;
+                text-transform: uppercase;
+            }
+
+            .admin-profile {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .admin-avatar {
+                display: grid;
+                place-items: center;
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--primary), var(--cyan));
+                font-weight: 800;
+            }
+
+            #btnLogout {
+                border-color: var(--line);
+                color: #dce6f2;
+            }
+
+            #btnLogout:hover {
+                border-color: var(--primary);
+                background: var(--primary);
             }
 
             .admin-shell {
-                padding-top: 22px;
+                max-width: 1420px;
+                padding-top: 38px;
+                padding-bottom: 70px;
             }
 
             .admin-hero {
-                align-items: flex-start !important;
-                padding: 24px 21px;
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 24px;
+                padding: 30px 32px;
+                border: 1px solid var(--line);
+                border-radius: 22px;
+                background: linear-gradient(120deg, #102b52 0%, #0d2343 50%, #102d5b 100%);
+                box-shadow: 0 24px 55px rgba(0, 0, 0, .23);
             }
 
-            .admin-hero .print-button {
-                margin-top: 18px;
+            .admin-hero::after {
+                content: "";
+                position: absolute;
+                width: 210px;
+                height: 210px;
+                right: -42px;
+                top: -75px;
+                border: 36px solid rgba(22, 194, 235, .08);
+                border-radius: 50%;
+            }
+
+            .admin-hero h2 {
+                position: relative;
+                z-index: 1;
+                color: white !important;
+                font-size: clamp(26px, 3vw, 40px);
+                letter-spacing: -1.3px;
+            }
+
+            .admin-hero p {
+                position: relative;
+                z-index: 1;
+                max-width: 720px;
+                margin-bottom: 0;
+                color: #b7c5d8 !important;
+            }
+
+            .hero-kicker {
+                display: block;
+                margin-bottom: 9px;
+                color: var(--cyan);
+                font-size: 14px;
+                font-weight: 800;
+                letter-spacing: 1.35px;
+                text-transform: uppercase;
+            }
+
+            .print-button {
+                position: relative;
+                z-index: 2;
+                flex: 0 0 auto;
+                border: 1px solid rgba(255, 255, 255, .17);
+                border-radius: 10px;
+                padding: 11px 16px;
+                color: white;
+                background: rgba(255, 255, 255, .1);
+                font-weight: 700;
+            }
+
+            .print-button:hover {
+                color: white;
+                background: var(--primary);
+            }
+
+            .admin-hero::after {
+                content: "";
+                position: absolute;
+                width: 210px;
+                height: 210px;
+                right: -42px;
+                top: -75px;
+                border: 36px solid rgba(22, 194, 235, .08);
+                border-radius: 50%;
+            }
+
+            .admin-hero h2 {
+                position: relative;
+                z-index: 1;
+                color: white !important;
+                font-size: clamp(26px, 3vw, 40px);
+                letter-spacing: -1.3px;
+            }
+
+            .admin-hero p {
+                position: relative;
+                z-index: 1;
+                max-width: 720px;
+                margin-bottom: 0;
+                color: #b7c5d8 !important;
+            }
+
+            .print-button {
+                position: relative;
+                z-index: 2;
+                flex: 0 0 auto;
+                border: 1px solid rgba(255, 255, 255, .17);
+                border-radius: 10px;
+                padding: 11px 16px;
+                color: white;
+                background: rgba(255, 255, 255, .1);
+                font-weight: 700;
+            }
+
+            .print-button:hover {
+                color: white;
+                background: var(--primary);
             }
 
             #adminTabs {
-                top: 78px;
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                justify-content: flex-start;
-            }
-
-            #adminTabs .nav-item {
-                flex: 0 0 auto;
+                position: sticky;
+                z-index: 35;
+                top: 88px;
+                gap: 7px;
+                padding: 7px !important;
+                border: 1px solid var(--line);
+                border-radius: 15px !important;
+                background: rgba(11, 29, 56, .93) !important;
+                backdrop-filter: blur(12px);
+                box-shadow: 0 17px 35px rgba(0, 0, 0, .2) !important;
             }
 
             #adminTabs .nav-link {
-                padding-inline: 15px;
-                white-space: nowrap;
+                min-height: 48px;
+                border-radius: 10px;
+                color: var(--muted);
+                font-size: 14px;
+            }
+
+            #adminTabs .nav-link:hover {
+                color: white;
+                background: rgba(255, 255, 255, .06);
+            }
+
+            #adminTabs .nav-link.active {
+                color: white;
+                background: var(--primary);
+                box-shadow: 0 8px 18px rgba(18, 117, 245, .24);
+            }
+
+            .tab-content {
+                margin-top: 24px;
+            }
+
+            .card {
+                overflow: hidden;
+                border: 1px solid var(--line) !important;
+                background: linear-gradient(145deg, var(--navy-soft), #0d2341) !important;
+                color: var(--text);
+                box-shadow: 0 18px 42px rgba(0, 0, 0, .2) !important;
             }
 
             .card-body {
-                padding: 19px !important;
-            }
-        }
-
-        /* Edu BTOP professional light theme */
-        body {
-            color: #10213a;
-            background: radial-gradient(circle at 82% 4%, rgba(18, 111, 233, .1), transparent 28%), #f5f8fc;
-        }
-
-        .admin-navbar {
-            background: rgba(255, 255, 255, .95) !important;
-            border-bottom-color: #e2eaf3;
-            box-shadow: 0 8px 28px rgba(33, 68, 113, .07);
-        }
-
-        .navbar-brand {
-            color: #10213a !important;
-        }
-
-        .admin-profile {
-            color: #263a55 !important;
-        }
-
-        #btnLogout {
-            color: #53677f;
-            border-color: #d6e0eb;
-        }
-
-        .admin-hero {
-            border-color: #dbe6f1;
-            background: linear-gradient(120deg, #eef6ff 0%, #f8fbff 48%, #e2f3ff 100%);
-            box-shadow: 0 16px 42px rgba(35, 67, 105, .09);
-        }
-
-        .admin-hero::after {
-            border-color: rgba(18, 111, 233, .07);
-        }
-
-        .admin-hero h2 {
-            color: #10213a !important;
-        }
-
-        .admin-hero p {
-            color: #63768e !important;
-        }
-
-        .print-button {
-            color: #164d87;
-            border-color: #cddceb;
-            background: rgba(255, 255, 255, .78);
-        }
-
-        .print-button:hover {
-            color: white;
-        }
-
-        #adminTabs {
-            position: sticky;
-            top: 76px;
-            z-index: 40;
-            border-color: #e0e8f1;
-            background: rgba(255, 255, 255, .95) !important;
-            box-shadow: 0 12px 32px rgba(35, 67, 105, .09) !important;
-        }
-
-        #adminTabs .nav-link {
-            color: #65778e;
-        }
-
-        #adminTabs .nav-link:hover {
-            color: #126fe9;
-            background: #eef5ff;
-        }
-
-        #adminTabs .nav-link.active {
-            color: white;
-        }
-
-        .card {
-            color: #10213a;
-            border-color: #e1e9f2 !important;
-            background: #fff !important;
-            box-shadow: 0 12px 34px rgba(35, 67, 105, .08) !important;
-        }
-
-        .card h4 {
-            color: #10213a !important;
-        }
-
-        .form-label {
-            color: #41566f;
-        }
-
-        .form-control,
-        .form-select {
-            color: #10213a;
-            border-color: #dce5ef;
-            background-color: #f7f9fc;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            color: #10213a;
-            background-color: #fff;
-        }
-
-        .form-control::placeholder {
-            color: #94a2b5;
-        }
-
-        .form-text {
-            color: #7c8da2;
-        }
-
-        input[type="file"]::file-selector-button {
-            color: #125ba9;
-            border-right-color: #dce5ef;
-            background: #eaf3ff;
-        }
-
-        .table-responsive {
-            border-color: #e1e8f0;
-        }
-
-        .table {
-            --bs-table-color: #30455f;
-            --bs-table-border-color: #e8edf3;
-        }
-
-        .table thead th,
-        .table-light th,
-        .table-primary th {
-            color: #61758d !important;
-            background: #f5f8fc !important;
-        }
-
-        .table-hover>tbody>tr:hover>* {
-            --bs-table-bg-state: #f4f8fd;
-            color: #10213a;
-        }
-
-        .table-striped>tbody>tr:nth-of-type(odd)>* {
-            --bs-table-bg-type: #f9fbfd;
-            color: #30455f;
-        }
-
-        .text-muted {
-            color: #74859a !important;
-        }
-
-        #reports-content>.row .card {
-            color: white;
-            border: 0 !important;
-        }
-
-        @media print {
-
-            /* 1. Hide all forms, navbar, buttons, and tab headers */
-            form,
-            .no-print,
-            .navbar,
-            .nav-pills,
-            .col-lg-5 {
-                display: none !important;
+                padding: 26px !important;
             }
 
-            /* 2. Expand the right side ("Senarai" tables) to fill 100% of the printed page */
-            .col-lg-7 {
-                width: 100% !important;
-                flex: 0 0 100% !important;
-                max-width: 100% !important;
+            .card h4 {
+                color: white !important;
+                font-size: 20px;
+                letter-spacing: -.45px;
             }
 
-            /* 3. Make table background clean white for printing */
+            .card h4 i {
+                color: var(--cyan) !important;
+            }
+
+            .form-label {
+                margin-bottom: 7px;
+                color: #c7d3e3;
+                font-size: 14px;
+            }
+
+            .form-control,
+            .form-select {
+                min-height: 45px;
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                color: white;
+                background-color: rgba(255, 255, 255, .055);
+            }
+
+            textarea.form-control {
+                min-height: 98px;
+            }
+
+            .form-control:focus,
+            .form-select:focus {
+                color: white;
+                border-color: var(--cyan);
+                background-color: rgba(255, 255, 255, .075);
+                box-shadow: 0 0 0 3px rgba(22, 194, 235, .12);
+            }
+
+            .form-control::placeholder {
+                color: #70849f;
+            }
+
+            .form-select option {
+                color: #18283e;
+                background: white;
+            }
+
+            .form-text {
+                color: #7f93ad;
+                font-size: 12px;
+            }
+
+            input[type="file"]::file-selector-button {
+                height: 43px;
+                border: 0;
+                border-right: 1px solid var(--line);
+                color: white;
+                background: rgba(18, 117, 245, .25);
+            }
+
+            .btn-primary,
+            .btn-success {
+                border: 0;
+                border-radius: 10px;
+                background: var(--primary);
+                font-weight: 800 !important;
+            }
+
+            .btn-success {
+                background: #0ca77b;
+            }
+
+            .btn-primary:hover {
+                background: #2584fb;
+            }
+
+            .btn-success:hover {
+                background: #11bc8b;
+            }
+
+            .btn-outline-primary {
+                border-color: rgba(22, 194, 235, .45);
+                color: var(--cyan);
+            }
+
+            .btn-outline-primary:hover {
+                border-color: var(--primary);
+                background: var(--primary);
+            }
+
+            .table-responsive {
+                border: 1px solid var(--line);
+                border-radius: 13px;
+            }
+
+            .table {
+                --bs-table-bg: transparent;
+                --bs-table-color: #dce5f1;
+                --bs-table-border-color: var(--line);
+                margin-bottom: 0;
+                font-size: 14px;
+            }
+
+            .table> :not(caption)>*>* {
+                padding: 14px 13px;
+            }
+
+            .table thead th,
+            .table-light th,
+            .table-primary th {
+                color: #96aac3 !important;
+                background: rgba(255, 255, 255, .045) !important;
+                font-size: 12px;
+                letter-spacing: .65px;
+                text-transform: uppercase;
+            }
+
+            .table-hover>tbody>tr:hover>* {
+                --bs-table-bg-state: rgba(255, 255, 255, .045);
+                color: white;
+            }
+
+            .table-striped>tbody>tr:nth-of-type(odd)>* {
+                --bs-table-bg-type: rgba(255, 255, 255, .025);
+                color: #dce5f1;
+            }
+
+            .text-muted {
+                color: var(--muted) !important;
+            }
+
+            .alert {
+                border: 0;
+                border-radius: 10px;
+                font-size: 14px;
+            }
+
+            .subject-badge-math {
+                background-color: #1275f5;
+                color: white;
+            }
+
+            .subject-badge-english {
+                background-color: #7c4ed8;
+                color: white;
+            }
+
+            .subject-badge-bm {
+                background-color: #0ca77b;
+                color: white;
+            }
+
+            .subject-badge-sejarah {
+                background-color: #e97b26;
+                color: white;
+            }
+
+            #reports-content>.row .card {
+                position: relative;
+                min-height: 135px;
+                justify-content: center;
+            }
+
+            #reports-content>.row .col-md-4:nth-child(1) .card {
+                background: linear-gradient(135deg, #126fe9, #0d397b) !important;
+            }
+
+            #reports-content>.row .col-md-4:nth-child(2) .card {
+                background: linear-gradient(135deg, #0cad7f, #075244) !important;
+            }
+
+            #reports-content>.row .col-md-4:nth-child(3) .card {
+                background: linear-gradient(135deg, #e69a16, #7d4d08) !important;
+                color: white !important;
+            }
+
+            #reports-content>.row .card h6 {
+                color: rgba(255, 255, 255, .7) !important;
+                font-size: 10px;
+                letter-spacing: .7px;
+            }
+
+            #reports-content>.row .card h2 {
+                color: white;
+                font-size: 36px;
+            }
+
+            @media (max-width: 768px) {
+                .admin-navbar .container {
+                    padding-inline: 15px;
+                }
+
+                .brand-copy small,
+                .admin-profile .fw-semibold {
+                    display: none;
+                }
+
+                .admin-shell {
+                    padding-top: 22px;
+                }
+
+                .admin-hero {
+                    align-items: flex-start !important;
+                    padding: 24px 21px;
+                }
+
+                .admin-hero .print-button {
+                    margin-top: 18px;
+                }
+
+                #adminTabs {
+                    top: 78px;
+                    overflow-x: auto;
+                    flex-wrap: nowrap;
+                    justify-content: flex-start;
+                }
+
+                #adminTabs .nav-item {
+                    flex: 0 0 auto;
+                }
+
+                #adminTabs .nav-link {
+                    padding-inline: 15px;
+                    white-space: nowrap;
+                }
+
+                .card-body {
+                    padding: 19px !important;
+                }
+            }
+
+            /* Edu BTOP professional light theme */
             body {
-                background-color: white !important;
+                color: #10213a;
+                background: radial-gradient(circle at 82% 4%, rgba(18, 111, 233, .1), transparent 28%), #f5f8fc;
             }
-        }
+
+            .admin-navbar {
+                background: rgba(255, 255, 255, .95) !important;
+                border-bottom-color: #e2eaf3;
+                box-shadow: 0 8px 28px rgba(33, 68, 113, .07);
+            }
+
+            .navbar-brand {
+                color: #10213a !important;
+            }
+
+            .admin-profile {
+                color: #263a55 !important;
+            }
+
+            #btnLogout {
+                color: #53677f;
+                border-color: #d6e0eb;
+            }
+
+            .admin-hero {
+                border-color: #dbe6f1;
+                background: linear-gradient(120deg, #eef6ff 0%, #f8fbff 48%, #e2f3ff 100%);
+                box-shadow: 0 16px 42px rgba(35, 67, 105, .09);
+            }
+
+            .admin-hero::after {
+                border-color: rgba(18, 111, 233, .07);
+            }
+
+            .admin-hero h2 {
+                color: #10213a !important;
+            }
+
+            .admin-hero p {
+                color: #63768e !important;
+            }
+
+            .print-button {
+                color: #164d87;
+                border-color: #cddceb;
+                background: rgba(255, 255, 255, .78);
+            }
+
+            .print-button:hover {
+                color: white;
+            }
+
+            #adminTabs {
+                position: sticky;
+                top: 76px;
+                z-index: 40;
+                border-color: #e0e8f1;
+                background: rgba(255, 255, 255, .95) !important;
+                box-shadow: 0 12px 32px rgba(35, 67, 105, .09) !important;
+            }
+
+            #adminTabs .nav-link {
+                color: #65778e;
+            }
+
+            #adminTabs .nav-link:hover {
+                color: #126fe9;
+                background: #eef5ff;
+            }
+
+            #adminTabs .nav-link.active {
+                color: white;
+            }
+
+            .card {
+                color: #10213a;
+                border-color: #e1e9f2 !important;
+                background: #fff !important;
+                box-shadow: 0 12px 34px rgba(35, 67, 105, .08) !important;
+            }
+
+            .card h4 {
+                color: #10213a !important;
+            }
+
+            .form-label {
+                color: #41566f;
+            }
+
+            .form-control,
+            .form-select {
+                color: #10213a;
+                border-color: #dce5ef;
+                background-color: #f7f9fc;
+            }
+
+            .form-control:focus,
+            .form-select:focus {
+                color: #10213a;
+                background-color: #fff;
+            }
+
+            .form-control::placeholder {
+                color: #94a2b5;
+            }
+
+            .form-text {
+                color: #7c8da2;
+            }
+
+            input[type="file"]::file-selector-button {
+                color: #125ba9;
+                border-right-color: #dce5ef;
+                background: #eaf3ff;
+            }
+
+            .table-responsive {
+                border-color: #e1e8f0;
+            }
+
+            .table {
+                --bs-table-color: #30455f;
+                --bs-table-border-color: #e8edf3;
+            }
+
+            .table thead th,
+            .table-light th,
+            .table-primary th {
+                color: #61758d !important;
+                background: #f5f8fc !important;
+            }
+
+            .table-hover>tbody>tr:hover>* {
+                --bs-table-bg-state: #f4f8fd;
+                color: #10213a;
+            }
+
+            .table-striped>tbody>tr:nth-of-type(odd)>* {
+                --bs-table-bg-type: #f9fbfd;
+                color: #30455f;
+            }
+
+            .text-muted {
+                color: #74859a !important;
+            }
+
+            #reports-content>.row .card {
+                color: white;
+                border: 0 !important;
+            }
+
+            @media print {
+
+                /* 1. Hide all forms, navbar, buttons, and tab headers */
+                form,
+                .no-print,
+                .navbar,
+                .nav-pills,
+                .col-lg-5 {
+                    display: none !important;
+                }
+
+                /* 2. Expand the right side ("Senarai" tables) to fill 100% of the printed page */
+                .col-lg-7 {
+                    width: 100% !important;
+                    flex: 0 0 100% !important;
+                    max-width: 100% !important;
+                }
+
+                /* 3. Make table background clean white for printing */
+                body {
+                    background-color: white !important;
+                }
+            }
 
 
-        .card {
-            border: 1px solid #ddd !important;
-            box-shadow: none !important;
-        }
-    </style>
+            .card {
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+            }
+
+            /* Energetic Academic theme */
+            body {
+                color: #1c1740;
+                background: radial-gradient(circle at 82% 4%, rgba(20, 120, 232, .13), transparent 28%), #f1eeff;
+            }
+
+            .admin-navbar {
+                border-bottom-color: rgba(255, 255, 255, .2);
+                background: linear-gradient(90deg, #5426b8, #1478e8) !important;
+                box-shadow: 0 8px 28px rgba(66, 35, 155, .2);
+            }
+
+            .admin-navbar .navbar-brand,
+            .admin-navbar .admin-profile {
+                color: #fff !important;
+            }
+
+            .admin-navbar .brand-copy small {
+                color: #8ff1ff;
+            }
+
+            .admin-navbar #btnLogout {
+                color: #fff;
+                border-color: rgba(255, 255, 255, .3);
+            }
+
+            .admin-avatar {
+                background: linear-gradient(135deg, #f46a16, #ffc928);
+            }
+
+            .admin-hero {
+                border-color: #cabce9;
+                background: linear-gradient(120deg, #5426b8, #1478e8 70%, #11b8d7);
+                box-shadow: 0 16px 42px rgba(76, 48, 144, .18);
+            }
+
+            .admin-hero h2 {
+                color: #fff !important;
+            }
+
+            .admin-hero p {
+                color: #e8eeff !important;
+            }
+
+            .print-button {
+                color: #fff;
+                border-color: rgba(255, 255, 255, .3);
+                background: rgba(255, 255, 255, .14);
+            }
+
+            #adminTabs {
+                border-color: #d9d1f0;
+                background: rgba(248, 246, 255, .96) !important;
+                box-shadow: 0 12px 32px rgba(76, 48, 144, .11) !important;
+            }
+
+            #adminTabs .nav-link {
+                color: #665f80;
+            }
+
+            #adminTabs .nav-link:hover {
+                color: #5426b8;
+                background: #ebe4ff;
+            }
+
+            #adminTabs .nav-link.active {
+                color: #fff;
+                background: linear-gradient(90deg, #5426b8, #1478e8);
+            }
+
+            .card {
+                color: #1c1740;
+                border-color: #d9d1f0 !important;
+                background: #f8f6ff !important;
+                box-shadow: 0 12px 34px rgba(76, 48, 144, .09) !important;
+            }
+
+            .card h4 {
+                color: #2a1c56 !important;
+            }
+
+            .card h4 i {
+                color: #5426b8 !important;
+            }
+
+            .form-control,
+            .form-select {
+                border-color: #d5caeb;
+                background-color: #f1edfa;
+            }
+
+            .form-control:focus,
+            .form-select:focus {
+                border-color: #1478e8;
+                background-color: #f8f6ff;
+                box-shadow: 0 0 0 3px rgba(20, 120, 232, .12);
+            }
+
+            .btn-primary {
+                background: linear-gradient(90deg, #5426b8, #1478e8);
+            }
+
+            .btn-success {
+                background: #05a883;
+            }
+
+            .table-responsive {
+                border-color: #d9d1f0;
+            }
+
+            .table {
+                --bs-table-border-color: #e2dcf1;
+            }
+
+            .table thead th,
+            .table-light th,
+            .table-primary th {
+                color: #5d4e83 !important;
+                background: #ebe5f8 !important;
+            }
+
+            .table-hover>tbody>tr:hover>* {
+                --bs-table-bg-state: #eee9fa;
+            }
+
+            .table-striped>tbody>tr:nth-of-type(odd)>* {
+                --bs-table-bg-type: #f2eefb;
+            }
+
+            #reports-content>.row .col-md-4:nth-child(1) .card {
+                background: linear-gradient(135deg, #5426b8, #8b58df) !important;
+            }
+
+            #reports-content>.row .col-md-4:nth-child(2) .card {
+                background: linear-gradient(135deg, #1478e8, #11b8d7) !important;
+            }
+
+            #reports-content>.row .col-md-4:nth-child(3) .card {
+                background: linear-gradient(135deg, #f46a16, #ffc928) !important;
+            }
+
+            @media print {
+                body {
+                    color: #111;
+                    background: #fff;
+                }
+
+                .card {
+                    color: #111;
+                    border: 1px solid #ddd !important;
+                    background: #fff !important;
+                    box-shadow: none !important;
+                }
+
+                .table {
+                    --bs-table-color: #111;
+                    --bs-table-border-color: #ccc;
+                }
+            }
+
+            /* Admin Command Centre */
+            body {
+                font-weight: 600;
+            }
+
+            .admin-hero {
+                display: grid !important;
+                grid-template-columns: minmax(0, 1.08fr) minmax(480px, .92fr);
+                gap: 42px;
+                align-items: center !important;
+                padding: 36px 40px;
+                border-color: #cfc5ef;
+                background:
+                    radial-gradient(circle at 94% 8%, rgba(255, 201, 40, .24), transparent 20%),
+                    radial-gradient(circle at 53% 110%, rgba(17, 184, 215, .18), transparent 27%),
+                    linear-gradient(120deg, #e4dbff 0%, #d6e7ff 56%, #c8f2f4 100%);
+                box-shadow: 0 20px 52px rgba(66, 43, 139, .15);
+            }
+
+            .admin-hero::before {
+                content: "";
+                position: absolute;
+                width: 145px;
+                height: 145px;
+                left: 44%;
+                top: -82px;
+                border: 28px solid rgba(84, 38, 184, .07);
+                border-radius: 38px;
+                transform: rotate(28deg);
+            }
+
+            .admin-hero::after {
+                border-color: rgba(84, 38, 184, .07);
+            }
+
+            .admin-hero-copy,
+            .admin-overview {
+                position: relative;
+                z-index: 2;
+            }
+
+            .admin-hero h2 {
+                margin: 0 0 10px !important;
+                color: #241750 !important;
+                font-size: clamp(31px, 3.2vw, 47px);
+                line-height: 1.1;
+                font-weight: 800;
+                letter-spacing: -2px;
+            }
+
+            .admin-hero p {
+                max-width: 670px;
+                color: #514b6e !important;
+                font-size: 14px;
+                line-height: 1.7;
+                font-weight: 600;
+            }
+
+            .hero-greeting {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                margin-bottom: 12px;
+                color: #087b60;
+                font-size: 12px;
+                font-weight: 800;
+            }
+
+            .admin-quick-actions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-top: 23px;
+            }
+
+            .admin-action {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                min-height: 43px;
+                padding: 0 15px;
+                border: 1px solid #bdb1e3;
+                border-radius: 11px;
+                color: #43258f;
+                background: rgba(248, 246, 255, .7);
+                font-size: 12px;
+                font-weight: 800;
+            }
+
+            .admin-action.primary {
+                color: #fff;
+                border-color: #f46a16;
+                background: #f46a16;
+                box-shadow: 0 10px 22px rgba(244, 106, 22, .22);
+            }
+
+            .admin-action:hover {
+                color: #fff;
+                border-color: #5426b8;
+                background: #5426b8;
+                transform: translateY(-1px);
+            }
+
+            .admin-overview {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .overview-card {
+                min-height: 118px;
+                padding: 18px;
+                border: 1px solid rgba(84, 38, 184, .13);
+                border-radius: 17px;
+                background: rgba(250, 249, 255, .7);
+                box-shadow: 0 12px 28px rgba(68, 48, 137, .09);
+            }
+
+            .overview-card i {
+                display: grid;
+                place-items: center;
+                width: 37px;
+                height: 37px;
+                margin-bottom: 12px;
+                border-radius: 11px;
+                font-size: 17px;
+            }
+
+            .overview-card b {
+                display: block;
+                color: #2b1d57;
+                font-size: 27px;
+                line-height: 1;
+                font-weight: 800;
+                letter-spacing: -1px;
+            }
+
+            .overview-card span {
+                display: block;
+                margin-top: 6px;
+                color: #615a78;
+                font-size: 11px;
+                font-weight: 700;
+            }
+
+            .overview-card.students i {
+                color: #6536ba;
+                background: #e8ddff;
+            }
+
+            .overview-card.materials i {
+                color: #126fe9;
+                background: #dcecff;
+            }
+
+            .overview-card.attendance i {
+                color: #078f6b;
+                background: #daf5eb;
+            }
+
+            .overview-card.status i {
+                color: #d85f0d;
+                background: #ffe6d3;
+            }
+
+            .print-button {
+                grid-column: 1/-1;
+                justify-self: end;
+                margin-top: 3px;
+                color: #5426b8;
+                border-color: #c7bbe8;
+                background: rgba(255, 255, 255, .68);
+                font-size: 12px;
+                font-weight: 800;
+            }
+
+            .print-button:hover {
+                color: #fff;
+                border-color: #f46a16;
+                background: #f46a16;
+            }
+
+            #adminTabs .nav-link {
+                font-weight: 800;
+            }
+
+            #adminTabs .nav-link.active {
+                color: #fff;
+                background: linear-gradient(90deg, #f46a16, #f59d24);
+                box-shadow: 0 8px 18px rgba(244, 106, 22, .23);
+            }
+
+            @media (max-width:1100px) {
+                .admin-hero {
+                    grid-template-columns: 1fr;
+                }
+
+                .admin-overview {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+
+                .print-button {
+                    justify-self: start;
+                }
+            }
+
+            @media (max-width:768px) {
+                .admin-hero {
+                    display: block !important;
+                    padding: 27px 22px;
+                }
+
+                .admin-overview {
+                    grid-template-columns: repeat(2, 1fr);
+                    margin-top: 27px;
+                }
+
+                .overview-card {
+                    min-height: 105px;
+                    padding: 15px;
+                }
+
+                .print-button {
+                    margin-top: 18px !important;
+                }
+            }
+        </style>
 </head>
 
 <body>
@@ -659,16 +1090,34 @@
 
     <div class="container admin-shell">
         <!-- System Heading -->
-        <div class="admin-hero d-flex flex-column flex-md-row justify-content-between align-items-center no-print">
-            <div>
-                <span class="hero-kicker">Pusat Kawalan Edu BTOP</span>
-                <h2 class="fw-bold text-dark mb-1">Panel Pengurusan Admin</h2>
-                <p class="text-muted">Muat naik bahan pembelajaran, urus e-mel pelajar & pantau kehadiran mengikut
-                    subjek.</p>
+        <div class="admin-hero no-print">
+            <div class="admin-hero-copy">
+                <span class="hero-greeting"><i class="bi bi-stars"></i> Selamat kembali, <span
+                        id="heroAdminName">Admin</span></span>
+                <h2>Urus pembelajaran dengan lebih pantas.</h2>
+                <p>Muat naik bahan, urus akaun pelajar dan pantau rekod kehadiran melalui satu pusat kawalan yang
+                    tersusun.</p>
+                <div class="admin-quick-actions">
+                    <button type="button" class="admin-action primary" onclick="openAdminTab('upload-tab')"><i
+                            class="bi bi-cloud-arrow-up"></i> Muat Naik Bahan</button>
+                    <button type="button" class="admin-action" onclick="openAdminTab('students-tab')"><i
+                            class="bi bi-person-plus"></i> Tambah Pelajar</button>
+                    <button type="button" class="admin-action" onclick="openAdminTab('reports-tab')"><i
+                            class="bi bi-bar-chart"></i> Lihat Kehadiran</button>
+                </div>
             </div>
-            <button onclick="window.print()" class="print-button">
-                <i class="bi bi-printer me-2"></i> Cetak Laporan Guru
-            </button>
+            <div class="admin-overview" aria-label="Ringkasan sistem">
+                <div class="overview-card students"><i class="bi bi-people-fill"></i><b
+                        id="heroTotalStudents">0</b><span>Pelajar berdaftar</span></div>
+                <div class="overview-card materials"><i class="bi bi-collection-play-fill"></i><b
+                        id="heroTotalMaterials">0</b><span>Bahan pembelajaran</span></div>
+                <div class="overview-card attendance"><i class="bi bi-check-circle-fill"></i><b
+                        id="heroTotalAttendance">0</b><span>Rekod kehadiran</span></div>
+                <div class="overview-card status"><i class="bi bi-shield-check"></i><b>Aktif</b><span>Status
+                        sistem</span></div>
+            </div>
+            <button onclick="window.print()" class="print-button"><i class="bi bi-printer me-2"></i> Cetak Laporan
+                Guru</button>
         </div>
 
         <!-- Navigation Tabs -->
@@ -714,9 +1163,9 @@
                                         <label class="form-label fw-semibold">Subjek</label>
                                         <select class="form-select" name="subject" id="subject" required>
                                             <option value="" disabled selected>-- Pilih Subjek --</option>
-                                            <option value="Math">Matematik</option>
-                                            <option value="Bahasa Inggeris">Bahasa Inggeris</option>
                                             <option value="Bahasa Melayu">Bahasa Melayu</option>
+                                            <option value="Bahasa Inggeris">Bahasa Inggeris</option>
+                                            <option value="Math">Matematik</option>
                                             <option value="Sejarah">Sejarah</option>
                                         </select>
                                     </div>
@@ -942,9 +1391,9 @@
                                     class="form-select form-select-sm w-auto fw-semibold border-primary"
                                     onchange="filterAttendanceLogs()">
                                     <option value="ALL">-- Semua Subjek --</option>
-                                    <option value="Math">Matematik</option>
-                                    <option value="Bahasa Inggeris">Bahasa Inggeris</option>
                                     <option value="Bahasa Melayu">Bahasa Melayu</option>
+                                    <option value="Bahasa Inggeris">Bahasa Inggeris</option>
+                                    <option value="Math">Matematik</option>
                                     <option value="Sejarah">Sejarah</option>
                                 </select>
                             </div>
@@ -985,6 +1434,7 @@
                     return;
                 }
                 document.getElementById('adminName').textContent = data.user.name;
+                document.getElementById('heroAdminName').textContent = data.user.name;
 
                 // Set Report Date
                 document.getElementById('reportDate').textContent = new Date().toLocaleDateString('ms-MY', {
@@ -1011,6 +1461,7 @@
                 const res = await fetch('/api/materials');
                 const data = await res.json();
                 const tbody = document.getElementById('materialsTableBody');
+                document.getElementById('heroTotalMaterials').textContent = data.success && Array.isArray(data.materials) ? data.materials.length : 0;
 
                 if (data.success && data.materials.length > 0) {
                     tbody.innerHTML = data.materials.map(m => `
@@ -1133,6 +1584,7 @@
                 const data = await res.json();
                 const tbody = document.getElementById('studentsTableBody');
                 const badge = document.getElementById('totalRegisteredStudentsBadge');
+                document.getElementById('heroTotalStudents').textContent = data.success && Array.isArray(data.students) ? data.students.length : 0;
 
                 if (data.success && data.students.length > 0) {
                     if (badge) badge.textContent = `${data.students.length} Pelajar`;
@@ -1223,6 +1675,9 @@
                     document.getElementById('statTotalStudents').textContent = dataStats.stats.totalStudents;
                     document.getElementById('statTotalMaterials').textContent = dataStats.stats.totalMaterials;
                     document.getElementById('statTotalAttendance').textContent = dataStats.stats.totalAttendance;
+                    document.getElementById('heroTotalStudents').textContent = dataStats.stats.totalStudents;
+                    document.getElementById('heroTotalMaterials').textContent = dataStats.stats.totalMaterials;
+                    document.getElementById('heroTotalAttendance').textContent = dataStats.stats.totalAttendance;
 
                     allAttendanceRecords = dataStats.stats.records || [];
                     filterAttendanceLogs();
@@ -1252,6 +1707,13 @@
             } catch (err) {
                 console.error(err);
             }
+        }
+
+        function openAdminTab(tabId) {
+            const tabButton = document.getElementById(tabId);
+            if (!tabButton) return;
+            bootstrap.Tab.getOrCreateInstance(tabButton).show();
+            document.getElementById('adminTabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function getSubjectBadgeClass(subject) {
