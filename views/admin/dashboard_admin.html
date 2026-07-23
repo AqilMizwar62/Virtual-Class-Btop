@@ -1419,6 +1419,42 @@
                 </div>
             </div>
 
+    </div>
+
+    <!-- Subject Attendance Details Modal -->
+    <div class="modal fade no-print" id="subjectAttendanceModal" tabindex="-1" aria-labelledby="subjectAttendanceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0 rounded-4" style="background: #fff; color: #10213a;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-dark fs-5" id="subjectAttendanceModalLabel">
+                        <i class="bi bi-info-circle-fill me-2 text-primary"></i> Laporan Kehadiran Subjek
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pt-3 pb-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="badge bg-primary fs-6 me-2" id="modalSubjectBadge">Subjek</span>
+                        <span class="text-muted small" id="modalSubjectSummary">Kemajuan keseluruhan bahan subjek ini.</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nama Pelajar</th>
+                                    <th>E-mel</th>
+                                    <th class="text-center">Status Kehadiran</th>
+                                    <th class="text-center">Bahan Diakses</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modalAttendanceTableBody">
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-muted">Memuatkan butiran...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1695,8 +1731,16 @@
                             <tr>
                                 <td class="fw-bold"><span class="badge ${getSubjectBadgeClass(sr.subject)} me-2">${sr.subject}</span></td>
                                 <td>${sr.total_materials_available}</td>
-                                <td>${totalStudents} Pelajar</td>
-                                <td>${sr.unique_students_attended} Pelajar</td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="viewSubjectAttendance('${sr.subject}')" class="fw-bold text-decoration-none text-primary">
+                                        <i class="bi bi-people me-1"></i> ${totalStudents} Pelajar
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0)" onclick="viewSubjectAttendance('${sr.subject}')" class="fw-bold text-decoration-none text-success">
+                                        <i class="bi bi-check2-circle me-1"></i> ${sr.unique_students_attended} Pelajar
+                                    </a>
+                                </td>
                             </tr>
                         `).join('');
                     } else {
@@ -1731,6 +1775,50 @@
             return text.replace(/[&<>"']/g, function (m) {
                 return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
             });
+        }
+
+        async function viewSubjectAttendance(subject) {
+            const modalEl = document.getElementById('subjectAttendanceModal');
+            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            
+            // Set initial state
+            document.getElementById('modalSubjectBadge').textContent = subject === 'Math' ? 'Matematik' : subject;
+            document.getElementById('modalSubjectBadge').className = `badge ${getSubjectBadgeClass(subject)} fs-6 me-2`;
+            const tbody = document.getElementById('modalAttendanceTableBody');
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted"><span class="spinner-border spinner-border-sm me-2"></span> Memuatkan butiran...</td></tr>';
+            
+            modal.show();
+
+            try {
+                const res = await fetch(`/api/admin/subject-attendance-detail?subject=${encodeURIComponent(subject)}`);
+                const data = await res.json();
+
+                if (data.success && data.records.length > 0) {
+                    const totalMaterials = data.records[0].total_materials;
+                    document.getElementById('modalSubjectSummary').textContent = `Terdapat ${totalMaterials} bahan pembelajaran bagi subjek ini.`;
+                    
+                    tbody.innerHTML = data.records.map(r => {
+                        const hasAccessed = r.materials_accessed > 0;
+                        const statusBadge = hasAccessed 
+                            ? `<span class="badge bg-success px-3 py-2 rounded-pill"><i class="bi bi-check-circle-fill me-1"></i> Hadir (Akses)</span>`
+                            : `<span class="badge bg-danger px-3 py-2 rounded-pill"><i class="bi bi-x-circle-fill me-1"></i> Tiada Akses</span>`;
+                        
+                        return `
+                            <tr>
+                                <td class="fw-semibold">${escapeHtml(r.student_name)}</td>
+                                <td>${escapeHtml(r.student_email)}</td>
+                                <td class="text-center">${statusBadge}</td>
+                                <td class="text-center fw-bold text-secondary">${r.materials_accessed} / ${r.total_materials}</td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    document.getElementById('modalSubjectSummary').textContent = 'Tiada data bahan atau pelajar berdaftar.';
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">Tiada rekod pelajar dijumpai.</td></tr>';
+                }
+            } catch (err) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-danger">Gagal memuat turun laporan terperinci.</td></tr>';
+            }
         }
     </script>
 </body>

@@ -462,6 +462,39 @@ app.get('/api/admin/reports', requireAuth('admin'), async (req, res) => {
     }
 });
 
+// GET /api/admin/subject-attendance-detail (Get detailed student attendance list for a specific subject)
+app.get('/api/admin/subject-attendance-detail', requireAuth('admin'), async (req, res) => {
+    const { subject } = req.query;
+
+    if (!subject) {
+        return res.status(400).json({ success: false, message: 'Subjek diperlukan.' });
+    }
+
+    try {
+        const sql = `
+            SELECT 
+                u.id as student_id,
+                u.name as student_name,
+                u.email as student_email,
+                (SELECT COUNT(*) FROM materials WHERE subject = ?) as total_materials,
+                (
+                    SELECT COUNT(DISTINCT a.material_id) 
+                    FROM attendance a
+                    JOIN materials m ON a.material_id = m.id
+                    WHERE a.student_id = u.id AND m.subject = ?
+                ) as materials_accessed
+            FROM users u
+            WHERE u.role = 'student'
+            ORDER BY u.name ASC
+        `;
+        const [rows] = await db.query(sql, [subject, subject]);
+        return res.json({ success: true, subject, records: rows });
+    } catch (err) {
+        console.error('Fetch subject attendance detail error:', err);
+        return res.status(500).json({ success: false, message: 'Gagal mengambil butiran kehadiran subjek.' });
+    }
+});
+
 // Start Express Server
 app.listen(PORT, () => {
     console.log(`===================================================`);
